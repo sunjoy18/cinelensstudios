@@ -37,7 +37,7 @@ export default async function AboutPage() {
 
   return (
     <>
-      <section className="min-h-screen flex flex-col items-center justify-center text-center pt-24 pb-16 px-8 md:px-16 bg-dark relative overflow-hidden">
+      <section className="min-h-screen flex flex-col items-center justify-center text-center pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 md:px-8 lg:px-16 bg-dark relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_55%,rgba(46,204,138,0.07)_0%,transparent_65%)]" />
         <div className="relative z-10 max-w-[820px]">
           <span className="inline-block text-[0.68rem] tracking-[0.28em] uppercase text-green border border-[var(--border-green)] px-4 py-2 rounded-sm mb-8">
@@ -54,7 +54,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <section className="py-24 px-8 md:px-16 grid grid-cols-1 md:grid-cols-2 gap-16 items-center bg-black relative overflow-hidden">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center bg-black relative overflow-hidden">
         <div className="absolute left-[-5%] top-[20%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(46,204,138,0.055)_0%,transparent_70%)] pointer-events-none" />
         <ScrollReveal
           className="relative"
@@ -70,7 +70,7 @@ export default async function AboutPage() {
               />
             ) : null}
           </div>
-          <div className="absolute -top-6 -left-6 bg-dark border border-[var(--border-green)] p-5 rounded-sm text-center">
+          <div className="absolute -top-4 -left-4 sm:-top-6 sm:-left-6 bg-dark border border-[var(--border-green)] p-4 sm:p-5 rounded-sm text-center">
             <div className="font-serif text-3xl font-light text-green">{settings.site.foundedYear}</div>
             <div className="text-[0.62rem] tracking-[0.18em] uppercase text-[var(--muted2)] mt-1">Founded</div>
           </div>
@@ -98,7 +98,7 @@ export default async function AboutPage() {
         </ScrollReveal>
       </section>
 
-      <section className="py-24 px-8 md:px-16 bg-dark relative overflow-hidden">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 bg-dark relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_100%,rgba(46,204,138,0.05)_0%,transparent_60%)]" />
         <div className="relative z-10 max-w-[1100px] mx-auto">
           <ScrollReveal
@@ -110,7 +110,7 @@ export default async function AboutPage() {
             </h2>
             <p className="text-[var(--muted)] max-w-[500px] mx-auto leading-relaxed">{about.philosophy.subtitle}</p>
           </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {about.philosophy.items.map((item, i) => (
               <ScrollReveal
                 key={i}
@@ -125,16 +125,16 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <div className="grid grid-cols-2 md:grid-cols-5 border-t border-b border-[var(--border)] py-12 px-16">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 border-t border-b border-[var(--border)] py-8 sm:py-12 px-4 sm:px-8 md:px-16">
         {about.stats.map((stat, i) => (
-          <div key={i} className="text-center py-0 px-8 border-r border-[var(--border)] last:border-r-0">
+          <div key={i} className="text-center py-4 sm:py-0 px-4 sm:px-8 border-r border-[var(--border)] last:border-r-0">
             <div className="font-serif text-3xl font-light text-green mb-1">{stat.value}</div>
             <div className="text-[0.7rem] tracking-[0.14em] uppercase text-[var(--muted2)]">{stat.label}</div>
           </div>
         ))}
       </div>
 
-      <section className="py-24 px-8 md:px-16 bg-black">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 bg-black">
         <ScrollReveal
           className="text-center mb-16"
         >
@@ -146,7 +146,7 @@ export default async function AboutPage() {
             Six people who showed up not for a job, but for a calling.
           </p>
         </ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1000px] mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-[1000px] mx-auto">
           {teamMembers.map((member, i) => (
             <ScrollReveal
               key={member.id}
@@ -191,9 +191,9 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <section className="py-24 px-8 md:px-16 bg-dark relative overflow-hidden">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 bg-dark relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_100%_50%,rgba(46,204,138,0.04)_0%,transparent_60%)]" />
-        <div className="relative z-10 max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div className="relative z-10 max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
           <ScrollReveal
           >
             <div className="text-[0.68rem] tracking-[0.25em] uppercase text-green mb-4">{about.values.label}</div>
@@ -219,7 +219,7 @@ export default async function AboutPage() {
             className="relative"
           >
             <div className="aspect-[3/4] rounded-sm overflow-hidden border border-[var(--border)] bg-surface" />
-            <div className="absolute -bottom-6 -left-6 bg-dark border border-[var(--border-green)] p-6 rounded-sm max-w-[210px]">
+            <div className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 bg-dark border border-[var(--border-green)] p-4 sm:p-6 rounded-sm max-w-[200px] sm:max-w-[210px]">
               <div className="font-serif text-3xl font-light text-green">100%</div>
               <div className="text-[0.72rem] tracking-[0.12em] uppercase text-[var(--muted)] mt-1">
                 Client Return Rate for Second Shoots
@@ -229,11 +229,11 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <div className="py-20 px-16 bg-black border-t border-[var(--border)] text-center">
+      <div className="py-12 sm:py-20 px-4 sm:px-8 md:px-16 bg-black border-t border-[var(--border)] text-center">
         <div className="text-[0.66rem] tracking-[0.22em] uppercase text-[var(--muted2)] mb-10">
           As seen in & recognised by
         </div>
-        <div className="flex gap-12 justify-center flex-wrap">
+        <div className="flex gap-6 sm:gap-8 md:gap-12 justify-center flex-wrap">
           {about.press.map((logo, i) => (
             <span key={i} className="font-serif text-lg font-light text-[var(--muted2)] tracking-wide hover:text-[var(--muted)] transition-colors">
               {logo}
@@ -242,7 +242,7 @@ export default async function AboutPage() {
         </div>
       </div>
 
-      <section className="py-24 px-8 md:px-16 bg-dark text-center relative overflow-hidden">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 bg-dark text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(46,204,138,0.07)_0%,transparent_65%)]" />
         <h2 className="font-serif text-[clamp(2.2rem,5vw,4rem)] font-light text-white max-w-[640px] mx-auto mb-6 relative">
           Let&apos;s Create Something <Emphasis text="{em}Together{/em}" />

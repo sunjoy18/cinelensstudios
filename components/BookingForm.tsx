@@ -270,7 +270,7 @@ export function BookingForm({ settings }: { settings: SiteSettings }) {
 
   if (success) {
     return (
-      <div className="max-w-[600px] mx-auto p-16 text-center">
+      <div className="max-w-[600px] mx-auto p-8 sm:p-12 md:p-16 text-center">
         <div className="w-[72px] h-[72px] rounded-full border border-[var(--border-green)] bg-[var(--green-faint)] flex items-center justify-center mx-auto mb-8">
           <svg
             viewBox="0 0 32 32"
@@ -311,7 +311,7 @@ export function BookingForm({ settings }: { settings: SiteSettings }) {
   return (
     <>
       {/* Steps bar */}
-      <div className="sticky top-[65px] z-50 bg-dark border-b border-[var(--border)] px-6 md:px-16">
+      <div className="sticky top-[57px] sm:top-[65px] z-50 bg-dark border-b border-[var(--border)] px-4 sm:px-6 md:px-16">
         <div className="flex gap-0 max-w-[900px] overflow-x-auto">
           {[
             { num: 1, label: 'Package' },
@@ -348,7 +348,7 @@ export function BookingForm({ settings }: { settings: SiteSettings }) {
       </div>
 
       {/* Main content */}
-      <div className="max-w-[1100px] mx-auto px-6 md:px-16 py-16 pb-24 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 items-start">
+      <div className="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-16 py-12 sm:py-16 pb-20 sm:pb-24 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 lg:gap-12 items-start">
         <div className="form-area">
           {/* Step 1: Package */}
           {step === 1 && (
