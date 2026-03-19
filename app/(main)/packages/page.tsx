@@ -12,7 +12,7 @@ export default async function PackagesPage() {
 
   return (
     <>
-      <div className="pt-24 pb-16 px-8 md:px-16 bg-dark relative overflow-hidden">
+      <div className="pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 md:px-8 lg:px-16 bg-dark relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_80%_at_50%_100%,rgba(46,204,138,0.06)_0%,transparent_65%)]" />
         <div className="relative z-10 text-center max-w-[660px] mx-auto">
           <span className="text-[0.68rem] tracking-[0.28em] uppercase text-green mb-4 block">
@@ -27,8 +27,8 @@ export default async function PackagesPage() {
         </div>
       </div>
 
-      <section className="py-16 px-8 md:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[1100px] mx-auto items-start">
+      <section className="py-12 sm:py-16 px-4 sm:px-6 md:px-8 lg:px-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 max-w-[1100px] mx-auto items-start">
           {pkgSection.items.map((pkg, i) => (
             <ScrollReveal
               key={pkg.id}
@@ -94,7 +94,7 @@ export default async function PackagesPage() {
         </div>
       </section>
 
-      <section className="py-16 px-8 md:px-16 max-w-[1100px] mx-auto">
+      <section className="py-12 sm:py-16 px-4 sm:px-6 md:px-8 lg:px-16 max-w-[1100px] mx-auto">
         <div className="text-center mb-12">
           <div className="text-[0.68rem] tracking-[0.25em] uppercase text-green mb-4">Questions</div>
           <h2 className="font-serif text-[clamp(1.8rem,3vw,2.6rem)] font-light text-white">
@@ -108,7 +108,7 @@ export default async function PackagesPage() {
         </div>
       </section>
 
-      <div className="mx-8 md:mx-16 mb-24 bg-dark border border-[var(--border-green)] rounded-lg p-8 md:p-14 flex flex-col md:flex-row justify-between items-center gap-8 relative overflow-hidden">
+      <div className="mx-4 sm:mx-6 md:mx-8 lg:mx-16 mb-16 sm:mb-24 bg-dark border border-[var(--border-green)] rounded-lg p-6 sm:p-8 md:p-14 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_100%_at_100%_50%,rgba(46,204,138,0.06)_0%,transparent_60%)]" />
         <div className="relative z-10 max-w-[500px]">
           <h2 className="font-serif text-2xl font-light text-white mb-2">
@@ -118,16 +118,16 @@ export default async function PackagesPage() {
             Not sure which package fits your vision? Send us a message on WhatsApp and we&apos;ll help you figure it out — no pressure, no sales pitch.
           </p>
         </div>
-        <div className="flex gap-4 shrink-0 relative z-10">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 shrink-0 relative z-10 w-full sm:w-auto items-stretch sm:items-center">
           <Link
             href="/booking"
-            className="bg-green text-[#040d08] font-sans text-[0.76rem] font-medium tracking-[0.14em] uppercase px-8 py-4 rounded-sm no-underline transition-opacity hover:opacity-90 whitespace-nowrap"
+            className="bg-green text-[#040d08] font-sans text-[0.76rem] font-medium tracking-[0.14em] uppercase px-8 py-4 rounded-sm no-underline transition-opacity hover:opacity-90 text-center"
           >
             Book a Shoot
           </Link>
           <a
             href={`https://wa.me/${settings.contact.whatsapp}`}
-            className="bg-transparent text-[var(--muted)] font-sans text-[0.76rem] tracking-[0.14em] uppercase px-8 py-4 border border-[var(--border)] rounded-sm no-underline transition-colors hover:border-[var(--border-green)] hover:text-green whitespace-nowrap"
+            className="bg-transparent text-[var(--muted)] font-sans text-[0.76rem] tracking-[0.14em] uppercase px-8 py-4 border border-[var(--border)] rounded-sm no-underline transition-colors hover:border-[var(--border-green)] hover:text-green text-center"
           >
             WhatsApp Us
           </a>

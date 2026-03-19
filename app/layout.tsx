@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Cormorant_Garamond, Outfit } from 'next/font/google';
 import './globals.css';
 import { getSiteSettings } from '@/lib/content';
@@ -15,6 +15,12 @@ const outfit = Outfit({
   weight: ['300', '400', '500'],
   variable: '--font-outfit',
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = getSiteSettings();

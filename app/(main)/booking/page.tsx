@@ -16,7 +16,7 @@ export default async function BookingPage() {
 
   return (
     <>
-      <div className="pt-24 pb-16 px-8 md:px-16 bg-dark relative overflow-hidden">
+      <div className="pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 md:px-8 lg:px-16 bg-dark relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_80%_at_0%_50%,rgba(46,204,138,0.05)_0%,transparent_60%)]" />
         <div className="relative z-10 max-w-[680px]">
           <span className="text-[0.68rem] tracking-[0.28em] uppercase text-green mb-4 block">

@@ -60,9 +60,9 @@ export function ContactForm({ settings }: { settings: SiteSettings }) {
 
   return (
     <>
-      <div className="pt-24 pb-16 px-8 md:px-16 bg-dark relative overflow-hidden">
+      <div className="pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 md:px-8 lg:px-16 bg-dark relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_90%_at_0%_60%,rgba(46,204,138,0.06)_0%,transparent_60%)]" />
-        <div className="relative z-10 flex flex-col md:flex-row justify-between items-end gap-10 flex-wrap">
+        <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-8 md:gap-10 flex-wrap">
           <div className="max-w-[540px]">
             <span className="text-[0.68rem] tracking-[0.28em] uppercase text-green mb-4 block">
               {contactPage.eyebrow}
@@ -74,7 +74,7 @@ export function ContactForm({ settings }: { settings: SiteSettings }) {
             </h1>
             <p className="text-[var(--muted)] leading-relaxed mt-5">{contactPage.subtitle}</p>
           </div>
-          <div className="bg-[var(--card-bg)] border border-[var(--border-green)] p-6 rounded-sm flex items-center gap-4">
+          <div className="bg-[var(--card-bg)] border border-[var(--border-green)] p-4 sm:p-6 rounded-sm flex items-center gap-4 w-full md:w-auto">
             <div className="w-2.5 h-2.5 rounded-full bg-green animate-pulse shrink-0" />
             <div>
               <strong className="block text-white text-sm font-normal mb-0.5">{settings.contact.availability}</strong>
@@ -84,7 +84,7 @@ export function ContactForm({ settings }: { settings: SiteSettings }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-10 p-8 md:p-16 max-w-[1200px] mx-auto items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-8 md:gap-10 p-4 sm:p-6 md:p-8 lg:p-16 max-w-[1200px] mx-auto items-start">
         <div
           className="bg-surface border border-[var(--border)] rounded-lg p-8"
         >
@@ -218,7 +218,7 @@ export function ContactForm({ settings }: { settings: SiteSettings }) {
           )}
         </div>
 
-        <aside className="flex flex-col gap-5 sticky top-24">
+        <aside className="flex flex-col gap-5 lg:sticky lg:top-24">
           <div
             className="bg-surface border border-[var(--border)] rounded-lg overflow-hidden"
           >
@@ -277,7 +277,7 @@ export function ContactForm({ settings }: { settings: SiteSettings }) {
         </aside>
       </div>
 
-      <section className="py-24 px-8 md:px-16 text-center bg-black relative overflow-hidden">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 text-center bg-black relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(46,204,138,0.06)_0%,transparent_65%)]" />
         <h2 className="font-serif text-[clamp(2rem,4.5vw,3.6rem)] font-light text-white max-w-[580px] mx-auto mb-5 relative">
           Ready to Tell Your <Emphasis text="{em}Story?{/em}" />

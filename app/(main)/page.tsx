@@ -16,7 +16,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden text-center pt-24 pb-16 px-8">
+      <section className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden text-center pt-14 sm:pt-20 md:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 md:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_60%,rgba(46,204,138,0.07)_0%,transparent_70%),radial-gradient(ellipse_40%_30%_at_20%_80%,rgba(46,204,138,0.04)_0%,transparent_60%),linear-gradient(160deg,#0a0a0d_0%,#060608_50%,#080b0a_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(46,204,138,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(46,204,138,0.04)_1px,transparent_1px)] bg-[length:80px_80px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_30%,transparent_100%)]" />
         <div className="relative z-10 max-w-[820px]">
@@ -29,7 +29,7 @@ export default async function HomePage() {
           <p className="font-serif text-[clamp(1.1rem,2.5vw,1.55rem)] font-light italic text-[var(--muted)] tracking-wide my-6 mb-10 animate-[fadeUp_0.8s_0.2s_ease_both]">
             {hero.tagline}
           </p>
-          <div className="flex gap-5 justify-center flex-wrap animate-[fadeUp_0.8s_0.3s_ease_both]">
+          <div className="flex gap-3 sm:gap-5 justify-center flex-wrap animate-[fadeUp_0.8s_0.3s_ease_both]">
             <Link
               href={hero.primaryCtaHref}
               className="bg-green text-[#040d08] font-sans text-[0.78rem] font-medium tracking-[0.14em] uppercase px-10 py-4 rounded-sm no-underline transition-opacity hover:opacity-90"
@@ -51,7 +51,7 @@ export default async function HomePage() {
       </section>
 
       {/* Featured Work */}
-      <section className="py-24 px-8 md:px-16 bg-dark">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 bg-dark">
         <ScrollReveal className="text-[0.68rem] tracking-[0.25em] uppercase text-green mb-4">
           {featuredWork.label}
         </ScrollReveal>
@@ -76,11 +76,11 @@ export default async function HomePage() {
       </section>
 
       {/* About */}
-      <section className="py-24 px-8 md:px-16 grid grid-cols-1 md:grid-cols-2 gap-16 items-center bg-black relative overflow-hidden">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center bg-black relative overflow-hidden">
         <div className="absolute right-[-10%] top-[20%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(46,204,138,0.06)_0%,transparent_70%)] pointer-events-none" />
         <ScrollReveal className="relative aspect-[3/4] rounded-sm overflow-hidden border border-[var(--border)]">
           <div className="w-full h-full bg-gradient-to-br from-[#0d1a14] via-[#0a1208] to-[#141a10] flex items-center justify-center" />
-          <div className="absolute -bottom-6 -right-6 bg-dark border border-[var(--border-green)] p-6 rounded max-w-[220px]">
+          <div className="absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 bg-dark border border-[var(--border-green)] p-4 sm:p-6 rounded max-w-[200px] sm:max-w-[220px]">
             <span className="text-green text-2xl">&ldquo;</span>
             <p className="font-serif text-sm italic text-[var(--muted)] leading-relaxed">{about.quote}</p>
           </div>
@@ -95,7 +95,7 @@ export default async function HomePage() {
               <Emphasis text={p} />
             </p>
           ))}
-          <div className="grid grid-cols-3 gap-4 mt-10 pt-8 border-t border-[var(--border)]">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 mt-10 pt-8 border-t border-[var(--border)]">
             {about.stats.map((stat, i) => (
               <div key={i}>
                 <div className="font-serif text-3xl font-light text-green">{stat.value}</div>
@@ -107,19 +107,19 @@ export default async function HomePage() {
       </section>
 
       {/* Beliefs */}
-      <section className="py-24 px-8 md:px-16 bg-dark text-center">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 bg-dark text-center">
         <ScrollReveal className="text-[0.68rem] tracking-[0.25em] uppercase text-green mb-4">
           {beliefs.label}
         </ScrollReveal>
         <ScrollReveal className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-light text-white mb-0 max-w-full">
           <Emphasis text={beliefs.title} />
         </ScrollReveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[960px] mx-auto mt-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-[960px] mx-auto mt-12 sm:mt-16">
           {beliefs.items.map((item, i) => (
             <ScrollReveal
               key={i}
               delay={i * 80}
-              className="bg-[var(--card-bg)] border border-[var(--border)] rounded-sm p-10 text-left relative overflow-hidden transition-all hover:border-[var(--border-green)] hover:-translate-y-1"
+              className="bg-[var(--card-bg)] border border-[var(--border)] rounded-sm p-6 sm:p-10 text-left relative overflow-hidden transition-all hover:border-[var(--border-green)] hover:-translate-y-1"
             >
               <span className="font-serif text-4xl font-light text-green/30 block mb-4 pb-4 border-b border-[var(--border)]">
                 {item.num}
@@ -132,22 +132,22 @@ export default async function HomePage() {
       </section>
 
       {/* Packages */}
-      <section className="py-24 px-8 md:px-16 bg-black">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-14 gap-8">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 bg-black">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 sm:mb-14 gap-6 md:gap-8">
           <div>
             <div className="text-[0.68rem] tracking-[0.25em] uppercase text-green mb-4">{packages.label}</div>
             <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-light text-white">
               <Emphasis text={packages.title} />
             </h2>
           </div>
-          <p className="text-[var(--muted)] text-sm max-w-[280px] text-right leading-relaxed">{packages.intro}</p>
+          <p className="text-[var(--muted)] text-sm max-w-[280px] md:text-right leading-relaxed">{packages.intro}</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
           {packages.items.map((pkg, i) => (
             <ScrollReveal
               key={pkg.id}
               delay={100}
-              className={`bg-[var(--card-bg)] border rounded-sm p-8 flex flex-col transition-colors ${
+              className={`bg-[var(--card-bg)] border rounded-sm p-6 sm:p-8 flex flex-col transition-colors ${
                 pkg.featured ? 'border-[var(--border-green)] bg-green/5 relative' : 'border-[var(--border)] hover:border-white/15'
               }`}
             >
@@ -190,7 +190,7 @@ export default async function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 px-8 md:px-16 bg-dark overflow-hidden">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 bg-dark overflow-hidden">
         <div className="text-[0.68rem] tracking-[0.25em] uppercase text-green mb-4">{testimonials.label}</div>
         <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-light text-white mb-14">
           <Emphasis text={testimonials.title} />
@@ -200,7 +200,7 @@ export default async function HomePage() {
             {[...testimonials.items, ...testimonials.items].map((t, i) => (
               <div
                 key={i}
-                className="bg-[var(--card-bg)] border border-[var(--border)] rounded-sm p-8 w-[340px] shrink-0"
+                className="bg-[var(--card-bg)] border border-[var(--border)] rounded-sm p-6 sm:p-8 w-[min(340px,85vw)] sm:w-[320px] md:w-[340px] shrink-0"
               >
                 <div className="text-green text-sm tracking-widest mb-4">★★★★★</div>
                 <p className="font-serif text-lg font-light italic text-white leading-relaxed mb-6">{t.text}</p>
@@ -220,13 +220,13 @@ export default async function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-8 md:px-16 text-center relative overflow-hidden bg-black">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 text-center relative overflow-hidden bg-black">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,rgba(46,204,138,0.08)_0%,transparent_70%)]" />
         <h2 className="font-serif text-[clamp(2.4rem,5vw,4.5rem)] font-light leading-tight text-white max-w-[700px] mx-auto mb-6 relative">
           <Emphasis text={cta.title} />
         </h2>
         <p className="text-base text-[var(--muted)] mb-12 relative">{cta.subtitle}</p>
-        <div className="flex gap-4 justify-center flex-wrap relative">
+        <div className="flex gap-3 sm:gap-4 justify-center flex-wrap relative">
           <a
             href={`mailto:${settings.contact.email}`}
             className="bg-green text-[#040d08] font-sans text-[0.78rem] font-medium tracking-[0.14em] uppercase px-10 py-4 rounded-sm no-underline transition-opacity hover:opacity-90"
@@ -240,7 +240,7 @@ export default async function HomePage() {
             {cta.secondaryCta}
           </a>
         </div>
-        <div className="mt-16 flex justify-center gap-12 flex-wrap">
+        <div className="mt-12 sm:mt-16 flex justify-center gap-6 sm:gap-8 md:gap-12 flex-wrap">
           <div className="text-center">
             <div className="text-[0.68rem] tracking-[0.2em] uppercase text-[var(--muted)] mb-1.5">Phone</div>
             <div className="font-serif text-lg text-white">{settings.contact.phone}</div>
