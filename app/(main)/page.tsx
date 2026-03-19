@@ -2,16 +2,23 @@ import Link from 'next/link';
 import { getSiteSettings } from '@/lib/content';
 import { getPackages } from '@/lib/packages';
 import { getFeaturedWork } from '@/lib/featured-work';
+import { getTestimonials } from '@/lib/testimonials';
 import { Emphasis } from '@/components/Emphasis';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { FeaturedWorkItem } from '@/components/FeaturedWorkItem';
+import { StarRating } from '@/components/StarRating';
 
 export default async function HomePage() {
   const settings = getSiteSettings();
   const packageItems = await getPackages();
   const featuredWorkItems = await getFeaturedWork();
+  const testimonialItems = await getTestimonials();
   const packages = { ...settings.packages, items: packageItems };
   const { hero, featuredWork, about, beliefs, testimonials, cta } = settings;
+  const testimonialsData = {
+    ...testimonials,
+    items: testimonialItems.length > 0 ? testimonialItems : testimonials.items,
+  };
 
   return (
     <>
@@ -191,18 +198,20 @@ export default async function HomePage() {
 
       {/* Testimonials */}
       <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-8 lg:px-16 bg-dark overflow-hidden">
-        <div className="text-[0.68rem] tracking-[0.25em] uppercase text-green mb-4">{testimonials.label}</div>
+        <div className="text-[0.68rem] tracking-[0.25em] uppercase text-green mb-4">{testimonialsData.label}</div>
         <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-light text-white mb-14">
-          <Emphasis text={testimonials.title} />
+          <Emphasis text={testimonialsData.title} />
         </h2>
         <div className="overflow-hidden mt-14">
           <div className="flex gap-6 animate-slideTestis w-max hover:[animation-play-state:paused]">
-            {[...testimonials.items, ...testimonials.items].map((t, i) => (
+            {[...testimonialsData.items, ...testimonialsData.items].map((t, i) => (
               <div
                 key={i}
                 className="bg-[var(--card-bg)] border border-[var(--border)] rounded-sm p-6 sm:p-8 w-[min(340px,85vw)] sm:w-[320px] md:w-[340px] shrink-0"
               >
-                <div className="text-green text-sm tracking-widest mb-4">★★★★★</div>
+                <div className="mb-4">
+                  <StarRating rating={t.stars ?? 5} className="text-green text-sm tracking-widest" />
+                </div>
                 <p className="font-serif text-lg font-light italic text-white leading-relaxed mb-6">{t.text}</p>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-green-dim flex items-center justify-center text-sm font-medium text-white shrink-0">

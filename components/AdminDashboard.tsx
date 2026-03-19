@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { CldUploadWidget, CldImage } from 'next-cloudinary';
+import { StarRating } from '@/components/StarRating';
 
 type Booking = {
   id: string;
@@ -67,6 +68,15 @@ type TeamMemberItem = {
   sortOrder?: number;
 };
 
+type TestimonialItem = {
+  id: string;
+  text: string;
+  author: string;
+  event: string;
+  initials: string;
+  stars: number;
+};
+
 const AVATAR_COLORS = ['#1a7a51', '#4a9eff', '#e6a817', '#e05252', '#7b5ea7', '#2ecc8a'];
 
 function initials(name: string) {
@@ -96,7 +106,7 @@ export function AdminDashboard() {
   const [loginPass, setLoginPass] = useState('');
   const [loginError, setLoginError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [panel, setPanel] = useState<'overview' | 'bookings' | 'enquiries' | 'portfolio' | 'packages' | 'team' | 'settings'>('overview');
+  const [panel, setPanel] = useState<'overview' | 'bookings' | 'enquiries' | 'portfolio' | 'testimonials' | 'packages' | 'team' | 'settings'>('overview');
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [bookingFilter, setBookingFilter] = useState('all');
@@ -116,6 +126,9 @@ export function AdminDashboard() {
   const [teamMembers, setTeamMembers] = useState<TeamMemberItem[]>([]);
   const [editingTeamMember, setEditingTeamMember] = useState<TeamMemberItem | null>(null);
   const [newTeamMember, setNewTeamMember] = useState({ name: '', role: '', badge: '', bio: '', tags: '', imagePublicId: '' });
+  const [testimonialItems, setTestimonialItems] = useState<TestimonialItem[]>([]);
+  const [editingTestimonial, setEditingTestimonial] = useState<TestimonialItem | null>(null);
+  const [newTestimonial, setNewTestimonial] = useState({ text: '', author: '', event: '', initials: '', rating: '5' });
 
   useEffect(() => {
     fetch('/api/admin/me', getFetchOpts())
@@ -146,6 +159,10 @@ export function AdminDashboard() {
         .then((r) => (r.ok ? r.json() : { items: [] }))
         .then((d) => setTeamMembers(d.items || []))
         .catch(() => setTeamMembers([]));
+      fetch('/api/testimonials', getFetchOpts())
+        .then((r) => (r.ok ? r.json() : []))
+        .then(setTestimonialItems)
+        .catch(() => setTestimonialItems([]));
     }
   }, [auth]);
 
@@ -291,6 +308,7 @@ export function AdminDashboard() {
     { id: 'bookings' as const, label: 'Bookings', icon: 'calendar', badge: pendingCount },
     { id: 'enquiries' as const, label: 'Enquiries', icon: 'mail', badge: unreadCount },
     { id: 'portfolio' as const, label: 'Portfolio', icon: 'image' },
+    { id: 'testimonials' as const, label: 'Client Stories', icon: 'quote' },
     { id: 'packages' as const, label: 'Packages', icon: 'package' },
     { id: 'team' as const, label: 'Team', icon: 'users' },
     { id: 'settings' as const, label: 'Settings', icon: 'settings' },
@@ -362,6 +380,11 @@ export function AdminDashboard() {
                   <path d="M2 12l4-4 3 3 5-5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               )}
+              {item.icon === 'quote' && (
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1">
+                  <path d="M4 8c0-1.5 1-3 3-3s2.5 1 2.5 2.5c0 2-2 3-2 5M9 8c0-1.5 1-3 3-3s2.5 1 2.5 2.5c0 2-2 3-2 5" strokeLinecap="round" />
+                </svg>
+              )}
               {item.icon === 'settings' && (
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1">
                   <circle cx="8" cy="8" r="2.5" />
@@ -405,6 +428,7 @@ export function AdminDashboard() {
             {panel === 'bookings' && <>Bookings <span className="italic text-green">Manager</span></>}
             {panel === 'enquiries' && <>Contact <span className="italic text-green">Enquiries</span></>}
             {panel === 'portfolio' && <>Portfolio <span className="italic text-green">Images</span></>}
+            {panel === 'testimonials' && <>Client <span className="italic text-green">Stories</span></>}
             {panel === 'packages' && <>Packages <span className="italic text-green">Pricing</span></>}
             {panel === 'team' && <>Team <span className="italic text-green">The Crew</span></>}
             {panel === 'settings' && <>Studio <span className="italic text-green">Settings</span></>}
@@ -1648,6 +1672,255 @@ export function AdminDashboard() {
                         </button>
                         <button
                           onClick={() => setEditingPortfolio(null)}
+                          className="border border-[var(--border)] text-[var(--muted)] text-[0.72rem] px-6 py-2.5 rounded hover:text-white"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {panel === 'testimonials' && (
+            <div className="animate-[fadeUp_0.3s_ease_both] space-y-8">
+              <div className="bg-surface border border-[var(--border)] rounded p-6">
+                <div className="text-[0.72rem] tracking-[0.16em] uppercase text-[var(--muted)] mb-4">
+                  Add New Client Story
+                </div>
+                <p className="text-sm text-[var(--muted2)] mb-4">
+                  Add a testimonial from a happy client. These appear in the Client Stories section on the homepage.
+                </p>
+                <div className="space-y-4 mb-4">
+                  <div>
+                    <label className="block text-[0.68rem] tracking-[0.14em] uppercase text-[var(--muted)] mb-2">Quote / Testimonial</label>
+                    <textarea
+                      value={newTestimonial.text}
+                      onChange={(e) => setNewTestimonial((p) => ({ ...p, text: e.target.value }))}
+                      placeholder="e.g. CineLens captured our wedding day beyond anything I could have imagined..."
+                      rows={4}
+                      className="w-full max-w-2xl bg-black border border-[var(--border)] rounded text-white text-sm px-4 py-2.5 outline-none focus:border-[var(--border-focus)] resize-y"
+                    />
+                  </div>
+                  <div className="flex flex-wrap gap-4">
+                    <div>
+                      <label className="block text-[0.68rem] tracking-[0.14em] uppercase text-[var(--muted)] mb-2">Author</label>
+                      <input
+                        type="text"
+                        value={newTestimonial.author}
+                        onChange={(e) => setNewTestimonial((p) => ({ ...p, author: e.target.value }))}
+                        placeholder="e.g. Priya Agarwal"
+                        className="bg-black border border-[var(--border)] rounded text-white text-sm px-4 py-2.5 w-56 outline-none focus:border-[var(--border-focus)]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[0.68rem] tracking-[0.14em] uppercase text-[var(--muted)] mb-2">Event / Context</label>
+                      <input
+                        type="text"
+                        value={newTestimonial.event}
+                        onChange={(e) => setNewTestimonial((p) => ({ ...p, event: e.target.value }))}
+                        placeholder="e.g. Wedding · Mumbai"
+                        className="bg-black border border-[var(--border)] rounded text-white text-sm px-4 py-2.5 w-56 outline-none focus:border-[var(--border-focus)]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[0.68rem] tracking-[0.14em] uppercase text-[var(--muted)] mb-2">Initials (optional)</label>
+                      <input
+                        type="text"
+                        value={newTestimonial.initials}
+                        onChange={(e) => setNewTestimonial((p) => ({ ...p, initials: e.target.value }))}
+                        placeholder="e.g. PA (auto from author if empty)"
+                        className="bg-black border border-[var(--border)] rounded text-white text-sm px-4 py-2.5 w-24 outline-none focus:border-[var(--border-focus)]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[0.68rem] tracking-[0.14em] uppercase text-[var(--muted)] mb-2">Rating (0–5)</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="5"
+                        step="0.5"
+                        value={newTestimonial.rating}
+                        onChange={(e) => setNewTestimonial((p) => ({ ...p, rating: e.target.value }))}
+                        placeholder="5"
+                        className="bg-black border border-[var(--border)] rounded text-white text-sm px-4 py-2.5 w-20 outline-none focus:border-[var(--border-focus)]"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={async () => {
+                    if (!newTestimonial.text || !newTestimonial.author || !newTestimonial.event) {
+                      showToast('Fill quote, author, and event', true);
+                      return;
+                    }
+                    const res = await fetch('/api/testimonials', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      credentials: 'include',
+                      body: JSON.stringify({
+                        text: newTestimonial.text,
+                        author: newTestimonial.author,
+                        event: newTestimonial.event,
+                        initials: newTestimonial.initials || undefined,
+                        stars: parseFloat(newTestimonial.rating) || 5,
+                      }),
+                    });
+                    if (res.ok) {
+                      const item = await res.json();
+                      setTestimonialItems((prev) => [...prev, item]);
+                      setNewTestimonial({ text: '', author: '', event: '', initials: '', rating: '5' });
+                      showToast('Client story added');
+                    } else {
+                      showToast('Failed to add story', true);
+                    }
+                  }}
+                  className="bg-green text-[#040d08] text-[0.72rem] font-medium tracking-[0.13em] uppercase px-6 py-2.5 rounded border-none cursor-pointer hover:opacity-90"
+                >
+                  Add Client Story
+                </button>
+              </div>
+
+              <div className="bg-surface border border-[var(--border)] rounded overflow-hidden">
+                <div className="px-6 py-4 border-b border-[var(--border)]">
+                  <span className="text-[0.72rem] tracking-[0.16em] uppercase text-[var(--muted)]">
+                    Current Client Stories ({testimonialItems.length})
+                  </span>
+                </div>
+                <div className="divide-y divide-[var(--border)]">
+                  {testimonialItems.map((item) => (
+                    <div key={item.id} className="flex gap-6 p-6 hover:bg-white/5 items-start">
+                      <div className="w-9 h-9 rounded-full bg-green-dim flex items-center justify-center text-sm font-medium text-white shrink-0">
+                        {item.initials || item.author.slice(0, 2).toUpperCase()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-[var(--muted)] line-clamp-2 italic">&ldquo;{item.text}&rdquo;</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <StarRating rating={item.stars ?? 5} className="text-green text-xs" />
+                          <span className="text-[0.72rem] text-[var(--muted2)]">({item.stars ?? 5}/5)</span>
+                        </div>
+                        <div className="text-sm text-white mt-1">{item.author}</div>
+                        <div className="text-[0.72rem] text-green mt-0.5">{item.event}</div>
+                      </div>
+                      <div className="flex gap-2 shrink-0">
+                        <button
+                          onClick={() => setEditingTestimonial(item)}
+                          className="text-[0.68rem] tracking-[0.12em] uppercase text-[var(--muted)] border border-[var(--border)] px-4 py-2 rounded hover:border-[var(--border-green)] hover:text-green"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={async () => {
+                            if (!confirm('Delete this client story?')) return;
+                            const res = await fetch(`/api/testimonials/${item.id}`, {
+                              method: 'DELETE',
+                              credentials: 'include',
+                            });
+                            if (res.ok) {
+                              setTestimonialItems((prev) => prev.filter((x) => x.id !== item.id));
+                              showToast('Client story deleted');
+                            }
+                          }}
+                          className="text-[0.68rem] tracking-[0.12em] uppercase text-red-400 border border-red-500/40 px-4 py-2 rounded hover:bg-red-500/10"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {testimonialItems.length === 0 && (
+                  <div className="py-16 text-center text-[var(--muted2)] text-sm">
+                    No client stories yet. Add one above, or the site will use stories from site-settings.json.
+                  </div>
+                )}
+              </div>
+
+              {editingTestimonial && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm" onClick={() => setEditingTestimonial(null)}>
+                  <div className="bg-surface border border-[var(--border)] rounded-lg w-[92vw] max-w-lg p-6 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                    <h3 className="font-serif text-xl text-white mb-4">Edit Client Story</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-[0.68rem] tracking-[0.14em] uppercase text-[var(--muted)] mb-2">Quote</label>
+                        <textarea
+                          value={editingTestimonial.text}
+                          onChange={(e) => setEditingTestimonial((p) => p ? { ...p, text: e.target.value } : null)}
+                          rows={4}
+                          className="w-full bg-black border border-[var(--border)] rounded text-white text-sm px-4 py-2.5 outline-none focus:border-[var(--border-focus)] resize-y"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[0.68rem] tracking-[0.14em] uppercase text-[var(--muted)] mb-2">Author</label>
+                        <input
+                          type="text"
+                          value={editingTestimonial.author}
+                          onChange={(e) => setEditingTestimonial((p) => p ? { ...p, author: e.target.value } : null)}
+                          className="w-full bg-black border border-[var(--border)] rounded text-white text-sm px-4 py-2.5 outline-none focus:border-[var(--border-focus)]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[0.68rem] tracking-[0.14em] uppercase text-[var(--muted)] mb-2">Event / Context</label>
+                        <input
+                          type="text"
+                          value={editingTestimonial.event}
+                          onChange={(e) => setEditingTestimonial((p) => p ? { ...p, event: e.target.value } : null)}
+                          className="w-full bg-black border border-[var(--border)] rounded text-white text-sm px-4 py-2.5 outline-none focus:border-[var(--border-focus)]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[0.68rem] tracking-[0.14em] uppercase text-[var(--muted)] mb-2">Initials (optional)</label>
+                        <input
+                          type="text"
+                          value={editingTestimonial.initials}
+                          onChange={(e) => setEditingTestimonial((p) => p ? { ...p, initials: e.target.value } : null)}
+                          placeholder="Auto from author if empty"
+                          className="w-full bg-black border border-[var(--border)] rounded text-white text-sm px-4 py-2.5 outline-none focus:border-[var(--border-focus)]"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[0.68rem] tracking-[0.14em] uppercase text-[var(--muted)] mb-2">Rating (0–5)</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="5"
+                          step="0.5"
+                          value={editingTestimonial.stars ?? 5}
+                          onChange={(e) => setEditingTestimonial((p) => p ? { ...p, stars: parseFloat(e.target.value) || 5 } : null)}
+                          className="w-full max-w-[120px] bg-black border border-[var(--border)] rounded text-white text-sm px-4 py-2.5 outline-none focus:border-[var(--border-focus)]"
+                        />
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={async () => {
+                            if (!editingTestimonial) return;
+                            const res = await fetch(`/api/testimonials/${editingTestimonial.id}`, {
+                              method: 'PATCH',
+                              headers: { 'Content-Type': 'application/json' },
+                              credentials: 'include',
+                              body: JSON.stringify({
+                                text: editingTestimonial.text,
+                                author: editingTestimonial.author,
+                                event: editingTestimonial.event,
+                                initials: editingTestimonial.initials,
+                                stars: editingTestimonial.stars ?? 5,
+                              }),
+                            });
+                            if (res.ok) {
+                              const updated = await res.json();
+                              setTestimonialItems((prev) => prev.map((t) => (t.id === editingTestimonial.id ? updated : t)));
+                              setEditingTestimonial(null);
+                              showToast('Client story updated');
+                            }
+                          }}
+                          className="bg-green text-[#040d08] text-[0.72rem] font-medium tracking-[0.13em] uppercase px-6 py-2.5 rounded border-none cursor-pointer hover:opacity-90"
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={() => setEditingTestimonial(null)}
                           className="border border-[var(--border)] text-[var(--muted)] text-[0.72rem] px-6 py-2.5 rounded hover:text-white"
                         >
                           Cancel
