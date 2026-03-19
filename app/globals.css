@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --black: #060608;
+  --dark: #0d0d10;
+  --surface: #111114;
+  --card-bg: rgba(255, 255, 255, 0.04);
+  --green: #2ecc8a;
+  --green-dim: #1a7a51;
+  --green-glow: rgba(46, 204, 138, 0.18);
+  --green-faint: rgba(46, 204, 138, 0.07);
+  --green-muted: rgba(46, 204, 138, 0.28);
+  --white: #f2f0eb;
+  --muted: rgba(242, 240, 235, 0.45);
+  --muted2: rgba(242, 240, 235, 0.22);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-green: rgba(46, 204, 138, 0.25);
+  --border-focus: rgba(46, 204, 138, 0.55);
+  --amber: #e6a817;
+  --blue: #4a9eff;
+  --red: #e05252;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideTestis {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-weight: 300;
+  overflow-x: hidden;
+}

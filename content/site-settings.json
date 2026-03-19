@@ -1,0 +1,417 @@
+{
+  "site": {
+    "name": "CineLensStudios",
+    "logoPrimary": "CineLens",
+    "logoHighlight": "Studios",
+    "tagline": "Capture. Create. Explore.",
+    "description": "Cinematic photography studio — we tell stories through light.",
+    "copyright": "© 2026 CineLensStudios. All rights reserved.",
+    "foundedYear": "2025"
+  },
+  "contact": {
+    "phone": "+91 81692 77528",
+    "phoneRaw": "918169277528",
+    "email": "hello@cinelensstudios.com",
+    "whatsapp": "918169277528",
+    "responseTime": "24 hours",
+    "availability": "Currently Available"
+  },
+  "social": [
+    {
+      "platform": "Instagram",
+      "handle": "@cinelens_studios_",
+      "url": "https://www.instagram.com/cinelens_studios_/",
+      "icon": "instagram"
+    }
+  ],
+  "hours": [
+    { "days": "Monday – Friday", "time": "10 AM – 7 PM" },
+    { "days": "Saturday", "time": "10 AM – 5 PM" },
+    { "days": "Sunday", "time": "By Appointment", "closed": true }
+  ],
+  "hoursNote": "Shoot days operate on their own schedule — we're wherever you need us.",
+  "locations": [
+    {
+      "type": "Main Studio",
+      "name": "Dahisar East",
+      "address": "Ashok Van, Dahisar East, Mumbai — 400068",
+      "mapsQuery": "Ashok Van Dahisar East Mumbai",
+      "mapsUrl": "https://maps.google.com/?q=Ashok+Van+Dahisar+East+Mumbai"
+    },
+    {
+      "type": "On Location",
+      "name": "Across India",
+      "address": "We travel to Delhi, Bangalore, Goa, Jaipur, Udaipur and anywhere your story takes us.",
+      "mapsUrl": null,
+      "bookingLink": true
+    }
+  ],
+  "mapAddress": {
+    "label": "Studio Address",
+    "name": "CineLensStudios",
+    "line1": "Ashok Van, Dahisar East",
+    "line2": "Mumbai, Maharashtra 400068",
+    "mapsQuery": "Ashok Van Dahisar East Mumbai"
+  },
+  "nav": {
+    "links": [
+      { "label": "Portfolio", "href": "/portfolio" },
+      { "label": "About", "href": "/about" },
+      { "label": "Packages", "href": "/packages" },
+      { "label": "Contact", "href": "/contact" },
+      { "label": "Book", "href": "/booking" }
+    ],
+    "cta": "Book a Shoot",
+    "ctaHref": "/booking"
+  },
+  "hero": {
+    "eyebrow": "Cinematic Photography Studio",
+    "title": "We Tell Stories\nThrough {em}Light{/em}",
+    "tagline": "Capture. Create. Explore.",
+    "primaryCta": "Book a Shoot",
+    "primaryCtaHref": "/booking",
+    "secondaryCta": "View Portfolio",
+    "secondaryCtaHref": "/portfolio",
+    "scrollLabel": "Scroll"
+  },
+  "featuredWork": {
+    "label": "Featured Work",
+    "title": "Moments Turned Into {em}Art{/em}",
+    "items": [
+      { "category": "Wedding", "title": "Priya & Arjun", "imagePublicId": "" },
+      { "category": "Couple", "title": "Golden Hour", "imagePublicId": "" },
+      { "category": "Professional", "title": "Executive Series", "imagePublicId": "" },
+      { "category": "Events", "title": "The Grand Reception", "imagePublicId": "" }
+    ]
+  },
+  "about": {
+    "label": "Our Story",
+    "title": "Cinematic Vision,\n{em}Human Heart{/em}",
+    "paragraphs": [
+      "We create {strong}emotions and memories{/strong}, telling your story through a cinematic touch. Every frame is intentional. Every light, deliberate. Every memory, permanent.",
+      "Born from a love of film and a deep respect for human connection, CineLensStudios brings a director's eye to every shoot — whether it's a whispered vow or a boardroom headshot.",
+      "We don't just take photographs. We {strong}craft visual narratives{/strong} that you'll return to, again and again."
+    ],
+    "quote": "We capture the feeling, not just the moment.",
+    "stats": [
+      { "value": "320+", "label": "Shoots Done" },
+      { "value": "7+", "label": "Years Active" },
+      { "value": "98%", "label": "Happy Clients" }
+    ]
+  },
+  "beliefs": {
+    "label": "Our Philosophy",
+    "title": "What We {em}Believe{/em}",
+    "items": [
+      {
+        "num": "01",
+        "title": "We Create Memories",
+        "desc": "Photography is the act of preserving time. We approach every session knowing these images will be passed down, revisited, and cherished for decades."
+      },
+      {
+        "num": "02",
+        "title": "We Capture Emotions",
+        "desc": "The real magic isn't the backdrop or the lighting — it's the unguarded laugh, the tearful glance, the weight of a hand held tight. That's what we hunt for."
+      },
+      {
+        "num": "03",
+        "title": "We Work With Your Vision",
+        "desc": "Every story is different. We listen first, shoot second. Your vision shapes our direction, and our craft makes it extraordinary."
+      }
+    ]
+  },
+  "packages": {
+    "label": "Pricing",
+    "title": "Choose Your {em}Story{/em}",
+    "intro": "All packages include post-production editing and a private online gallery delivery.",
+    "currency": "₹",
+    "items": [
+      {
+        "id": "essentials",
+        "name": "Essentials",
+        "duration": "2 Hours · 1 Location",
+        "price": 8999,
+        "billingNote": "Per session · Fully edited",
+        "featured": false,
+        "features": [
+          "Up to 60 edited photos",
+          "1 outfit change",
+          "Online gallery delivery",
+          "7-day turnaround",
+          "Digital download"
+        ]
+      },
+      {
+        "id": "cinematic",
+        "name": "Cinematic",
+        "duration": "5 Hours · 2 Locations",
+        "price": 19999,
+        "billingNote": "Per session · Fully edited",
+        "featured": true,
+        "badge": "Most Popular",
+        "features": [
+          "Up to 150 edited photos",
+          "3 outfit changes",
+          "Cinematic color grading",
+          "5-day turnaround",
+          "Digital download + USB",
+          "Short video reel"
+        ]
+      },
+      {
+        "id": "full-day",
+        "name": "Full Day",
+        "duration": "8 Hours · Unlimited",
+        "price": 34999,
+        "billingNote": "Per session · Fully edited",
+        "featured": false,
+        "features": [
+          "Unlimited edited photos",
+          "Full event coverage",
+          "2nd photographer",
+          "Drone shots (if applicable)",
+          "3-day turnaround",
+          "Printed album included"
+        ]
+      }
+    ]
+  },
+  "testimonials": {
+    "label": "Client Stories",
+    "title": "What Our Clients {em}Say{/em}",
+    "items": [
+      {
+        "text": "CineLens captured our wedding day beyond anything I could have imagined. Every frame feels like a painting. We cry every time we look through the album.",
+        "author": "Priya Agarwal",
+        "event": "Wedding · Mumbai",
+        "initials": "PA",
+        "stars": 5
+      },
+      {
+        "text": "My brand shoot with CineLens completely transformed my online presence. The photos are cinematic, professional, and tell exactly the story I wanted.",
+        "author": "Rahul Khanna",
+        "event": "Professional · Delhi",
+        "initials": "RK",
+        "stars": 5
+      },
+      {
+        "text": "We booked the Cinematic package for our engagement and it was worth every rupee. The golden hour shots are absolute magic.",
+        "author": "Sneha & Mihir",
+        "event": "Couple Shoot · Pune",
+        "initials": "SM",
+        "stars": 5
+      },
+      {
+        "text": "Our corporate event looked like a film production with CineLens behind the lens. The team was professional, unobtrusive, and delivered stunning results.",
+        "author": "Vikram Nair",
+        "event": "Corporate Event · Bangalore",
+        "initials": "VN",
+        "stars": 5
+      },
+      {
+        "text": "The attention to emotion, the quiet moments they caught — I didn't even realise they were there half the time. That's the mark of a true storyteller.",
+        "author": "Anjali Desai",
+        "event": "Wedding · Surat",
+        "initials": "AD",
+        "stars": 5
+      }
+    ]
+  },
+  "cta": {
+    "title": "Let's Create Something {em}Cinematic{/em}",
+    "subtitle": "Ready to tell your story? We'd love to hear from you.",
+    "primaryCta": "Send Us a Message",
+    "primaryCtaHref": "mailto:hello@cinelensstudios.com",
+    "secondaryCta": "WhatsApp Us",
+    "secondaryCtaHref": "https://wa.me/919999999999"
+  },
+  "contactPage": {
+    "eyebrow": "Get In Touch",
+    "title": "Let's Create\nSomething {em}Cinematic{/em}",
+    "subtitle": "Have a question, a project in mind, or just want to say hello? We'd genuinely love to hear from you. Every great shoot starts with a conversation.",
+    "formTitle": "Send Us a {em}Message{/em}",
+    "formSubtitle": "Fill out the form and we'll get back to you within 24 hours. Prefer a quicker chat? WhatsApp us directly.",
+    "subjects": [
+      "Wedding Shoot",
+      "Couple / Pre-Wedding",
+      "Professional / Brand",
+      "Event Coverage",
+      "Pricing Query",
+      "Something Else"
+    ],
+    "successTitle": "Message {em}Received!{/em}",
+    "successMessage": "Thank you for reaching out. We'll read your message today and get back to you within 24 hours. Looking forward to hearing your story."
+  },
+  "faq": {
+    "contact": [
+      {
+        "question": "How quickly do you respond to enquiries?",
+        "answer": "We respond to all messages within 24 hours on weekdays, typically much sooner. WhatsApp is the fastest way to reach us if you need an urgent response."
+      },
+      {
+        "question": "Can I visit the studio before booking?",
+        "answer": "Absolutely — we love meeting clients in person. Drop us a message to schedule a studio visit. We'll walk you through our work, equipment, and answer any questions over a cup of chai."
+      },
+      {
+        "question": "Do you offer consultations before a shoot?",
+        "answer": "Yes. Every Full Day package includes a dedicated pre-shoot consultation. For other packages, we offer a complimentary 30-minute call to discuss your vision, references, and expectations."
+      },
+      {
+        "question": "What if I'm not sure which package to choose?",
+        "answer": "That's what we're here for! Send us a message with a few details about your shoot — the occasion, date, number of people, and location — and we'll recommend the best-fit package with honest advice."
+      },
+      {
+        "question": "Do you collaborate with other vendors?",
+        "answer": "Yes — we regularly collaborate with makeup artists, event planners, florists, and venues across India. If you need referrals, just ask and we'll connect you with trusted partners from our network."
+      }
+    ],
+    "packages": [
+      {
+        "question": "How do I confirm my booking date?",
+        "answer": "Fill out the booking form and we'll reach out within 24 hours to confirm availability. A 30% advance payment secures your date. We accept UPI, bank transfer, and all major cards."
+      },
+      {
+        "question": "Can I customise a package?",
+        "answer": "Absolutely. Every shoot is different. Reach out via WhatsApp or the booking form and we'll create a custom quote based on your specific needs, location, and vision."
+      },
+      {
+        "question": "What if I need to reschedule?",
+        "answer": "We allow one free reschedule up to 7 days before the shoot. Rescheduling within 7 days may incur a small fee depending on availability. We always try to accommodate our clients."
+      },
+      {
+        "question": "How are photos delivered?",
+        "answer": "All photos are delivered via a private, password-protected online gallery. You can download high-resolution versions directly. USB drives and printed albums are shipped to your address."
+      },
+      {
+        "question": "Do you travel for destination shoots?",
+        "answer": "Yes! We've shot across India and internationally. Travel fees apply for destinations outside Mumbai. Contact us for a destination quote — we love adventure."
+      },
+      {
+        "question": "What is your editing style?",
+        "answer": "Our editing is cinematic, natural, and emotive. We use a signature colour grade that draws on film photography — warm highlights, cool shadows, and deep blacks. We avoid heavy filters or overly processed looks."
+      }
+    ]
+  },
+  "aboutPage": {
+    "hero": {
+      "eyebrow": "Our Story",
+      "title": "We Don't Take\n{em}Photographs{/em}",
+      "quote": "We create emotions and memories, telling your story through a cinematic touch. We capture the feeling — not just the moment."
+    },
+    "origin": {
+      "label": "Where It Began",
+      "title": "Born From a\nLove of {em}Film{/em}",
+      "paragraphs": [
+        "CineLensStudios was founded in 2025 by {strong}Pratham Khamkar{/strong}, a self-taught photographer who fell in love with the language of cinema long before he ever picked up a camera.",
+        "Growing up watching the way a single frame in a film could hold an entire lifetime of emotion, Pratham became obsessed with bringing that same deliberateness to still photography. Every composition, every light decision, every moment of stillness — intentional.",
+        "What started as a {strong}one-person passion project{/strong} in a Mumbai apartment has grown into a team of six storytellers, covering everything from grand destination weddings to quiet executive portraits."
+      ],
+      "quote": "I never wanted to be a photographer who just showed up with a camera. I wanted to be a storyteller who happened to use one.",
+      "quoteAuthor": "— Pratham Khamkar, Founder"
+    },
+    "philosophy": {
+      "label": "How We Think",
+      "title": "Our {em}Philosophy{/em}",
+      "subtitle": "Three principles that guide every shoot, every edit, every delivery we make.",
+      "items": [
+        {
+          "num": "01",
+          "title": "Presence Over Performance",
+          "desc": "We don't direct people into poses. We create an environment where genuine moments emerge on their own. The camera finds you — not the other way around."
+        },
+        {
+          "num": "02",
+          "title": "Light as Language",
+          "desc": "Every shoot is a study in available light. We chase golden hours, lean into shadows, and treat the sun as a collaborator. Artificial lighting is a last resort, never a default."
+        },
+        {
+          "num": "03",
+          "title": "Story First, Always",
+          "desc": "Before we touch the shutter, we understand the narrative. What chapter of your life is this? What should someone feel when they look at this frame in thirty years?"
+        }
+      ]
+    },
+    "stats": [
+      { "value": "320+", "label": "Sessions Completed" },
+      { "value": "12", "label": "Cities Covered" },
+      { "value": "48K+", "label": "Frames Captured" },
+      { "value": "7", "label": "Years in Business" },
+      { "value": "98%", "label": "Client Satisfaction" }
+    ],
+    "team": [
+      {
+        "name": "Pratham Khamkar",
+        "role": "Lead Photographer & Director",
+        "badge": "Founder",
+        "bio": "7 years behind the lens. Film graduate. Obsessive about light, storytelling, and the perfect cup of chai before a shoot.",
+        "tags": ["Weddings", "Portraits", "Film"]
+      },
+      {
+        "name": "Sameer Pawar",
+        "role": "Lead Cinematographer",
+        "badge": "Cinematographer",
+        "bio": "Former documentary filmmaker. Brings a journalist's eye for the unrepeatable moment to every frame she shoots.",
+        "tags": ["Weddings", "Portraits", "Film"]
+      },
+      {
+        "name": "Atharva Padwal",
+        "role": "Senior Photo Editor",
+        "badge": "Editor",
+        "bio": "Colour scientist by training, poet by temperament. The one responsible for that signature CineLens tone you can't quite put your finger on.",
+        "tags": ["Reels", "Editing"]
+      }
+    ],
+    "values": {
+      "label": "What We Stand For",
+      "title": "The Things We'll\n{em}Never Compromise{/em}",
+      "intro": "Some studios promise everything. We promise only what we believe in. These aren't marketing words — they're the commitments we make to every person who trusts us with their story.",
+      "items": [
+        {
+          "name": "Honesty about what we can deliver",
+          "desc": "We never oversell. If a vision isn't feasible, we say so — and offer something better."
+        },
+        {
+          "name": "Respect for your timeline",
+          "desc": "Delivery dates are promises, not estimates. We've never missed one."
+        },
+        {
+          "name": "Your comfort comes first",
+          "desc": "A relaxed subject is a beautiful subject. We do everything possible to make you forget we're there."
+        },
+        {
+          "name": "No cookie-cutter sessions",
+          "desc": "Every brief is read. Every story is different. We don't reuse shot-lists or presets across clients."
+        }
+      ]
+    },
+    "press": ["Vogue India", "Brides Today", "Harper's Bazaar", "Wedding Sutra", "Femina"]
+  },
+  "portfolioPage": {
+    "eyebrow": "Our Work",
+    "title": "Stories in {em}Frames{/em}",
+    "subtitle": "Every image is a chapter. Browse by category or scroll through our latest.",
+    "filters": ["All", "Wedding", "Couple", "Professional", "Events"]
+  },
+  "bookingPage": {
+    "eyebrow": "Reserve Your Session",
+    "title": "Book a {em}Shoot{/em}",
+    "subtitle": "Fill out the form below and we'll confirm your booking within 24 hours. Every session begins with a story.",
+    "shootTypes": [
+      "Wedding",
+      "Pre-Wedding / Engagement",
+      "Couple Shoot",
+      "Professional / Corporate",
+      "Event Coverage",
+      "Maternity",
+      "Birthday / Milestone",
+      "Other"
+    ],
+    "addons": [
+      { "id": "drone", "name": "Drone Aerial Shots", "price": 3500 },
+      { "id": "printed", "name": "Printed Photo Album", "price": 2500 },
+      { "id": "reel", "name": "Short Cinematic Reel", "price": 4000 },
+      { "id": "rush", "name": "Rush Delivery (48 hrs)", "price": 1500 }
+    ],
+    "referralOptions": ["Instagram", "Google Search", "Word of Mouth / Friend", "Previous Client", "Other"]
+  }
+}

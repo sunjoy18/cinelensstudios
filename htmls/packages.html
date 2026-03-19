@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Packages — CineLensStudios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #060608;
+    --dark: #0d0d10;
+    --surface: #111114;
+    --card-bg: rgba(255,255,255,0.035);
+    --green: #2ecc8a;
+    --green-dim: #1a7a51;
+    --green-glow: rgba(46,204,138,0.15);
+    --green-faint: rgba(46,204,138,0.06);
+    --white: #f2f0eb;
+    --muted: rgba(242,240,235,0.45);
+    --muted2: rgba(242,240,235,0.22);
+    --border: rgba(255,255,255,0.07);
+    --border-green: rgba(46,204,138,0.28);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Outfit', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.3rem 4rem;
+    background: rgba(6,6,8,0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: var(--serif); font-size: 1.3rem; font-weight: 300; letter-spacing: 0.07em; color: var(--white); text-decoration: none; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a { font-size: 0.76rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a.active { color: var(--green); }
+  .nav-cta { font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); border: 1px solid var(--border-green); padding: 0.5rem 1.3rem; border-radius: 2px; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--green-glow); }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding: 9.5rem 4rem 4rem;
+    position: relative; overflow: hidden;
+    background: var(--dark);
+  }
+  .header-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 55% 80% at 50% 100%, rgba(46,204,138,0.06) 0%, transparent 65%),
+      radial-gradient(ellipse 30% 40% at 90% 10%, rgba(46,204,138,0.03) 0%, transparent 60%);
+  }
+  .header-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(46,204,138,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(46,204,138,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  }
+  .header-inner { position: relative; z-index: 2; text-align: center; max-width: 660px; margin: 0 auto; }
+  .page-eyebrow { font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; display: block; animation: fadeUp 0.5s ease both; }
+  .page-title { font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 300; line-height: 1.08; color: var(--white); animation: fadeUp 0.5s 0.07s ease both; }
+  .page-title em { font-style: italic; color: var(--green); }
+  .page-sub { font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-top: 1.2rem; animation: fadeUp 0.5s 0.14s ease both; }
+
+  /* ── BILLING TOGGLE ── */
+  .toggle-wrap {
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+    margin-top: 2.5rem; animation: fadeUp 0.5s 0.2s ease both;
+  }
+  .toggle-label { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .toggle-label.active { color: var(--white); }
+  .toggle-switch {
+    width: 44px; height: 24px; border-radius: 12px;
+    background: var(--surface); border: 1px solid var(--border);
+    cursor: pointer; position: relative; transition: background 0.3s;
+    flex-shrink: 0;
+  }
+  .toggle-switch.on { background: rgba(46,204,138,0.2); border-color: var(--border-green); }
+  .toggle-knob {
+    position: absolute; top: 3px; left: 3px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--muted); transition: transform 0.3s, background 0.3s;
+  }
+  .toggle-switch.on .toggle-knob { transform: translateX(20px); background: var(--green); }
+  .save-badge {
+    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #040d08; background: var(--green);
+    padding: 0.2rem 0.6rem; border-radius: 20px;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .save-badge.show { opacity: 1; }
+
+  /* ── PACKAGES GRID ── */
+  .packages-section { padding: 4rem 4rem 5rem; }
+
+  .packages-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem; max-width: 1100px; margin: 0 auto;
+    align-items: start;
+  }
+
+  .pkg-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+    display: flex; flex-direction: column;
+  }
+  .pkg-card:hover { border-color: rgba(255,255,255,0.14); transform: translateY(-3px); }
+  .pkg-card.featured {
+    border-color: var(--border-green);
+    background: rgba(46,204,138,0.04);
+    transform: translateY(-6px);
+  }
+  .pkg-card.featured:hover { transform: translateY(-9px); }
+
+  /* Top glow line on featured */
+  .pkg-card.featured::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, transparent, var(--green), transparent);
+  }
+
+  .pkg-badge {
+    position: absolute; top: 1.2rem; right: 1.2rem;
+    font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #040d08; background: var(--green);
+    padding: 0.3rem 0.75rem; border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .pkg-header { padding: 2.2rem 2rem 0; }
+  .pkg-icon {
+    width: 42px; height: 42px; border-radius: 3px;
+    border: 1px solid var(--border-green);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.4rem;
+    background: var(--green-faint);
+  }
+  .pkg-icon svg { width: 20px; height: 20px; }
+
+  .pkg-name { font-family: var(--serif); font-size: 1.6rem; font-weight: 300; color: var(--white); margin-bottom: 0.35rem; }
+  .pkg-tagline { font-size: 0.78rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.6rem; }
+
+  .pkg-pricing { padding: 0 2rem 1.6rem; border-bottom: 1px solid var(--border); }
+  .pkg-price-row { display: flex; align-items: baseline; gap: 0.4rem; }
+  .pkg-currency { font-family: var(--serif); font-size: 1.2rem; color: var(--green); }
+  .pkg-amount { font-family: var(--serif); font-size: 3rem; font-weight: 300; color: var(--white); line-height: 1; transition: all 0.3s; }
+  .pkg-price-note { font-size: 0.72rem; color: var(--muted); margin-top: 0.3rem; }
+  .pkg-orig-price { font-size: 0.8rem; color: var(--muted2); text-decoration: line-through; margin-top: 0.15rem; display: none; }
+  .pkg-orig-price.show { display: block; }
+
+  .pkg-details { padding: 1.6rem 2rem; flex: 1; }
+  .pkg-details-title { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted2); margin-bottom: 1rem; }
+
+  .pkg-features { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+  .pkg-feature {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    font-size: 0.86rem; color: var(--muted);
+    padding: 0.6rem 0; border-bottom: 1px solid var(--border);
+  }
+  .pkg-feature:last-child { border-bottom: none; }
+  .feature-icon {
+    width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+  .feature-icon.yes { background: rgba(46,204,138,0.12); }
+  .feature-icon.no { background: rgba(255,255,255,0.04); }
+  .feature-icon svg { width: 10px; height: 10px; }
+  .pkg-feature.inactive { opacity: 0.38; }
+  .feature-text { line-height: 1.5; }
+  .feature-badge {
+    font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--green); background: rgba(46,204,138,0.1);
+    padding: 0.15rem 0.5rem; border-radius: 2px; margin-left: 0.4rem;
+    vertical-align: middle;
+  }
+
+  .pkg-footer { padding: 0 2rem 2.2rem; }
+  .pkg-btn {
+    display: block; text-align: center; width: 100%;
+    padding: 0.9rem; border-radius: 2px; border: none; cursor: pointer;
+    font-family: var(--sans); font-size: 0.76rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    text-decoration: none; transition: opacity 0.2s, transform 0.15s;
+  }
+  .pkg-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .pkg-card.featured .pkg-btn { background: var(--green); color: #040d08; }
+  .pkg-card:not(.featured) .pkg-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); transition: border-color 0.2s, color 0.2s; }
+  .pkg-card:not(.featured) .pkg-btn:hover { border-color: var(--border-green); color: var(--green); opacity: 1; transform: none; }
+
+  .pkg-guarantee {
+    text-align: center; font-size: 0.72rem; color: var(--muted2);
+    margin-top: 0.8rem; line-height: 1.6;
+  }
+
+  /* ── COMPARE TABLE ── */
+  .compare-section {
+    padding: 2rem 4rem 5rem; max-width: 1100px; margin: 0 auto;
+  }
+  .compare-header {
+    text-align: center; margin-bottom: 3rem;
+  }
+  .section-label { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--green); margin-bottom: 0.8rem; }
+  .section-title { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; color: var(--white); }
+  .section-title em { font-style: italic; color: var(--green); }
+
+  .compare-table {
+    width: 100%; border-collapse: collapse;
+    background: var(--surface); border-radius: 4px; overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .compare-table th {
+    padding: 1.2rem 1.5rem; text-align: left;
+    font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted2); font-weight: 400;
+    border-bottom: 1px solid var(--border);
+    background: var(--dark);
+  }
+  .compare-table th:not(:first-child) { text-align: center; }
+  .compare-table th.featured-col { color: var(--green); }
+  .compare-table td {
+    padding: 1rem 1.5rem; font-size: 0.85rem; color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .compare-table td:not(:first-child) { text-align: center; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .compare-table td.featured-col { background: rgba(46,204,138,0.03); }
+  .check { color: var(--green); font-size: 1rem; }
+  .cross { color: var(--muted2); font-size: 0.9rem; }
+  .table-row-label { color: var(--white); font-size: 0.85rem; }
+  .table-group-header td {
+    background: rgba(46,204,138,0.04); color: var(--green);
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 0.7rem 1.5rem; border-top: 1px solid var(--border-green);
+  }
+
+  /* ── ADD-ONS ── */
+  .addons-section {
+    padding: 0 4rem 5rem; max-width: 1100px; margin: 0 auto;
+  }
+  .addons-header { text-align: center; margin-bottom: 3rem; }
+  .addons-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+  }
+  .addon-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 3px; padding: 1.8rem 1.5rem;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: pointer; position: relative;
+  }
+  .addon-card:hover { border-color: var(--border-green); transform: translateY(-2px); }
+  .addon-card.selected { border-color: var(--border-green); background: var(--green-faint); }
+  .addon-card.selected::before {
+    content: '✓'; position: absolute; top: 0.8rem; right: 0.9rem;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--green); color: #040d08;
+    font-size: 0.65rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 20px; text-align: center;
+  }
+  .addon-icon {
+    width: 36px; height: 36px; border-radius: 3px;
+    background: var(--green-faint); border: 1px solid var(--border-green);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.1rem;
+  }
+  .addon-icon svg { width: 18px; height: 18px; }
+  .addon-name { font-size: 0.9rem; color: var(--white); margin-bottom: 0.3rem; }
+  .addon-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.9rem; }
+  .addon-price { font-family: var(--serif); font-size: 1.1rem; color: var(--green); }
+
+  /* ── TOTAL BAR ── */
+  .total-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 150;
+    background: rgba(6,6,8,0.97); backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border-green);
+    padding: 1rem 4rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+    transform: translateY(100%); transition: transform 0.35s ease;
+  }
+  .total-bar.show { transform: translateY(0); }
+  .total-bar-left { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .total-item { font-size: 0.78rem; color: var(--muted); }
+  .total-item strong { color: var(--white); display: block; font-size: 0.88rem; font-weight: 400; }
+  .total-amount { font-family: var(--serif); font-size: 1.8rem; color: var(--green); font-weight: 300; }
+  .total-book-btn {
+    background: var(--green); color: #040d08;
+    font-family: var(--sans); font-size: 0.76rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 0.85rem 2rem; border-radius: 2px; border: none; cursor: pointer;
+    text-decoration: none; white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .total-book-btn:hover { opacity: 0.88; }
+
+  /* ── FAQ ── */
+  .faq-section { padding: 0 4rem 6rem; max-width: 1100px; margin: 0 auto; }
+  .faq-header { text-align: center; margin-bottom: 3rem; }
+  .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .faq-item {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 3px; overflow: hidden;
+  }
+  .faq-question {
+    width: 100%; padding: 1.3rem 1.5rem;
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    background: none; border: none; cursor: pointer; text-align: left;
+    color: var(--white); font-family: var(--sans); font-size: 0.9rem; font-weight: 300;
+    transition: color 0.2s;
+  }
+  .faq-question:hover { color: var(--green); }
+  .faq-arrow {
+    width: 20px; height: 20px; flex-shrink: 0;
+    border: 1px solid var(--border); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; color: var(--muted); transition: transform 0.3s, border-color 0.2s;
+  }
+  .faq-item.open .faq-arrow { transform: rotate(45deg); border-color: var(--border-green); color: var(--green); }
+  .faq-answer {
+    max-height: 0; overflow: hidden;
+    font-size: 0.85rem; color: var(--muted); line-height: 1.8;
+    transition: max-height 0.35s ease, padding 0.25s;
+    padding: 0 1.5rem;
+  }
+  .faq-item.open .faq-answer { max-height: 200px; padding: 0 1.5rem 1.3rem; }
+
+  /* ── CTA BANNER ── */
+  .cta-banner {
+    margin: 0 4rem 6rem;
+    background: var(--dark); border: 1px solid var(--border-green);
+    border-radius: 4px; padding: 3.5rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 2rem; flex-wrap: wrap;
+    position: relative; overflow: hidden;
+  }
+  .cta-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 100% at 100% 50%, rgba(46,204,138,0.06) 0%, transparent 60%);
+  }
+  .cta-banner-left { position: relative; z-index: 2; max-width: 500px; }
+  .cta-banner-title { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--white); line-height: 1.2; margin-bottom: 0.6rem; }
+  .cta-banner-title em { font-style: italic; color: var(--green); }
+  .cta-banner-sub { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+  .cta-banner-actions { display: flex; gap: 1rem; flex-shrink: 0; position: relative; z-index: 2; }
+  .btn-primary { background: var(--green); color: #040d08; font-family: var(--sans); font-size: 0.76rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.9rem 2rem; border-radius: 2px; text-decoration: none; transition: opacity 0.2s; white-space: nowrap; }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-outline { background: transparent; color: var(--muted); font-family: var(--sans); font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.9rem 2rem; border: 1px solid var(--border); border-radius: 2px; text-decoration: none; transition: border-color 0.2s, color 0.2s; white-space: nowrap; }
+  .btn-outline:hover { border-color: var(--border-green); color: var(--green); }
+
+  /* ── FOOTER ── */
+  footer { padding: 2.5rem 4rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; background: var(--dark); }
+  .footer-logo { font-family: var(--serif); font-size: 1.05rem; font-weight: 300; color: var(--muted); }
+  .footer-logo span { color: var(--green); }
+  .footer-links { display: flex; gap: 2rem; list-style: none; }
+  .footer-links a { font-size: 0.7rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-copy { font-size: 0.7rem; color: var(--muted2); }
+
+  /* ── REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .packages-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+    .pkg-card.featured { transform: none; }
+    .addons-grid { grid-template-columns: 1fr 1fr; }
+    .faq-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 1.1rem 1.5rem; }
+    .nav-links { display: none; }
+    .page-header, .packages-section, .compare-section, .addons-section, .faq-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .cta-banner { margin-left: 1.5rem; margin-right: 1.5rem; padding: 2rem 1.5rem; }
+    .compare-section { overflow-x: auto; }
+    .compare-table { min-width: 600px; }
+    .addons-grid { grid-template-columns: 1fr 1fr; }
+    .total-bar { padding: 1rem 1.5rem; }
+    footer { padding: 2rem 1.5rem; }
+  }
+  @media (max-width: 500px) {
+    .addons-grid { grid-template-columns: 1fr; }
+    .cta-banner-actions { flex-direction: column; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">CineLens<span>Studios</span></a>
+  <ul class="nav-links">
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="packages.html" class="active">Packages</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="booking.html">Book</a></li>
+  </ul>
+  <a href="booking.html" class="nav-cta">Book a Shoot</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="header-bg"></div>
+  <div class="header-grid"></div>
+  <div class="header-inner">
+    <span class="page-eyebrow">Pricing & Packages</span>
+    <h1 class="page-title">Choose Your <em>Story</em></h1>
+    <p class="page-sub">Every package is crafted to give you a complete cinematic experience — from the first frame to final delivery.</p>
+
+    <!-- Billing toggle -->
+    <div class="toggle-wrap">
+      <span class="toggle-label active" id="lblSession">Per Session</span>
+      <div class="toggle-switch" id="billingToggle" onclick="toggleBilling()">
+        <div class="toggle-knob"></div>
+      </div>
+      <span class="toggle-label" id="lblBundle">Bundle (Save 15%)</span>
+      <span class="save-badge" id="saveBadge">Save up to ₹8,000</span>
+    </div>
+  </div>
+</div>
+
+<!-- PACKAGES -->
+<section class="packages-section">
+  <div class="packages-grid" id="packagesGrid">
+
+    <!-- ESSENTIALS -->
+    <div class="pkg-card reveal">
+      <div class="pkg-header">
+        <div class="pkg-icon">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="7" stroke="#2ecc8a" stroke-width="1"/>
+            <circle cx="10" cy="10" r="3" stroke="#2ecc8a" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="pkg-name">Essentials</div>
+        <div class="pkg-tagline">Perfect for intimate sessions, headshots, and couple shoots. Clean, focused, beautiful.</div>
+      </div>
+      <div class="pkg-pricing">
+        <div class="pkg-price-row">
+          <span class="pkg-currency">₹</span>
+          <span class="pkg-amount" data-base="8999" id="price-0">8,999</span>
+        </div>
+        <div class="pkg-price-note">Per session · Fully edited · Online delivery</div>
+        <div class="pkg-orig-price" id="orig-0">₹10,587 per session</div>
+      </div>
+      <div class="pkg-details">
+        <div class="pkg-details-title">What's Included</div>
+        <ul class="pkg-features">
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">2-hour shoot session</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Up to 60 fully edited photos</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">1 location</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">1 outfit change</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Private online gallery · 7-day delivery</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Digital download (high-res)</span>
+          </li>
+          <li class="pkg-feature inactive">
+            <span class="feature-icon no"><svg viewBox="0 0 10 10" fill="none"><path d="M3 3l4 4M7 3l-4 4" stroke="#666" stroke-width="1" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Cinematic color grading</span>
+          </li>
+          <li class="pkg-feature inactive">
+            <span class="feature-icon no"><svg viewBox="0 0 10 10" fill="none"><path d="M3 3l4 4M7 3l-4 4" stroke="#666" stroke-width="1" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Short video reel</span>
+          </li>
+          <li class="pkg-feature inactive">
+            <span class="feature-icon no"><svg viewBox="0 0 10 10" fill="none"><path d="M3 3l4 4M7 3l-4 4" stroke="#666" stroke-width="1" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Drone aerial shots</span>
+          </li>
+        </ul>
+      </div>
+      <div class="pkg-footer">
+        <a href="booking.html" class="pkg-btn">Book Essentials</a>
+        <div class="pkg-guarantee">30% advance to confirm · Balance on delivery</div>
+      </div>
+    </div>
+
+    <!-- CINEMATIC (featured) -->
+    <div class="pkg-card featured reveal">
+      <div class="pkg-badge">Most Popular</div>
+      <div class="pkg-header">
+        <div class="pkg-icon">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="5" width="16" height="11" rx="1" stroke="#2ecc8a" stroke-width="1"/>
+            <path d="M7 5V4a1 1 0 011-1h4a1 1 0 011 1v1" stroke="#2ecc8a" stroke-width="1"/>
+            <circle cx="10" cy="10.5" r="2.5" stroke="#2ecc8a" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="pkg-name">Cinematic</div>
+        <div class="pkg-tagline">Our signature package. Full storytelling — multiple looks, locations, and a cinematic feel throughout.</div>
+      </div>
+      <div class="pkg-pricing">
+        <div class="pkg-price-row">
+          <span class="pkg-currency">₹</span>
+          <span class="pkg-amount" data-base="19999" id="price-1">19,999</span>
+        </div>
+        <div class="pkg-price-note">Per session · Fully edited · Express delivery</div>
+        <div class="pkg-orig-price" id="orig-1">₹23,528 per session</div>
+      </div>
+      <div class="pkg-details">
+        <div class="pkg-details-title">What's Included</div>
+        <ul class="pkg-features">
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">5-hour shoot session</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Up to 150 fully edited photos</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">2 locations</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">3 outfit changes</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Cinematic color grading <span class="feature-badge">Signature</span></span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Short cinematic reel (60–90 sec)</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Private gallery · 5-day delivery</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Digital download + USB drive</span>
+          </li>
+          <li class="pkg-feature inactive">
+            <span class="feature-icon no"><svg viewBox="0 0 10 10" fill="none"><path d="M3 3l4 4M7 3l-4 4" stroke="#666" stroke-width="1" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Drone aerial shots</span>
+          </li>
+        </ul>
+      </div>
+      <div class="pkg-footer">
+        <a href="booking.html" class="pkg-btn">Book Cinematic</a>
+        <div class="pkg-guarantee">30% advance to confirm · Balance on delivery</div>
+      </div>
+    </div>
+
+    <!-- FULL DAY -->
+    <div class="pkg-card reveal">
+      <div class="pkg-header">
+        <div class="pkg-icon">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="8" stroke="#2ecc8a" stroke-width="1"/>
+            <path d="M10 5v5l3 3" stroke="#2ecc8a" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pkg-name">Full Day</div>
+        <div class="pkg-tagline">Complete event or wedding coverage. Everything, from first light to last dance.</div>
+      </div>
+      <div class="pkg-pricing">
+        <div class="pkg-price-row">
+          <span class="pkg-currency">₹</span>
+          <span class="pkg-amount" data-base="34999" id="price-2">34,999</span>
+        </div>
+        <div class="pkg-price-note">Per session · Unlimited editing · Priority delivery</div>
+        <div class="pkg-orig-price" id="orig-2">₹41,175 per session</div>
+      </div>
+      <div class="pkg-details">
+        <div class="pkg-details-title">What's Included</div>
+        <ul class="pkg-features">
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">8-hour shoot session</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Unlimited fully edited photos</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Unlimited locations</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">2nd photographer included <span class="feature-badge">Exclusive</span></span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Drone aerial shots (if applicable)</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Full cinematic reel (3–5 min)</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Printed photo album included</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Priority 3-day delivery</span>
+          </li>
+          <li class="pkg-feature">
+            <span class="feature-icon yes"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#2ecc8a" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+            <span class="feature-text">Dedicated pre-shoot consultation</span>
+          </li>
+        </ul>
+      </div>
+      <div class="pkg-footer">
+        <a href="booking.html" class="pkg-btn">Book Full Day</a>
+        <div class="pkg-guarantee">30% advance to confirm · Balance on delivery</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPARE TABLE -->
+<section class="compare-section reveal">
+  <div class="compare-header">
+    <div class="section-label">Side by Side</div>
+    <h2 class="section-title">Full <em>Comparison</em></h2>
+  </div>
+  <div style="overflow-x:auto;">
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th style="width:38%;">Feature</th>
+        <th>Essentials</th>
+        <th class="featured-col">Cinematic</th>
+        <th>Full Day</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-group-header"><td colspan="4">Session</td></tr>
+      <tr>
+        <td class="table-row-label">Duration</td>
+        <td>2 hours</td>
+        <td class="featured-col">5 hours</td>
+        <td>8 hours</td>
+      </tr>
+      <tr>
+        <td class="table-row-label">Locations</td>
+        <td>1</td>
+        <td class="featured-col">2</td>
+        <td>Unlimited</td>
+      </tr>
+      <tr>
+        <td class="table-row-label">Outfit changes</td>
+        <td>1</td>
+        <td class="featured-col">3</td>
+        <td>Unlimited</td>
+      </tr>
+
+      <tr class="table-group-header"><td colspan="4">Deliverables</td></tr>
+      <tr>
+        <td class="table-row-label">Edited photos</td>
+        <td>Up to 60</td>
+        <td class="featured-col">Up to 150</td>
+        <td>Unlimited</td>
+      </tr>
+      <tr>
+        <td class="table-row-label">Cinematic color grade</td>
+        <td><span class="cross">—</span></td>
+        <td class="featured-col"><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td class="table-row-label">Video reel</td>
+        <td><span class="cross">—</span></td>
+        <td class="featured-col">60–90 sec</td>
+        <td>3–5 min</td>
+      </tr>
+      <tr>
+        <td class="table-row-label">Printed album</td>
+        <td><span class="cross">—</span></td>
+        <td class="featured-col"><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td class="table-row-label">USB drive</td>
+        <td><span class="cross">—</span></td>
+        <td class="featured-col"><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+
+      <tr class="table-group-header"><td colspan="4">Team & Delivery</td></tr>
+      <tr>
+        <td class="table-row-label">2nd photographer</td>
+        <td><span class="cross">—</span></td>
+        <td class="featured-col"><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td class="table-row-label">Drone shots</td>
+        <td><span class="cross">—</span></td>
+        <td class="featured-col"><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td class="table-row-label">Delivery time</td>
+        <td>7 days</td>
+        <td class="featured-col">5 days</td>
+        <td>3 days</td>
+      </tr>
+      <tr>
+        <td class="table-row-label">Pre-shoot consultation</td>
+        <td><span class="cross">—</span></td>
+        <td class="featured-col"><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+
+      <tr class="table-group-header"><td colspan="4">Pricing</td></tr>
+      <tr>
+        <td class="table-row-label">Price</td>
+        <td>₹8,999</td>
+        <td class="featured-col" style="color:var(--green); font-family:var(--serif); font-size:1rem;">₹19,999</td>
+        <td>₹34,999</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><a href="booking.html" style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Book →</a></td>
+        <td class="featured-col"><a href="booking.html" style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);text-decoration:none;font-weight:500;">Book →</a></td>
+        <td><a href="booking.html" style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Book →</a></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ADD-ONS -->
+<section class="addons-section">
+  <div class="addons-header reveal">
+    <div class="section-label">Extras</div>
+    <h2 class="section-title">Enhance Your <em>Package</em></h2>
+    <p style="font-size:0.9rem; color:var(--muted); margin-top:0.8rem;">Add any of the below to your chosen package at booking.</p>
+  </div>
+  <div class="addons-grid" id="addonsGrid">
+
+    <div class="addon-card reveal" data-price="3500" data-name="Drone Shots" onclick="toggleAddon(this)">
+      <div class="addon-icon">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 9m-2 0a2 2 0 104 0 2 2 0 10-4 0" stroke="#2ecc8a" stroke-width="1"/>
+          <path d="M3 3l3 3M15 3l-3 3M3 15l3-3M15 15l-3-3" stroke="#2ecc8a" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="3" cy="3" r="1.5" stroke="#2ecc8a" stroke-width="1"/>
+          <circle cx="15" cy="3" r="1.5" stroke="#2ecc8a" stroke-width="1"/>
+          <circle cx="3" cy="15" r="1.5" stroke="#2ecc8a" stroke-width="1"/>
+          <circle cx="15" cy="15" r="1.5" stroke="#2ecc8a" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="addon-name">Drone Aerial Shots</div>
+      <div class="addon-desc">Stunning bird's-eye perspectives. Available at outdoor venues and open locations.</div>
+      <div class="addon-price">+ ₹3,500</div>
+    </div>
+
+    <div class="addon-card reveal" data-price="2500" data-name="Printed Album" onclick="toggleAddon(this)">
+      <div class="addon-icon">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="14" height="14" rx="1" stroke="#2ecc8a" stroke-width="1"/>
+          <path d="M6 2v14M6 9h10" stroke="#2ecc8a" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="addon-name">Printed Photo Album</div>
+      <div class="addon-desc">Premium lay-flat album, 40 pages, matte finish. Delivered in 3 weeks.</div>
+      <div class="addon-price">+ ₹2,500</div>
+    </div>
+
+    <div class="addon-card reveal" data-price="4000" data-name="Cinematic Reel" onclick="toggleAddon(this)">
+      <div class="addon-icon">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="4" width="16" height="10" rx="1" stroke="#2ecc8a" stroke-width="1"/>
+          <path d="M7 7l5 2-5 2V7z" stroke="#2ecc8a" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="addon-name">Cinematic Reel</div>
+      <div class="addon-desc">60–90 second short film edit with licensed music. Instagram and full-res versions included.</div>
+      <div class="addon-price">+ ₹4,000</div>
+    </div>
+
+    <div class="addon-card reveal" data-price="1500" data-name="Rush Delivery" onclick="toggleAddon(this)">
+      <div class="addon-icon">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="9" cy="9" r="7" stroke="#2ecc8a" stroke-width="1"/>
+          <path d="M9 5v4l2.5 2.5" stroke="#2ecc8a" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="addon-name">Rush Delivery (48 hrs)</div>
+      <div class="addon-desc">Need photos fast? Get your edited gallery within 48 hours of the shoot.</div>
+      <div class="addon-price">+ ₹1,500</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FLOATING TOTAL BAR -->
+<div class="total-bar" id="totalBar">
+  <div class="total-bar-left" id="totalBarLeft"></div>
+  <div style="display:flex; align-items:center; gap:2rem; flex-shrink:0;">
+    <div>
+      <div style="font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted2);margin-bottom:0.2rem;">Add-ons Total</div>
+      <div class="total-amount" id="totalAmount">₹0</div>
+    </div>
+    <a href="booking.html" class="total-book-btn">Book a Shoot →</a>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="faq-header reveal">
+    <div class="section-label">Questions</div>
+    <h2 class="section-title">Frequently <em>Asked</em></h2>
+  </div>
+  <div class="faq-grid" id="faqGrid">
+
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How do I confirm my booking date?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-answer">
+        Fill out the booking form and we'll reach out within 24 hours to confirm availability. A 30% advance payment secures your date. We accept UPI, bank transfer, and all major cards.
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Can I customise a package?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-answer">
+        Absolutely. Every shoot is different. Reach out via WhatsApp or the booking form and we'll create a custom quote based on your specific needs, location, and vision.
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What if I need to reschedule?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-answer">
+        We allow one free reschedule up to 7 days before the shoot. Rescheduling within 7 days may incur a small fee depending on availability. We always try to accommodate our clients.
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How are photos delivered?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-answer">
+        All photos are delivered via a private, password-protected online gallery. You can download high-resolution versions directly. USB drives and printed albums are shipped to your address.
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Do you travel for destination shoots?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-answer">
+        Yes! We've shot across India and internationally. Travel fees apply for destinations outside Mumbai. Contact us for a destination quote — we love adventure.
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What is your editing style?
+        <span class="faq-arrow">+</span>
+      </button>
+      <div class="faq-answer">
+        Our editing is cinematic, natural, and emotive. We use a signature colour grade that draws on film photography — warm highlights, cool shadows, and deep blacks. We avoid heavy filters or overly processed looks.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner reveal">
+  <div class="cta-banner-left">
+    <h2 class="cta-banner-title">Still Deciding? Let's <em>Talk</em></h2>
+    <p class="cta-banner-sub">Not sure which package fits your vision? Send us a message on WhatsApp and we'll help you figure it out — no pressure, no sales pitch.</p>
+  </div>
+  <div class="cta-banner-actions">
+    <a href="booking.html" class="btn-primary">Book a Shoot</a>
+    <a href="https://wa.me/919999999999" class="btn-outline">WhatsApp Us</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">CineLens<span>Studios</span></div>
+  <ul class="footer-links">
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="booking.html">Book</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 CineLensStudios. All rights reserved.</div>
+</footer>
+
+<script>
+  // ── BILLING TOGGLE ──
+  let bundleMode = false;
+  const basePrices = [8999, 19999, 34999];
+
+  function toggleBilling() {
+    bundleMode = !bundleMode;
+    const toggle = document.getElementById('billingToggle');
+    toggle.classList.toggle('on', bundleMode);
+    document.getElementById('lblSession').classList.toggle('active', !bundleMode);
+    document.getElementById('lblBundle').classList.toggle('active', bundleMode);
+    document.getElementById('saveBadge').classList.toggle('show', bundleMode);
+
+    basePrices.forEach((base, i) => {
+      const discounted = bundleMode ? Math.round(base * 0.85) : base;
+      document.getElementById('price-' + i).textContent = discounted.toLocaleString('en-IN');
+      const origEl = document.getElementById('orig-' + i);
+      if (bundleMode) {
+        origEl.textContent = '₹' + base.toLocaleString('en-IN') + ' per session';
+        origEl.classList.add('show');
+      } else {
+        origEl.classList.remove('show');
+      }
+    });
+  }
+
+  // ── ADD-ONS ──
+  let selectedAddons = [];
+
+  function toggleAddon(card) {
+    const name = card.dataset.name;
+    const price = parseInt(card.dataset.price);
+    card.classList.toggle('selected');
+
+    if (card.classList.contains('selected')) {
+      selectedAddons.push({ name, price });
+    } else {
+      selectedAddons = selectedAddons.filter(a => a.name !== name);
+    }
+    updateTotalBar();
+  }
+
+  function updateTotalBar() {
+    const bar = document.getElementById('totalBar');
+    if (selectedAddons.length === 0) {
+      bar.classList.remove('show');
+      return;
+    }
+    bar.classList.add('show');
+    const total = selectedAddons.reduce((s, a) => s + a.price, 0);
+    document.getElementById('totalAmount').textContent = '₹' + total.toLocaleString('en-IN');
+    document.getElementById('totalBarLeft').innerHTML = selectedAddons.map(a =>
+      `<div class="total-item"><strong>${a.name}</strong>₹${a.price.toLocaleString('en-IN')}</div>`
+    ).join('');
+  }
+
+  // ── FAQ ──
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+
+</body>
+</html>

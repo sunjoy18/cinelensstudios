@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact — CineLensStudios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:        #060608;
+    --dark:         #0d0d10;
+    --surface:      #111114;
+    --card-bg:      rgba(255,255,255,0.035);
+    --green:        #2ecc8a;
+    --green-dim:    #1a7a51;
+    --green-glow:   rgba(46,204,138,0.15);
+    --green-faint:  rgba(46,204,138,0.06);
+    --white:        #f2f0eb;
+    --muted:        rgba(242,240,235,0.45);
+    --muted2:       rgba(242,240,235,0.22);
+    --border:       rgba(255,255,255,0.07);
+    --border-green: rgba(46,204,138,0.28);
+    --border-focus: rgba(46,204,138,0.55);
+    --serif:        'Cormorant Garamond', Georgia, serif;
+    --sans:         'Outfit', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.3rem 4rem;
+    background: rgba(6,6,8,0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: var(--serif); font-size: 1.3rem; font-weight: 300; letter-spacing: 0.07em; color: var(--white); text-decoration: none; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a { font-size: 0.76rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a.active { color: var(--green); }
+  .nav-cta { font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); border: 1px solid var(--border-green); padding: 0.5rem 1.3rem; border-radius: 2px; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--green-glow); }
+
+  /* ─── PAGE HEADER ─── */
+  .page-header {
+    padding: 9.5rem 4rem 4.5rem;
+    position: relative; overflow: hidden;
+    background: var(--dark);
+  }
+  .header-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 55% 90% at 0% 60%,  rgba(46,204,138,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 100% 20%, rgba(46,204,138,0.03) 0%, transparent 60%);
+  }
+  .header-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(46,204,138,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(46,204,138,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  }
+  .header-inner {
+    position: relative; z-index: 2;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    flex-wrap: wrap; gap: 2.5rem;
+  }
+  .header-left { max-width: 540px; }
+  .page-eyebrow { font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; display: block; animation: fadeUp 0.5s ease both; }
+  .page-title { font-family: var(--serif); font-size: clamp(2.6rem, 5.5vw, 4.2rem); font-weight: 300; line-height: 1.06; color: var(--white); animation: fadeUp 0.5s 0.07s ease both; }
+  .page-title em { font-style: italic; color: var(--green); }
+  .page-sub { font-size: 0.95rem; color: var(--muted); line-height: 1.85; margin-top: 1.2rem; animation: fadeUp 0.5s 0.14s ease both; }
+  .header-right { animation: fadeUp 0.5s 0.2s ease both; }
+
+  /* Response time badge */
+  .response-badge {
+    background: var(--card-bg); border: 1px solid var(--border-green);
+    padding: 1.4rem 2rem; border-radius: 3px;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .response-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); flex-shrink: 0; animation: blink 2s ease-in-out infinite; }
+  .response-text strong { display: block; color: var(--white); font-size: 0.9rem; font-weight: 400; margin-bottom: 0.15rem; }
+  .response-text span { font-size: 0.74rem; color: var(--muted); letter-spacing: 0.05em; }
+
+  /* ─── MAIN GRID ─── */
+  .contact-main {
+    display: grid; grid-template-columns: 1fr 420px;
+    gap: 2.5rem; padding: 4rem 4rem 6rem;
+    max-width: 1200px; margin: 0 auto; align-items: start;
+  }
+
+  /* ─── ENQUIRY FORM ─── */
+  .form-panel {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 3rem;
+  }
+  .form-panel-title { font-family: var(--serif); font-size: 1.7rem; font-weight: 300; color: var(--white); margin-bottom: 0.4rem; }
+  .form-panel-title em { font-style: italic; color: var(--green); }
+  .form-panel-sub { font-size: 0.86rem; color: var(--muted); line-height: 1.7; margin-bottom: 2.5rem; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .field-group { margin-bottom: 1.3rem; }
+
+  label { display: block; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+
+  input[type="text"], input[type="email"], input[type="tel"],
+  select, textarea {
+    width: 100%; background: var(--black);
+    border: 1px solid var(--border); border-radius: 2px;
+    color: var(--white); font-family: var(--sans); font-size: 0.88rem; font-weight: 300;
+    padding: 0.8rem 1rem; outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    appearance: none; -webkit-appearance: none;
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted2); }
+  input:focus, select:focus, textarea:focus { border-color: var(--border-focus); background: rgba(46,204,138,0.02); }
+  textarea { resize: vertical; min-height: 120px; line-height: 1.65; }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%232ecc8a' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 1rem center; cursor: pointer;
+  }
+  select option { background: #111114; }
+
+  /* Subject pills */
+  .subject-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+  .subject-pill {
+    font-size: 0.74rem; letter-spacing: 0.1em;
+    border: 1px solid var(--border); border-radius: 2px;
+    padding: 0.4rem 0.9rem; cursor: pointer; color: var(--muted);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .subject-pill:hover { border-color: rgba(255,255,255,0.18); color: var(--white); }
+  .subject-pill.active { border-color: var(--border-green); color: var(--green); background: var(--green-faint); }
+
+  .form-submit {
+    margin-top: 1.8rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+  }
+  .btn-submit {
+    background: var(--green); color: #040d08;
+    font-family: var(--sans); font-size: 0.76rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 0.95rem 2.4rem; border: none; border-radius: 2px; cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s; position: relative; overflow: hidden;
+  }
+  .btn-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-submit.loading { pointer-events: none; opacity: 0.7; }
+  .form-note { font-size: 0.74rem; color: var(--muted2); line-height: 1.6; }
+
+  /* Success message */
+  .form-success {
+    display: none; text-align: center; padding: 3rem 1rem;
+    animation: fadeUp 0.4s ease both;
+  }
+  .form-success.show { display: block; }
+  .success-icon {
+    width: 60px; height: 60px; border-radius: 50%;
+    border: 1px solid var(--border-green);
+    background: var(--green-faint);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+  }
+  .success-icon svg { width: 26px; height: 26px; }
+  .success-title { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; color: var(--white); margin-bottom: 0.6rem; }
+  .success-title em { font-style: italic; color: var(--green); }
+  .success-sub { font-size: 0.88rem; color: var(--muted); line-height: 1.8; max-width: 380px; margin: 0 auto; }
+
+  /* ─── SIDEBAR ─── */
+  .contact-sidebar { display: flex; flex-direction: column; gap: 1.2rem; position: sticky; top: 100px; }
+
+  /* Direct contact card */
+  .contact-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden;
+  }
+  .contact-card-header {
+    padding: 1.6rem 1.8rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-card-title { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: 0.5rem; }
+  .contact-card-tagline { font-family: var(--serif); font-size: 1.15rem; font-weight: 300; color: var(--white); line-height: 1.35; }
+
+  .contact-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.1rem 1.8rem; border-bottom: 1px solid var(--border);
+    text-decoration: none; transition: background 0.2s;
+    cursor: pointer;
+  }
+  .contact-item:last-child { border-bottom: none; }
+  .contact-item:hover { background: rgba(255,255,255,0.03); }
+  .contact-item-icon {
+    width: 36px; height: 36px; border-radius: 3px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .contact-item:hover .contact-item-icon { border-color: var(--border-green); }
+  .contact-item-icon svg { width: 16px; height: 16px; }
+  .contact-item-label { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted2); margin-bottom: 0.18rem; }
+  .contact-item-value { font-size: 0.88rem; color: var(--white); }
+
+  /* Social links */
+  .social-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 1.6rem 1.8rem;
+  }
+  .social-title { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted2); margin-bottom: 1.2rem; }
+  .social-links { display: flex; flex-direction: column; gap: 0.6rem; }
+  .social-link {
+    display: flex; align-items: center; gap: 1rem;
+    text-decoration: none; padding: 0.75rem 1rem;
+    border: 1px solid var(--border); border-radius: 2px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .social-link:hover { border-color: var(--border-green); background: var(--green-faint); }
+  .social-link-icon {
+    width: 30px; height: 30px; border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .social-link-icon svg { width: 15px; height: 15px; }
+  .social-link-name { font-size: 0.82rem; color: var(--white); flex: 1; }
+  .social-link-handle { font-size: 0.72rem; color: var(--muted2); }
+  .social-link-arrow { font-size: 0.7rem; color: var(--muted2); }
+
+  /* Hours card */
+  .hours-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 1.6rem 1.8rem;
+  }
+  .hours-title { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted2); margin-bottom: 1.2rem; }
+  .hours-row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.82rem; padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .hours-row:last-child { border-bottom: none; }
+  .hours-day { color: var(--muted); }
+  .hours-time { color: var(--white); }
+  .hours-time.closed { color: var(--muted2); }
+
+  /* ─── MAP SECTION ─── */
+  .map-section {
+    padding: 0 4rem 5rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .map-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
+  }
+  .map-header-left {}
+  .map-section-label { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--green); margin-bottom: 0.5rem; }
+  .map-title { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; color: var(--white); }
+  .map-title em { font-style: italic; color: var(--green); }
+  .map-get-directions {
+    font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--green); border: 1px solid var(--border-green);
+    padding: 0.55rem 1.2rem; border-radius: 2px; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .map-get-directions:hover { background: var(--green-glow); }
+
+  .map-container {
+    border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+    position: relative; height: 420px; background: var(--surface);
+  }
+  /* SVG Map Illustration */
+  .map-svg-wrap {
+    width: 100%; height: 100%;
+    position: relative; overflow: hidden;
+  }
+  .map-overlay-info {
+    position: absolute; bottom: 1.5rem; left: 1.5rem;
+    background: rgba(6,6,8,0.9); backdrop-filter: blur(8px);
+    border: 1px solid var(--border-green); border-radius: 3px;
+    padding: 1.2rem 1.5rem; max-width: 240px;
+  }
+  .map-pin-label { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); margin-bottom: 0.4rem; }
+  .map-address { font-size: 0.86rem; color: var(--white); line-height: 1.6; }
+  .map-address span { display: block; }
+  .map-zoom-hint {
+    position: absolute; bottom: 1.5rem; right: 1.5rem;
+    font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted2); background: rgba(6,6,8,0.7);
+    padding: 0.4rem 0.8rem; border-radius: 2px;
+  }
+
+  /* ─── LOCATION CARDS ─── */
+  .locations-strip {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1rem; padding: 0 4rem 6rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .loc-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 3px; padding: 1.8rem;
+    transition: border-color 0.3s;
+  }
+  .loc-card:hover { border-color: var(--border-green); }
+  .loc-card-type { font-size: 0.64rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); margin-bottom: 0.6rem; }
+  .loc-card-name { font-family: var(--serif); font-size: 1.2rem; font-weight: 300; color: var(--white); margin-bottom: 0.3rem; }
+  .loc-card-address { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
+  .loc-card-link { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted2); text-decoration: none; transition: color 0.2s; }
+  .loc-card-link:hover { color: var(--green); }
+
+  /* ─── FAQ STRIP ─── */
+  .faq-strip {
+    padding: 5rem 4rem;
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+  }
+  .faq-strip-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 280px 1fr; gap: 5rem; align-items: start; }
+  .faq-strip-left {}
+  .faq-strip-label { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--green); margin-bottom: 0.8rem; }
+  .faq-strip-title { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--white); line-height: 1.2; }
+  .faq-strip-title em { font-style: italic; color: var(--green); }
+  .faq-strip-sub { font-size: 0.84rem; color: var(--muted); line-height: 1.7; margin-top: 1rem; }
+  .faq-list { display: flex; flex-direction: column; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-item:first-child { border-top: 1px solid var(--border); }
+  .faq-question {
+    width: 100%; padding: 1.2rem 0;
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    background: none; border: none; cursor: pointer; text-align: left;
+    color: var(--white); font-family: var(--sans); font-size: 0.88rem; font-weight: 300;
+    transition: color 0.2s;
+  }
+  .faq-question:hover { color: var(--green); }
+  .faq-arrow { width: 20px; height: 20px; flex-shrink: 0; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--muted); transition: transform 0.3s, border-color 0.2s; }
+  .faq-item.open .faq-arrow { transform: rotate(45deg); border-color: var(--border-green); color: var(--green); }
+  .faq-answer { max-height: 0; overflow: hidden; font-size: 0.84rem; color: var(--muted); line-height: 1.8; transition: max-height 0.35s ease, padding 0.25s; padding: 0; }
+  .faq-item.open .faq-answer { max-height: 180px; padding-bottom: 1.2rem; }
+
+  /* ─── CTA BOTTOM ─── */
+  .cta-bottom {
+    padding: 8rem 4rem; text-align: center;
+    position: relative; overflow: hidden; background: var(--black);
+  }
+  .cta-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(46,204,138,0.06) 0%, transparent 65%); }
+  .cta-title { font-family: var(--serif); font-size: clamp(2rem, 4.5vw, 3.6rem); font-weight: 300; color: var(--white); max-width: 580px; margin: 0 auto 1.2rem; line-height: 1.1; position: relative; }
+  .cta-title em { font-style: italic; color: var(--green); }
+  .cta-sub { font-size: 0.92rem; color: var(--muted); max-width: 420px; margin: 0 auto 2.8rem; line-height: 1.8; position: relative; }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+  .btn-primary { background: var(--green); color: #040d08; font-family: var(--sans); font-size: 0.76rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.9rem 2.2rem; border-radius: 2px; text-decoration: none; transition: opacity 0.2s; }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-outline { background: transparent; color: var(--muted); font-family: var(--sans); font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.9rem 2.2rem; border: 1px solid var(--border); border-radius: 2px; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+  .btn-outline:hover { border-color: var(--border-green); color: var(--green); }
+
+  /* ─── FOOTER ─── */
+  footer { padding: 2.5rem 4rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; background: var(--dark); }
+  .footer-logo { font-family: var(--serif); font-size: 1.05rem; font-weight: 300; color: var(--muted); }
+  .footer-logo span { color: var(--green); }
+  .footer-links { display: flex; gap: 2rem; list-style: none; }
+  .footer-links a { font-size: 0.7rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-copy { font-size: 0.7rem; color: var(--muted2); }
+
+  /* ─── REVEAL ─── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .contact-main { grid-template-columns: 1fr; }
+    .contact-sidebar { position: static; }
+    .social-links { display: grid; grid-template-columns: 1fr 1fr; }
+    .faq-strip-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .locations-strip { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 1.1rem 1.5rem; }
+    .nav-links { display: none; }
+    .page-header { padding: 7rem 1.5rem 3rem; }
+    .contact-main, .map-section, .locations-strip, .faq-strip, .cta-bottom { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-panel { padding: 2rem 1.5rem; }
+    .social-links { grid-template-columns: 1fr; }
+    .locations-strip { grid-template-columns: 1fr; }
+    footer { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">CineLens<span>Studios</span></a>
+  <ul class="nav-links">
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+    <li><a href="booking.html">Book</a></li>
+  </ul>
+  <a href="booking.html" class="nav-cta">Book a Shoot</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="header-bg"></div>
+  <div class="header-grid"></div>
+  <div class="header-inner">
+    <div class="header-left">
+      <span class="page-eyebrow">Get In Touch</span>
+      <h1 class="page-title">Let's Create<br>Something <em>Cinematic</em></h1>
+      <p class="page-sub">Have a question, a project in mind, or just want to say hello? We'd genuinely love to hear from you. Every great shoot starts with a conversation.</p>
+    </div>
+    <div class="header-right">
+      <div class="response-badge">
+        <div class="response-dot"></div>
+        <div class="response-text">
+          <strong>Currently Available</strong>
+          <span>Responding within 24 hours</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTACT GRID -->
+<div class="contact-main">
+
+  <!-- FORM -->
+  <div class="form-panel reveal">
+    <div id="formContent">
+      <h2 class="form-panel-title">Send Us a <em>Message</em></h2>
+      <p class="form-panel-sub">Fill out the form and we'll get back to you within 24 hours. Prefer a quicker chat? WhatsApp us directly.</p>
+
+      <div class="field-group">
+        <label>What's this about?</label>
+        <div class="subject-pills" id="subjectPills">
+          <span class="subject-pill" onclick="selectSubject(this)">Wedding Shoot</span>
+          <span class="subject-pill" onclick="selectSubject(this)">Couple / Pre-Wedding</span>
+          <span class="subject-pill" onclick="selectSubject(this)">Professional / Brand</span>
+          <span class="subject-pill" onclick="selectSubject(this)">Event Coverage</span>
+          <span class="subject-pill" onclick="selectSubject(this)">Pricing Query</span>
+          <span class="subject-pill" onclick="selectSubject(this)">Something Else</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field-group">
+          <label>First Name *</label>
+          <input type="text" id="fname" placeholder="Arjun" />
+        </div>
+        <div class="field-group">
+          <label>Last Name *</label>
+          <input type="text" id="lname" placeholder="Sharma" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field-group">
+          <label>Email Address *</label>
+          <input type="email" id="email" placeholder="you@example.com" />
+        </div>
+        <div class="field-group">
+          <label>Phone / WhatsApp</label>
+          <input type="tel" id="phone" placeholder="+91 98765 43210" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field-group">
+          <label>Preferred Date (if known)</label>
+          <input type="text" id="date" placeholder="e.g. March 2026 or flexible" />
+        </div>
+        <div class="field-group">
+          <label>City / Location</label>
+          <input type="text" id="location" placeholder="e.g. Mumbai, Delhi…" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Your Message *</label>
+        <textarea id="message" placeholder="Tell us about your vision, your event, your story. The more detail, the better we can help…"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>How did you find us?</label>
+        <select id="source">
+          <option value="">Select…</option>
+          <option>Instagram</option>
+          <option>Google Search</option>
+          <option>Word of Mouth</option>
+          <option>Previous Client</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-submit">
+        <button class="btn-submit" id="contactSubmit" onclick="submitContact()">Send Message</button>
+        <p class="form-note">We read every message personally.<br>No bots. No automated replies.</p>
+      </div>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="form-success" id="formSuccess">
+      <div class="success-icon">
+        <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="13" cy="13" r="12" stroke="#2ecc8a" stroke-width="1"/>
+          <path d="M7 13l4 4 8-8" stroke="#2ecc8a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="success-title">Message <em>Received!</em></h2>
+      <p class="success-sub">Thank you for reaching out. We'll read your message today and get back to you within 24 hours. Looking forward to hearing your story.</p>
+      <div style="margin-top:2rem;">
+        <a href="portfolio.html" style="font-size:0.76rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--green);text-decoration:none;">View Our Portfolio →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="contact-sidebar">
+
+    <!-- Direct Contact -->
+    <div class="contact-card reveal">
+      <div class="contact-card-header">
+        <div class="contact-card-title">Direct Contact</div>
+        <div class="contact-card-tagline">Prefer to reach out<br>directly? We're here.</div>
+      </div>
+
+      <a class="contact-item" href="tel:+919999999999">
+        <div class="contact-item-icon">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 3a1 1 0 011-1h2l1 3-1.5 1.5a11 11 0 004 4L10 9l3 1v2a1 1 0 01-1 1A13 13 0 012 3z" stroke="#2ecc8a" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="contact-item-label">Phone</div>
+          <div class="contact-item-value">+91 99999 99999</div>
+        </div>
+      </a>
+
+      <a class="contact-item" href="https://wa.me/919999999999" target="_blank">
+        <div class="contact-item-icon">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 1.5A6.5 6.5 0 001.5 8c0 1.15.3 2.24.83 3.18L1.5 14.5l3.44-.82A6.5 6.5 0 108 1.5z" stroke="#25d366" stroke-width="1"/>
+            <path d="M5.5 6.5s.5 1 1.5 2 2 1.5 2 1.5l1-1s-1-.5-1.5-1L10 7s-.5-1.5-1.5-1.5L7 6z" stroke="#25d366" stroke-width="0.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="contact-item-label">WhatsApp</div>
+          <div class="contact-item-value">Chat with us →</div>
+        </div>
+      </a>
+
+      <a class="contact-item" href="mailto:hello@cinelensstudios.com">
+        <div class="contact-item-icon">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1.5" y="3.5" width="13" height="9" rx="1" stroke="#2ecc8a" stroke-width="1"/>
+            <path d="M1.5 4.5l6.5 5 6.5-5" stroke="#2ecc8a" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value">hello@cinelensstudios.com</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Social Links -->
+    <div class="social-card reveal">
+      <div class="social-title">Follow Our Work</div>
+      <div class="social-links">
+
+        <a class="social-link" href="https://instagram.com/cinelensstudios" target="_blank">
+          <div class="social-link-icon" style="background: rgba(225,48,108,0.1);">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="12" height="12" rx="3" stroke="#e1306c" stroke-width="1"/>
+              <circle cx="8" cy="8" r="3" stroke="#e1306c" stroke-width="1"/>
+              <circle cx="11.5" cy="4.5" r="0.8" fill="#e1306c"/>
+            </svg>
+          </div>
+          <div>
+            <div class="social-link-name">Instagram</div>
+            <div class="social-link-handle">@cinelensstudios</div>
+          </div>
+          <span class="social-link-arrow">→</span>
+        </a>
+
+        <a class="social-link" href="https://youtube.com/@cinelensstudios" target="_blank">
+          <div class="social-link-icon" style="background: rgba(255,0,0,0.08);">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1.5" y="3.5" width="13" height="9" rx="2" stroke="#ff0000" stroke-width="1"/>
+              <path d="M6.5 6l4 2-4 2V6z" stroke="#ff0000" stroke-width="1" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="social-link-name">YouTube</div>
+            <div class="social-link-handle">CineLensStudios</div>
+          </div>
+          <span class="social-link-arrow">→</span>
+        </a>
+
+        <a class="social-link" href="https://facebook.com/cinelensstudios" target="_blank">
+          <div class="social-link-icon" style="background: rgba(24,119,242,0.08);">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 2H7a2 2 0 00-2 2v2H3v3h2v5h3V9h2l.5-3H8V4a.5.5 0 01.5-.5H9V2z" stroke="#1877f2" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="social-link-name">Facebook</div>
+            <div class="social-link-handle">/cinelensstudios</div>
+          </div>
+          <span class="social-link-arrow">→</span>
+        </a>
+
+        <a class="social-link" href="https://pinterest.com/cinelensstudios" target="_blank">
+          <div class="social-link-icon" style="background: rgba(230,0,35,0.08);">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="6" stroke="#e60023" stroke-width="1"/>
+              <path d="M6 14c.5-2 1-4 1-6a2 2 0 114 0c0 2-1.5 3-2 3" stroke="#e60023" stroke-width="0.9" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="social-link-name">Pinterest</div>
+            <div class="social-link-handle">CineLensStudios</div>
+          </div>
+          <span class="social-link-arrow">→</span>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Hours -->
+    <div class="hours-card reveal">
+      <div class="hours-title">Studio Hours</div>
+      <div class="hours-row"><span class="hours-day">Monday – Friday</span><span class="hours-time">10 AM – 7 PM</span></div>
+      <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">10 AM – 5 PM</span></div>
+      <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time closed">By Appointment</span></div>
+      <p style="font-size:0.74rem; color:var(--muted2); margin-top:1rem; line-height:1.6;">Shoot days operate on their own schedule — we're wherever you need us.</p>
+    </div>
+
+  </aside>
+</div>
+
+<!-- MAP SECTION -->
+<div class="map-section reveal">
+  <div class="map-header">
+    <div class="map-header-left">
+      <div class="map-section-label">Studio Location</div>
+      <h2 class="map-title">Find <em>Us</em></h2>
+    </div>
+    <a href="https://maps.google.com/?q=Bandra+West+Mumbai" target="_blank" class="map-get-directions">Get Directions →</a>
+  </div>
+
+  <div class="map-container">
+    <div class="map-svg-wrap">
+      <!-- Hand-crafted SVG map of Bandra/Mumbai area -->
+      <svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+        <!-- Base dark fill -->
+        <rect width="1200" height="420" fill="#0a0a0d"/>
+
+        <!-- Grid lines (streets) -->
+        <!-- Horizontal roads -->
+        <line x1="0" y1="105" x2="1200" y2="105" stroke="#1a1a20" stroke-width="8"/>
+        <line x1="0" y1="210" x2="1200" y2="210" stroke="#1a1a20" stroke-width="12"/>
+        <line x1="0" y1="315" x2="1200" y2="315" stroke="#1a1a20" stroke-width="8"/>
+
+        <!-- Vertical roads -->
+        <line x1="150"  y1="0" x2="150"  y2="420" stroke="#1a1a20" stroke-width="8"/>
+        <line x1="350"  y1="0" x2="350"  y2="420" stroke="#1a1a20" stroke-width="8"/>
+        <line x1="600"  y1="0" x2="600"  y2="420" stroke="#1a1a20" stroke-width="12"/>
+        <line x1="850"  y1="0" x2="850"  y2="420" stroke="#1a1a20" stroke-width="8"/>
+        <line x1="1050" y1="0" x2="1050" y2="420" stroke="#1a1a20" stroke-width="8"/>
+
+        <!-- Diagonal road -->
+        <line x1="0" y1="420" x2="700" y2="0" stroke="#161620" stroke-width="10"/>
+
+        <!-- Blocks (buildings) -->
+        <rect x="20"   y="20"  width="110" height="70"  rx="2" fill="#111118"/>
+        <rect x="20"   y="120" width="110" height="70"  rx="2" fill="#111118"/>
+        <rect x="20"   y="225" width="110" height="70"  rx="2" fill="#111118"/>
+        <rect x="20"   y="330" width="110" height="72"  rx="2" fill="#111118"/>
+        <rect x="170"  y="20"  width="160" height="70"  rx="2" fill="#111118"/>
+        <rect x="170"  y="120" width="160" height="70"  rx="2" fill="#111118"/>
+        <rect x="170"  y="225" width="160" height="70"  rx="2" fill="#111118"/>
+        <rect x="170"  y="330" width="160" height="72"  rx="2" fill="#111118"/>
+        <rect x="370"  y="20"  width="210" height="70"  rx="2" fill="#111118"/>
+        <rect x="370"  y="120" width="210" height="70"  rx="2" fill="#0f1a14"/>
+        <rect x="370"  y="225" width="210" height="70"  rx="2" fill="#111118"/>
+        <rect x="370"  y="330" width="210" height="72"  rx="2" fill="#111118"/>
+        <rect x="620"  y="20"  width="210" height="70"  rx="2" fill="#111118"/>
+        <rect x="620"  y="120" width="210" height="70"  rx="2" fill="#111118"/>
+        <rect x="620"  y="225" width="210" height="70"  rx="2" fill="#111118"/>
+        <rect x="620"  y="330" width="210" height="72"  rx="2" fill="#111118"/>
+        <rect x="870"  y="20"  width="160" height="70"  rx="2" fill="#111118"/>
+        <rect x="870"  y="120" width="160" height="70"  rx="2" fill="#111118"/>
+        <rect x="870"  y="225" width="160" height="70"  rx="2" fill="#111118"/>
+        <rect x="870"  y="330" width="160" height="72"  rx="2" fill="#111118"/>
+        <rect x="1070" y="20"  width="110" height="70"  rx="2" fill="#111118"/>
+        <rect x="1070" y="120" width="110" height="70"  rx="2" fill="#111118"/>
+        <rect x="1070" y="225" width="110" height="70"  rx="2" fill="#111118"/>
+        <rect x="1070" y="330" width="110" height="72"  rx="2" fill="#111118"/>
+
+        <!-- Highlighted block (studio area) -->
+        <rect x="370" y="120" width="210" height="70" rx="2" fill="rgba(46,204,138,0.08)" stroke="rgba(46,204,138,0.25)" stroke-width="1"/>
+
+        <!-- Street labels -->
+        <text x="600" y="205" text-anchor="middle" fill="rgba(242,240,235,0.15)" font-family="Outfit, sans-serif" font-size="10" letter-spacing="2">LINKING ROAD</text>
+        <text x="590" y="308" text-anchor="middle" fill="rgba(242,240,235,0.12)" font-family="Outfit, sans-serif" font-size="10" letter-spacing="2">HILL ROAD</text>
+        <text x="147" y="170" text-anchor="middle" fill="rgba(242,240,235,0.12)" font-family="Outfit, sans-serif" font-size="9" letter-spacing="1" transform="rotate(-90, 147, 170)">14TH RD</text>
+        <text x="347" y="170" text-anchor="middle" fill="rgba(242,240,235,0.12)" font-family="Outfit, sans-serif" font-size="9" letter-spacing="1" transform="rotate(-90, 347, 170)">CHAPEL RD</text>
+
+        <!-- Pin glow -->
+        <circle cx="475" cy="155" r="30" fill="rgba(46,204,138,0.08)"/>
+        <circle cx="475" cy="155" r="18" fill="rgba(46,204,138,0.14)"/>
+
+        <!-- Pin marker -->
+        <circle cx="475" cy="148" r="10" fill="#2ecc8a"/>
+        <circle cx="475" cy="148" r="5"  fill="#040d08"/>
+        <path d="M475 158 L471 170 L475 168 L479 170 Z" fill="#2ecc8a"/>
+
+        <!-- Pulse rings -->
+        <circle cx="475" cy="148" r="16" fill="none" stroke="#2ecc8a" stroke-width="1" opacity="0.4">
+          <animate attributeName="r" values="16;28;16" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.4;0;0.4" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+
+      <div class="map-overlay-info">
+        <div class="map-pin-label">📍 Studio Address</div>
+        <div class="map-address">
+          <span>CineLensStudios</span>
+          <span>14th Road, Bandra West</span>
+          <span>Mumbai, Maharashtra 400050</span>
+        </div>
+      </div>
+
+      <div class="map-zoom-hint">Bandra West, Mumbai</div>
+    </div>
+  </div>
+</div>
+
+<!-- LOCATION CARDS -->
+<div class="locations-strip">
+  <div class="loc-card reveal">
+    <div class="loc-card-type">Main Studio</div>
+    <div class="loc-card-name">Bandra West</div>
+    <div class="loc-card-address">14th Road, near St. Andrew's Church,<br>Bandra West, Mumbai — 400050</div>
+    <a href="https://maps.google.com/?q=14th+Road+Bandra+West+Mumbai" target="_blank" class="loc-card-link">Open in Maps →</a>
+  </div>
+  <div class="loc-card reveal">
+    <div class="loc-card-type">Pop-up Studio</div>
+    <div class="loc-card-name">Koregaon Park</div>
+    <div class="loc-card-address">Lane 5, Koregaon Park,<br>Pune, Maharashtra — 411001</div>
+    <a href="https://maps.google.com/?q=Koregaon+Park+Pune" target="_blank" class="loc-card-link">Open in Maps →</a>
+  </div>
+  <div class="loc-card reveal">
+    <div class="loc-card-type">On Location</div>
+    <div class="loc-card-name">Across India</div>
+    <div class="loc-card-address">We travel to Delhi, Bangalore, Goa,<br>Jaipur, Udaipur and anywhere your story takes us.</div>
+    <a href="booking.html" class="loc-card-link">Book a Destination Shoot →</a>
+  </div>
+</div>
+
+<!-- FAQ STRIP -->
+<div class="faq-strip">
+  <div class="faq-strip-inner">
+    <div class="reveal">
+      <div class="faq-strip-label">Quick Answers</div>
+      <h2 class="faq-strip-title">Common <em>Questions</em></h2>
+      <p class="faq-strip-sub">Can't find what you're looking for? Send us a message above and we'll reply personally.</p>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How quickly do you respond to enquiries?
+          <span class="faq-arrow">+</span>
+        </button>
+        <div class="faq-answer">We respond to all messages within 24 hours on weekdays, typically much sooner. WhatsApp is the fastest way to reach us if you need an urgent response.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Can I visit the studio before booking?
+          <span class="faq-arrow">+</span>
+        </button>
+        <div class="faq-answer">Absolutely — we love meeting clients in person. Drop us a message to schedule a studio visit. We'll walk you through our work, equipment, and answer any questions over a cup of chai.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Do you offer consultations before a shoot?
+          <span class="faq-arrow">+</span>
+        </button>
+        <div class="faq-answer">Yes. Every Full Day package includes a dedicated pre-shoot consultation. For other packages, we offer a complimentary 30-minute call to discuss your vision, references, and expectations.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What if I'm not sure which package to choose?
+          <span class="faq-arrow">+</span>
+        </button>
+        <div class="faq-answer">That's what we're here for! Send us a message with a few details about your shoot — the occasion, date, number of people, and location — and we'll recommend the best-fit package with honest advice.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Do you collaborate with other vendors?
+          <span class="faq-arrow">+</span>
+        </button>
+        <div class="faq-answer">Yes — we regularly collaborate with makeup artists, event planners, florists, and venues across India. If you need referrals, just ask and we'll connect you with trusted partners from our network.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA BOTTOM -->
+<section class="cta-bottom">
+  <div class="cta-glow"></div>
+  <h2 class="cta-title reveal">Ready to Tell Your <em>Story?</em></h2>
+  <p class="cta-sub reveal">Skip the form and jump straight to booking your session — we'll handle the rest.</p>
+  <div class="cta-actions reveal">
+    <a href="booking.html" class="btn-primary">Book a Shoot</a>
+    <a href="portfolio.html" class="btn-outline">View Our Work</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">CineLens<span>Studios</span></div>
+  <ul class="footer-links">
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="booking.html">Book</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 CineLensStudios. All rights reserved.</div>
+</footer>
+
+<script>
+  // Subject pill selection
+  function selectSubject(el) {
+    document.querySelectorAll('.subject-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Form submission
+  function submitContact() {
+    const fname = document.getElementById('fname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    if (!fname || !email || !message) {
+      alert('Please fill in your name, email, and message before sending.');
+      return;
+    }
+    const btn = document.getElementById('contactSubmit');
+    btn.textContent = 'Sending…';
+    btn.classList.add('loading');
+    setTimeout(() => {
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('show');
+    }, 1400);
+  }
+
+  // FAQ accordion
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => obs.observe(r));
+</script>
+
+</body>
+</html>

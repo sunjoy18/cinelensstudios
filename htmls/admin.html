@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — CineLensStudios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:        #060608;
+  --dark:         #0d0d10;
+  --surface:      #111114;
+  --surface2:     #16161a;
+  --card:         rgba(255,255,255,0.034);
+  --green:        #2ecc8a;
+  --green-dim:    #1a7a51;
+  --green-glow:   rgba(46,204,138,0.14);
+  --green-faint:  rgba(46,204,138,0.06);
+  --white:        #f2f0eb;
+  --muted:        rgba(242,240,235,0.44);
+  --muted2:       rgba(242,240,235,0.2);
+  --border:       rgba(255,255,255,0.07);
+  --border-green: rgba(46,204,138,0.28);
+  --border-focus: rgba(46,204,138,0.55);
+  --red:          #e05252;
+  --amber:        #e6a817;
+  --blue:         #4a9eff;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Outfit', sans-serif;
+  --sidebar-w: 240px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--sans);
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════
+   LOGIN SCREEN
+═══════════════════════════════ */
+#loginScreen {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  background: var(--dark);
+}
+.login-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 55%, rgba(46,204,138,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 30% 40% at 10% 20%, rgba(46,204,138,0.03) 0%, transparent 60%);
+}
+.login-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(46,204,138,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46,204,138,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 10%, transparent 100%);
+}
+.login-card {
+  position: relative; z-index: 2;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; padding: 3rem 2.8rem;
+  width: 100%; max-width: 400px;
+  animation: fadeUp 0.5s ease both;
+}
+.login-logo {
+  font-family: var(--serif); font-size: 1.4rem; font-weight: 300;
+  letter-spacing: 0.07em; color: var(--white); text-align: center;
+  margin-bottom: 0.3rem;
+}
+.login-logo span { color: var(--green); }
+.login-badge {
+  text-align: center; font-size: 0.62rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted2); margin-bottom: 2.4rem;
+}
+.login-title {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 300;
+  color: var(--white); margin-bottom: 0.3rem;
+}
+.login-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 2rem; line-height: 1.6; }
+
+.login-field { margin-bottom: 1.2rem; }
+.login-field label {
+  display: block; font-size: 0.66rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.45rem;
+}
+.login-field input {
+  width: 100%; background: var(--black);
+  border: 1px solid var(--border); border-radius: 2px;
+  color: var(--white); font-family: var(--sans); font-size: 0.9rem; font-weight: 300;
+  padding: 0.8rem 1rem; outline: none;
+  transition: border-color 0.2s;
+}
+.login-field input:focus { border-color: var(--border-focus); }
+.login-field input::placeholder { color: var(--muted2); }
+
+.login-error {
+  font-size: 0.78rem; color: var(--red); margin-bottom: 1rem;
+  padding: 0.6rem 0.9rem; background: rgba(224,82,82,0.08);
+  border: 1px solid rgba(224,82,82,0.2); border-radius: 2px;
+  display: none;
+}
+.login-error.show { display: block; }
+
+.btn-login {
+  width: 100%; background: var(--green); color: #040d08;
+  font-family: var(--sans); font-size: 0.76rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.95rem; border: none; border-radius: 2px; cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s; margin-top: 0.5rem;
+}
+.btn-login:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-login:active { transform: scale(0.99); }
+
+.login-hint {
+  text-align: center; font-size: 0.72rem; color: var(--muted2);
+  margin-top: 1.5rem; line-height: 1.7;
+}
+.login-hint code {
+  font-family: var(--sans); color: var(--green);
+  background: var(--green-faint); padding: 0.1rem 0.4rem; border-radius: 2px;
+}
+.login-back {
+  display: block; text-align: center; margin-top: 1.2rem;
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted2); text-decoration: none; transition: color 0.2s;
+}
+.login-back:hover { color: var(--muted); }
+
+/* ═══════════════════════════════
+   DASHBOARD SHELL
+═══════════════════════════════ */
+#dashboardScreen { display: none; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--dark); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  z-index: 100;
+}
+.sidebar-logo {
+  padding: 1.6rem 1.5rem 1.4rem;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-logo-text {
+  font-family: var(--serif); font-size: 1.15rem; font-weight: 300;
+  letter-spacing: 0.07em; color: var(--white); text-decoration: none;
+  display: block;
+}
+.sidebar-logo-text span { color: var(--green); }
+.sidebar-logo-badge {
+  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted2); margin-top: 0.2rem;
+}
+
+.sidebar-nav { flex: 1; padding: 1.2rem 0; overflow-y: auto; }
+.nav-section-label {
+  font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted2); padding: 0.8rem 1.5rem 0.4rem;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 0.7rem 1.5rem; font-size: 0.82rem; color: var(--muted);
+  cursor: pointer; transition: color 0.15s, background 0.15s;
+  border: none; background: none; width: 100%; text-align: left;
+  position: relative;
+}
+.nav-item:hover { color: var(--white); background: rgba(255,255,255,0.03); }
+.nav-item.active { color: var(--white); background: var(--green-faint); }
+.nav-item.active::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: var(--green);
+}
+.nav-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+.nav-badge {
+  margin-left: auto; font-size: 0.6rem; font-weight: 500;
+  background: var(--green); color: #040d08;
+  padding: 0.1rem 0.45rem; border-radius: 10px; min-width: 18px;
+  text-align: center;
+}
+.nav-badge.amber { background: var(--amber); color: #040d08; }
+.nav-badge.red { background: var(--red); }
+
+.sidebar-footer {
+  padding: 1.2rem 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.admin-user {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+.admin-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--green-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 500; color: var(--white); flex-shrink: 0;
+}
+.admin-name { font-size: 0.82rem; color: var(--white); }
+.admin-role { font-size: 0.68rem; color: var(--muted2); }
+.btn-logout {
+  width: 100%; background: none; border: 1px solid var(--border);
+  color: var(--muted); font-family: var(--sans); font-size: 0.7rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.55rem; border-radius: 2px; cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-logout:hover { border-color: rgba(224,82,82,0.4); color: var(--red); }
+
+/* Main content area */
+.main-area {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+
+/* Top bar */
+.topbar {
+  padding: 1.1rem 2.5rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(6,6,8,0.8); backdrop-filter: blur(8px);
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem;
+}
+.topbar-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 300; color: var(--white); }
+.topbar-title span { font-style: italic; color: var(--green); }
+.topbar-right { display: flex; align-items: center; gap: 1rem; }
+.topbar-date { font-size: 0.75rem; color: var(--muted2); }
+.topbar-search {
+  display: flex; align-items: center; gap: 0.6rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 2px; padding: 0.5rem 0.9rem;
+}
+.topbar-search input {
+  background: none; border: none; outline: none;
+  color: var(--white); font-family: var(--sans); font-size: 0.82rem; font-weight: 300;
+  width: 180px;
+}
+.topbar-search input::placeholder { color: var(--muted2); }
+.topbar-search svg { width: 13px; height: 13px; flex-shrink: 0; color: var(--muted2); }
+.topbar-view-site {
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--green); border: 1px solid var(--border-green);
+  padding: 0.5rem 1rem; border-radius: 2px; text-decoration: none;
+  transition: background 0.2s; white-space: nowrap;
+}
+.topbar-view-site:hover { background: var(--green-glow); }
+
+/* Page panels */
+.page-panel { display: none; padding: 2.5rem; flex: 1; }
+.page-panel.active { display: block; animation: fadeUp 0.3s ease both; }
+
+/* ═══════════════════════════════
+   OVERVIEW / STATS
+═══════════════════════════════ */
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 3px; padding: 1.5rem 1.6rem;
+  position: relative; overflow: hidden;
+  transition: border-color 0.25s;
+}
+.stat-card:hover { border-color: rgba(255,255,255,0.13); }
+.stat-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  opacity: 0; transition: opacity 0.25s;
+}
+.stat-card:hover::after { opacity: 1; }
+.stat-card.green::after { background: linear-gradient(to right, transparent, var(--green), transparent); }
+.stat-card.amber::after { background: linear-gradient(to right, transparent, var(--amber), transparent); }
+.stat-card.blue::after  { background: linear-gradient(to right, transparent, var(--blue),  transparent); }
+.stat-card.red::after   { background: linear-gradient(to right, transparent, var(--red),   transparent); }
+
+.stat-label { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted2); margin-bottom: 0.6rem; }
+.stat-val { font-family: var(--serif); font-size: 2.4rem; font-weight: 300; color: var(--white); line-height: 1; }
+.stat-val.green { color: var(--green); }
+.stat-val.amber { color: var(--amber); }
+.stat-val.blue  { color: var(--blue);  }
+.stat-val.red   { color: var(--red);   }
+.stat-delta { font-size: 0.74rem; color: var(--muted2); margin-top: 0.5rem; }
+.stat-delta .up   { color: var(--green); }
+.stat-delta .down { color: var(--red); }
+
+/* Overview two-col */
+.overview-grid { display: grid; grid-template-columns: 1fr 320px; gap: 1.5rem; }
+.panel-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 3px; overflow: hidden;
+}
+.panel-card-header {
+  padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.panel-card-title { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.panel-card-action { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); cursor: pointer; transition: opacity 0.2s; background: none; border: none; }
+.panel-card-action:hover { opacity: 0.7; }
+
+/* Mini bookings list */
+.mini-booking {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.mini-booking:last-child { border-bottom: none; }
+.mini-booking:hover { background: rgba(255,255,255,0.02); }
+.mini-avatar {
+  width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 500; color: var(--white);
+}
+.mini-info { flex: 1; min-width: 0; }
+.mini-name { font-size: 0.84rem; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini-meta { font-size: 0.72rem; color: var(--muted2); margin-top: 0.1rem; }
+.mini-status { flex-shrink: 0; }
+
+/* Status badges */
+.badge {
+  font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.22rem 0.6rem; border-radius: 2px; font-weight: 500;
+  white-space: nowrap;
+}
+.badge.pending  { background: rgba(230,168,23,0.15); color: var(--amber); border: 1px solid rgba(230,168,23,0.25); }
+.badge.confirmed{ background: rgba(46,204,138,0.12); color: var(--green); border: 1px solid rgba(46,204,138,0.25); }
+.badge.completed{ background: rgba(74,158,255,0.12); color: var(--blue);  border: 1px solid rgba(74,158,255,0.25); }
+.badge.cancelled{ background: rgba(224,82,82,0.12);  color: var(--red);   border: 1px solid rgba(224,82,82,0.25); }
+
+/* Activity feed */
+.activity-item {
+  display: flex; gap: 1rem; padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.activity-item:last-child { border-bottom: none; }
+.activity-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  margin-top: 5px;
+}
+.activity-text { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+.activity-text strong { color: var(--white); font-weight: 400; }
+.activity-time { font-size: 0.7rem; color: var(--muted2); margin-top: 0.15rem; }
+
+/* ═══════════════════════════════
+   BOOKINGS TABLE
+═══════════════════════════════ */
+.table-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; margin-bottom: 1.2rem; flex-wrap: wrap;
+}
+.filter-tabs-sm { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.ftab {
+  font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); border: 1px solid var(--border); border-radius: 2px;
+  padding: 0.4rem 0.9rem; cursor: pointer; background: none;
+  transition: all 0.15s;
+}
+.ftab:hover { border-color: rgba(255,255,255,0.18); color: var(--white); }
+.ftab.active { border-color: var(--border-green); color: var(--green); background: var(--green-faint); }
+
+.table-search {
+  display: flex; align-items: center; gap: 0.6rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 2px; padding: 0.45rem 0.85rem;
+}
+.table-search input {
+  background: none; border: none; outline: none;
+  color: var(--white); font-family: var(--sans); font-size: 0.8rem; font-weight: 300;
+  width: 200px;
+}
+.table-search input::placeholder { color: var(--muted2); }
+.table-search svg { width: 12px; height: 12px; color: var(--muted2); }
+
+.data-table {
+  width: 100%; border-collapse: collapse;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+  overflow: hidden;
+}
+.data-table th {
+  padding: 0.9rem 1.2rem; text-align: left;
+  font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted2); font-weight: 400; background: var(--dark);
+  border-bottom: 1px solid var(--border); cursor: pointer;
+  user-select: none; white-space: nowrap;
+}
+.data-table th:hover { color: var(--muted); }
+.data-table th.sort-asc::after  { content: ' ↑'; color: var(--green); }
+.data-table th.sort-desc::after { content: ' ↓'; color: var(--green); }
+.data-table td {
+  padding: 0.9rem 1.2rem; font-size: 0.82rem; color: var(--muted);
+  border-bottom: 1px solid var(--border); vertical-align: middle;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: rgba(255,255,255,0.018); }
+.data-table td.client-cell { color: var(--white); font-size: 0.84rem; }
+.row-actions { display: flex; gap: 0.5rem; }
+.action-btn {
+  width: 28px; height: 28px; border-radius: 2px;
+  border: 1px solid var(--border); background: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.15s, background 0.15s; color: var(--muted);
+}
+.action-btn:hover { border-color: var(--border-green); background: var(--green-faint); color: var(--green); }
+.action-btn.del:hover { border-color: rgba(224,82,82,0.4); background: rgba(224,82,82,0.06); color: var(--red); }
+.action-btn svg { width: 12px; height: 12px; }
+
+.table-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 1.2rem; border-top: 1px solid var(--border);
+  background: var(--dark);
+}
+.table-count { font-size: 0.74rem; color: var(--muted2); }
+.pagination { display: flex; gap: 0.4rem; }
+.page-btn {
+  width: 28px; height: 28px; border-radius: 2px;
+  border: 1px solid var(--border); background: none; cursor: pointer;
+  font-size: 0.74rem; color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.page-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--white); }
+.page-btn.active { border-color: var(--border-green); background: var(--green-faint); color: var(--green); }
+
+/* ═══════════════════════════════
+   BOOKING DETAIL MODAL
+═══════════════════════════════ */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(4,4,6,0.88); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
+}
+.modal-backdrop.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 4px; width: 92vw; max-width: 640px; max-height: 90vh;
+  overflow-y: auto; animation: lbIn 0.25s ease;
+}
+.modal-header {
+  padding: 1.6rem 2rem; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  position: sticky; top: 0; background: var(--surface); z-index: 2;
+}
+.modal-title { font-family: var(--serif); font-size: 1.4rem; font-weight: 300; color: var(--white); }
+.modal-title em { font-style: italic; color: var(--green); }
+.modal-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid var(--border); background: none; cursor: pointer;
+  color: var(--muted); font-size: 0.85rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.modal-close:hover { border-color: rgba(255,255,255,0.25); color: var(--white); }
+.modal-body { padding: 2rem; }
+.modal-section { margin-bottom: 1.8rem; }
+.modal-section-label {
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 0.9rem;
+}
+.modal-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 0.65rem 0; border-bottom: 1px solid var(--border); gap: 1rem;
+}
+.modal-row:last-child { border-bottom: none; }
+.modal-key { font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted2); flex-shrink: 0; }
+.modal-val { font-size: 0.86rem; color: var(--white); text-align: right; }
+.modal-footer {
+  padding: 1.2rem 2rem; border-top: 1px solid var(--border);
+  display: flex; gap: 0.8rem; flex-wrap: wrap;
+  position: sticky; bottom: 0; background: var(--surface);
+}
+.btn-confirm {
+  background: var(--green); color: #040d08;
+  font-family: var(--sans); font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  padding: 0.7rem 1.5rem; border: none; border-radius: 2px; cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-confirm:hover { opacity: 0.88; }
+.btn-status {
+  background: none; color: var(--muted);
+  font-family: var(--sans); font-size: 0.72rem;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  padding: 0.7rem 1.2rem; border: 1px solid var(--border); border-radius: 2px; cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-status:hover { border-color: rgba(255,255,255,0.2); color: var(--white); }
+.btn-delete {
+  background: none; color: var(--red);
+  font-family: var(--sans); font-size: 0.72rem;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid rgba(224,82,82,0.25); border-radius: 2px; cursor: pointer;
+  transition: all 0.15s; margin-left: auto;
+}
+.btn-delete:hover { background: rgba(224,82,82,0.08); }
+
+/* Status selector in modal */
+.status-select {
+  background: var(--black); border: 1px solid var(--border); border-radius: 2px;
+  color: var(--white); font-family: var(--sans); font-size: 0.82rem; font-weight: 300;
+  padding: 0.4rem 0.7rem; outline: none; cursor: pointer;
+  transition: border-color 0.2s;
+}
+.status-select:focus { border-color: var(--border-focus); }
+.status-select option { background: #111114; }
+
+/* ═══════════════════════════════
+   CONTACTS / ENQUIRIES
+═══════════════════════════════ */
+.enquiry-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.enquiry-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 3px; padding: 1.4rem 1.6rem;
+  transition: border-color 0.2s;
+}
+.enquiry-card:hover { border-color: rgba(255,255,255,0.13); }
+.enquiry-card.unread { border-left: 2px solid var(--green); }
+.enquiry-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 1rem; margin-bottom: 0.6rem;
+}
+.enquiry-name { font-size: 0.9rem; color: var(--white); }
+.enquiry-email { font-size: 0.75rem; color: var(--muted2); margin-top: 0.1rem; }
+.enquiry-meta { text-align: right; flex-shrink: 0; }
+.enquiry-date { font-size: 0.72rem; color: var(--muted2); }
+.enquiry-subject {
+  font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--green); margin-top: 0.25rem;
+}
+.enquiry-msg {
+  font-size: 0.82rem; color: var(--muted); line-height: 1.65;
+  overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.enquiry-actions { display: flex; gap: 0.6rem; margin-top: 0.9rem; }
+.enquiry-btn {
+  font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted2); border: 1px solid var(--border); border-radius: 2px;
+  padding: 0.3rem 0.75rem; background: none; cursor: pointer;
+  transition: all 0.15s;
+}
+.enquiry-btn:hover { border-color: var(--border-green); color: var(--green); }
+.enquiry-btn.reply { color: var(--green); border-color: var(--border-green); background: var(--green-faint); }
+
+/* ═══════════════════════════════
+   CALENDAR VIEW
+═══════════════════════════════ */
+.cal-grid-full {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+  overflow: hidden;
+}
+.cal-header-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border);
+}
+.cal-month-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 300; color: var(--white); }
+.cal-nav-btn { width: 32px; height: 32px; border-radius: 2px; border: 1px solid var(--border); background: none; cursor: pointer; color: var(--muted); font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.cal-nav-btn:hover { border-color: var(--border-green); color: var(--green); }
+.cal-days-hdr { display: grid; grid-template-columns: repeat(7, 1fr); }
+.cal-day-hdr { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted2); text-align: center; padding: 0.7rem 0; border-bottom: 1px solid var(--border); }
+.cal-body { display: grid; grid-template-columns: repeat(7, 1fr); }
+.cal-cell-full {
+  min-height: 90px; padding: 0.6rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.cal-cell-full:nth-child(7n) { border-right: none; }
+.cal-cell-full.empty { background: rgba(0,0,0,0.15); }
+.cal-cell-full.today { background: rgba(46,204,138,0.04); }
+.cal-date-num {
+  font-size: 0.78rem; color: var(--muted2); margin-bottom: 0.3rem;
+  display: flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%;
+}
+.cal-cell-full.today .cal-date-num { background: var(--green); color: #040d08; }
+.cal-event {
+  font-size: 0.64rem; padding: 0.18rem 0.4rem; border-radius: 2px;
+  margin-bottom: 0.2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  cursor: pointer;
+}
+.cal-event.wedding    { background: rgba(230,168,23,0.18); color: var(--amber); }
+.cal-event.couple     { background: rgba(46,204,138,0.14); color: var(--green); }
+.cal-event.professional { background: rgba(74,158,255,0.14); color: var(--blue); }
+.cal-event.events     { background: rgba(224,82,82,0.14);  color: var(--red); }
+
+/* ═══════════════════════════════
+   SETTINGS
+═══════════════════════════════ */
+.settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.settings-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 3px; padding: 1.8rem;
+}
+.settings-card-title {
+  font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.4rem; padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.setting-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.8rem 0; border-bottom: 1px solid var(--border); gap: 1rem;
+}
+.setting-row:last-child { border-bottom: none; }
+.setting-key { font-size: 0.82rem; color: var(--white); }
+.setting-desc { font-size: 0.74rem; color: var(--muted2); margin-top: 0.15rem; }
+.toggle-sm {
+  width: 38px; height: 20px; border-radius: 10px; flex-shrink: 0;
+  background: var(--surface2); border: 1px solid var(--border); cursor: pointer;
+  position: relative; transition: background 0.25s;
+}
+.toggle-sm.on { background: rgba(46,204,138,0.25); border-color: var(--border-green); }
+.toggle-sm-knob {
+  position: absolute; top: 2px; left: 2px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--muted2); transition: transform 0.25s, background 0.25s;
+}
+.toggle-sm.on .toggle-sm-knob { transform: translateX(18px); background: var(--green); }
+
+.settings-input {
+  background: var(--black); border: 1px solid var(--border); border-radius: 2px;
+  color: var(--white); font-family: var(--sans); font-size: 0.82rem; font-weight: 300;
+  padding: 0.6rem 0.8rem; outline: none; transition: border-color 0.2s; width: 180px;
+}
+.settings-input:focus { border-color: var(--border-focus); }
+.btn-save {
+  background: var(--green); color: #040d08;
+  font-family: var(--sans); font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  padding: 0.6rem 1.3rem; border: none; border-radius: 2px; cursor: pointer;
+  transition: opacity 0.2s; margin-top: 1.2rem;
+}
+.btn-save:hover { opacity: 0.88; }
+
+/* ═══════════════════════════════
+   EMPTY STATE
+═══════════════════════════════ */
+.empty-state {
+  text-align: center; padding: 4rem 2rem; color: var(--muted2);
+}
+.empty-state svg { width: 40px; height: 40px; margin: 0 auto 1rem; opacity: 0.3; }
+.empty-state p { font-size: 0.86rem; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+  background: var(--surface); border: 1px solid var(--border-green);
+  border-radius: 3px; padding: 0.9rem 1.4rem;
+  font-size: 0.82rem; color: var(--white);
+  display: flex; align-items: center; gap: 0.7rem;
+  transform: translateY(20px); opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+  pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; pointer-events: all; }
+.toast-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+/* ═══════════════════════════════
+   ANIMATIONS
+═══════════════════════════════ */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes lbIn   { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+
+/* ═══════════════════════════════
+   RESPONSIVE
+═══════════════════════════════ */
+@media (max-width: 1100px) {
+  :root { --sidebar-w: 200px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .overview-grid { grid-template-columns: 1fr; }
+  .settings-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main-area { margin-left: 0; }
+  .page-panel { padding: 1.5rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .data-table td:nth-child(4),
+  .data-table th:nth-child(4) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════
+     LOGIN SCREEN
+═══════════════════════════════ -->
+<div id="loginScreen">
+  <div class="login-bg"></div>
+  <div class="login-grid"></div>
+  <div class="login-card">
+    <div class="login-logo">CineLens<span>Studios</span></div>
+    <div class="login-badge">Admin Portal</div>
+    <h2 class="login-title">Welcome back</h2>
+    <p class="login-sub">Sign in to manage your bookings, enquiries, and studio settings.</p>
+
+    <div class="login-error" id="loginError">Incorrect username or password. Please try again.</div>
+
+    <div class="login-field">
+      <label>Username</label>
+      <input type="text" id="loginUser" placeholder="admin" autocomplete="username" />
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter') doLogin()" />
+    </div>
+
+    <button class="btn-login" onclick="doLogin()">Sign In</button>
+
+    <div class="login-hint">
+      Demo credentials: <code>admin</code> / <code>admin@123</code>
+    </div>
+    <a href="index.html" class="login-back">← Back to Website</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     DASHBOARD
+═══════════════════════════════ -->
+<div id="dashboardScreen">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <a href="index.html" class="sidebar-logo-text">CineLens<span>Studios</span></a>
+      <div class="sidebar-logo-badge">Admin Dashboard</div>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <button class="nav-item active" onclick="showPanel('overview', this)">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1"/><rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1"/><rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1"/><rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1"/></svg>
+        Overview
+      </button>
+      <button class="nav-item" onclick="showPanel('bookings', this)">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="12" height="11" rx="1" stroke="currentColor" stroke-width="1"/><path d="M5 3V1M11 3V1M2 7h12" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+        Bookings
+        <span class="nav-badge" id="pendingCount">3</span>
+      </button>
+      <button class="nav-item" onclick="showPanel('calendar', this)">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+        Calendar
+      </button>
+      <button class="nav-item" onclick="showPanel('enquiries', this)">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 3h12a1 1 0 011 1v7a1 1 0 01-1 1H2a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1"/><path d="M1 4l7 5 7-5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+        Enquiries
+        <span class="nav-badge amber" id="unreadCount">5</span>
+      </button>
+
+      <div class="nav-section-label">Manage</div>
+      <button class="nav-item" onclick="showPanel('packages', this)">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1"/><path d="M5 8h6M8 5v6" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+        Packages
+      </button>
+      <button class="nav-item" onclick="showPanel('settings', this)">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+        Settings
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="admin-user">
+        <div class="admin-avatar">A</div>
+        <div>
+          <div class="admin-name">Admin</div>
+          <div class="admin-role">Studio Manager</div>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- MAIN AREA -->
+  <div class="main-area">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Overview <span>Dashboard</span></div>
+      <div class="topbar-right">
+        <span class="topbar-date" id="topbarDate"></span>
+        <div class="topbar-search">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.2"/><path d="M9.5 9.5l3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <input type="text" placeholder="Search bookings…" id="globalSearch" oninput="filterBookings()" />
+        </div>
+        <a href="index.html" class="topbar-view-site" target="_blank">View Site →</a>
+      </div>
+    </div>
+
+    <!-- ── OVERVIEW ── -->
+    <div class="page-panel active" id="panel-overview">
+      <div class="stats-grid">
+        <div class="stat-card green">
+          <div class="stat-label">Total Bookings</div>
+          <div class="stat-val green" id="stat-total">12</div>
+          <div class="stat-delta"><span class="up">↑ 3</span> this month</div>
+        </div>
+        <div class="stat-card amber">
+          <div class="stat-label">Pending Confirmation</div>
+          <div class="stat-val amber" id="stat-pending">3</div>
+          <div class="stat-delta">Requires action</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-label">Confirmed</div>
+          <div class="stat-val blue" id="stat-confirmed">7</div>
+          <div class="stat-delta">Upcoming shoots</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Revenue (Est.)</div>
+          <div class="stat-val" id="stat-revenue">₹2.4L</div>
+          <div class="stat-delta"><span class="up">↑ 18%</span> vs last month</div>
+        </div>
+      </div>
+
+      <div class="overview-grid">
+        <!-- Recent Bookings -->
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <span class="panel-card-title">Recent Bookings</span>
+            <button class="panel-card-action" onclick="showPanel('bookings', document.querySelector('[onclick*=bookings]'))">View All →</button>
+          </div>
+          <div id="miniBookingsList"></div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="panel-card">
+          <div class="panel-card-header">
+            <span class="panel-card-title">Activity Feed</span>
+          </div>
+          <div id="activityFeed"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BOOKINGS ── -->
+    <div class="page-panel" id="panel-bookings">
+      <div class="table-toolbar">
+        <div class="filter-tabs-sm" id="bookingFilters">
+          <button class="ftab active" onclick="setBookingFilter('all', this)">All</button>
+          <button class="ftab" onclick="setBookingFilter('pending', this)">Pending</button>
+          <button class="ftab" onclick="setBookingFilter('confirmed', this)">Confirmed</button>
+          <button class="ftab" onclick="setBookingFilter('completed', this)">Completed</button>
+          <button class="ftab" onclick="setBookingFilter('cancelled', this)">Cancelled</button>
+        </div>
+        <div class="table-search">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.2"/><path d="M9.5 9.5l3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <input type="text" placeholder="Search by name, package, date…" id="bookingSearch" oninput="renderBookingsTable()" />
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="data-table" id="bookingsTable">
+          <thead>
+            <tr>
+              <th onclick="sortBy('ref')">Ref #</th>
+              <th onclick="sortBy('name')">Client</th>
+              <th onclick="sortBy('pkg')">Package</th>
+              <th onclick="sortBy('type')">Type</th>
+              <th onclick="sortBy('date')">Shoot Date</th>
+              <th onclick="sortBy('amount')">Amount</th>
+              <th onclick="sortBy('status')">Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsTbody"></tbody>
+        </table>
+      </div>
+      <div class="table-footer">
+        <span class="table-count" id="tableCount">Showing 12 bookings</span>
+        <div class="pagination">
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">→</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CALENDAR ── -->
+    <div class="page-panel" id="panel-calendar">
+      <div class="cal-grid-full">
+        <div class="cal-header-row">
+          <button class="cal-nav-btn" onclick="calPrev()">‹</button>
+          <div class="cal-month-title" id="calTitle">March 2026</div>
+          <button class="cal-nav-btn" onclick="calNext()">›</button>
+        </div>
+        <div class="cal-days-hdr">
+          <div class="cal-day-hdr">Sun</div>
+          <div class="cal-day-hdr">Mon</div>
+          <div class="cal-day-hdr">Tue</div>
+          <div class="cal-day-hdr">Wed</div>
+          <div class="cal-day-hdr">Thu</div>
+          <div class="cal-day-hdr">Fri</div>
+          <div class="cal-day-hdr">Sat</div>
+        </div>
+        <div class="cal-body" id="calBody"></div>
+      </div>
+
+      <div style="display:flex; gap:1rem; margin-top:1rem; flex-wrap:wrap;">
+        <span style="font-size:0.72rem; color:var(--muted2);">Legend:</span>
+        <span class="cal-event wedding" style="position:static;">Wedding</span>
+        <span class="cal-event couple"  style="position:static;">Couple</span>
+        <span class="cal-event professional" style="position:static;">Professional</span>
+        <span class="cal-event events"  style="position:static;">Events</span>
+      </div>
+    </div>
+
+    <!-- ── ENQUIRIES ── -->
+    <div class="page-panel" id="panel-enquiries">
+      <div class="enquiry-list" id="enquiryList"></div>
+    </div>
+
+    <!-- ── PACKAGES ── -->
+    <div class="page-panel" id="panel-packages">
+      <div class="panel-card" style="margin-bottom:1.5rem;">
+        <div class="panel-card-header">
+          <span class="panel-card-title">Package Management</span>
+          <span style="font-size:0.72rem;color:var(--muted2);">Edit pricing & features (CMS placeholder)</span>
+        </div>
+        <div id="pkgEditorList"></div>
+      </div>
+      <p style="font-size:0.8rem; color:var(--muted2); text-align:center; padding: 1rem;">
+        Connect Sanity CMS to make these fields live-editable without code.
+      </p>
+    </div>
+
+    <!-- ── SETTINGS ── -->
+    <div class="page-panel" id="panel-settings">
+      <div class="settings-grid">
+        <div class="settings-card">
+          <div class="settings-card-title">Booking Settings</div>
+          <div class="setting-row">
+            <div><div class="setting-key">Accept New Bookings</div><div class="setting-desc">Toggle to pause incoming requests</div></div>
+            <div class="toggle-sm on" id="tog1" onclick="toggleSetting(this)"><div class="toggle-sm-knob"></div></div>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-key">WhatsApp Notifications</div><div class="setting-desc">Notify on new booking submission</div></div>
+            <div class="toggle-sm on" id="tog2" onclick="toggleSetting(this)"><div class="toggle-sm-knob"></div></div>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-key">Email Confirmations</div><div class="setting-desc">Auto-send confirmation to client</div></div>
+            <div class="toggle-sm on" id="tog3" onclick="toggleSetting(this)"><div class="toggle-sm-knob"></div></div>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-key">Advance Booking Window</div><div class="setting-desc">Minimum days before shoot</div></div>
+            <input class="settings-input" type="number" value="7" style="width:80px;" />
+          </div>
+          <button class="btn-save" onclick="showToast('Booking settings saved')">Save Changes</button>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-title">Studio Contact Info</div>
+          <div class="setting-row">
+            <div><div class="setting-key">Phone</div></div>
+            <input class="settings-input" type="text" value="+91 99999 99999" />
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-key">WhatsApp</div></div>
+            <input class="settings-input" type="text" value="+91 99999 99999" />
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-key">Email</div></div>
+            <input class="settings-input" type="text" value="hello@cinelensstudios.com" />
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-key">Instagram Handle</div></div>
+            <input class="settings-input" type="text" value="@cinelensstudios" />
+          </div>
+          <button class="btn-save" onclick="showToast('Contact info updated')">Save Changes</button>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-title">Change Password</div>
+          <div class="setting-row">
+            <div><div class="setting-key">Current Password</div></div>
+            <input class="settings-input" type="password" placeholder="••••••••" id="curPass" />
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-key">New Password</div></div>
+            <input class="settings-input" type="password" placeholder="••••••••" id="newPass" />
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-key">Confirm Password</div></div>
+            <input class="settings-input" type="password" placeholder="••••••••" id="cfmPass" />
+          </div>
+          <button class="btn-save" onclick="changePassword()">Update Password</button>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-title">Quick Links</div>
+          <div class="setting-row">
+            <div><div class="setting-key">Homepage</div></div>
+            <a href="index.html" target="_blank" style="font-size:0.74rem;color:var(--green);text-decoration:none;">Open →</a>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-key">Portfolio</div></div>
+            <a href="portfolio.html" target="_blank" style="font-size:0.74rem;color:var(--green);text-decoration:none;">Open →</a>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-key">Packages Page</div></div>
+            <a href="packages.html" target="_blank" style="font-size:0.74rem;color:var(--green);text-decoration:none;">Open →</a>
+          </div>
+          <div class="setting-row">
+            <div><div class="setting-key">Booking Page</div></div>
+            <a href="booking.html" target="_blank" style="font-size:0.74rem;color:var(--green);text-decoration:none;">Open →</a>
+          </div>
+          <div class="setting-row" style="border:none;">
+            <div><div class="setting-key">Contact Page</div></div>
+            <a href="contact.html" target="_blank" style="font-size:0.74rem;color:var(--green);text-decoration:none;">Open →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-area -->
+</div><!-- /dashboardScreen -->
+
+<!-- BOOKING DETAIL MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Booking <em>Details</em></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-dot"></div>
+  <span id="toastMsg">Changes saved</span>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════
+const CREDS = { user: 'admin', pass: 'admin@123' };
+
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  if (u === CREDS.user && p === CREDS.pass) {
+    sessionStorage.setItem('cls_auth', '1');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboardScreen').style.display = 'flex';
+    initDashboard();
+  } else {
+    document.getElementById('loginError').classList.add('show');
+    document.getElementById('loginPass').value = '';
+    setTimeout(() => document.getElementById('loginError').classList.remove('show'), 3000);
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('cls_auth');
+  document.getElementById('dashboardScreen').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+}
+
+function changePassword() {
+  const cur = document.getElementById('curPass').value;
+  const nw  = document.getElementById('newPass').value;
+  const cf  = document.getElementById('cfmPass').value;
+  if (cur !== CREDS.pass) { showToast('Current password is incorrect', true); return; }
+  if (!nw || nw.length < 6) { showToast('New password must be 6+ characters', true); return; }
+  if (nw !== cf) { showToast('Passwords do not match', true); return; }
+  CREDS.pass = nw;
+  ['curPass','newPass','cfmPass'].forEach(id => document.getElementById(id).value = '');
+  showToast('Password updated successfully');
+}
+
+// Auto-restore session
+if (sessionStorage.getItem('cls_auth')) {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboardScreen').style.display = 'flex';
+  initDashboard();
+}
+
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+const avatarColors = ['#1a7a51','#4a9eff','#e6a817','#e05252','#7b5ea7','#2ecc8a'];
+function avatarColor(i) { return avatarColors[i % avatarColors.length]; }
+function initials(name) { return name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2); }
+
+let bookings = [
+  { id:1, ref:'CLS-1021', name:'Priya & Arjun Mehta',  phone:'+91 98765 43210', email:'priya.m@email.com', pkg:'Full Day',   type:'Wedding',      date:'2026-04-05', time:'9:00 AM', location:'Taj Hotel, Mumbai',       amount:34999, status:'confirmed',  addons:['Drone Shots','Printed Album'], msg:'Please ensure we have access to the garden area.' },
+  { id:2, ref:'CLS-1022', name:'Riya Sharma',           phone:'+91 91234 56789', email:'riya.s@email.com', pkg:'Essentials', type:'Professional', date:'2026-04-10', time:'11:00 AM',location:'Studio, Bandra West',      amount:8999,  status:'pending',   addons:[], msg:'Looking for clean corporate headshots.' },
+  { id:3, ref:'CLS-1023', name:'Kabir & Meera Nair',   phone:'+91 99887 76655', email:'kabir.n@email.com', pkg:'Cinematic', type:'Couple',        date:'2026-04-15', time:'5:00 PM', location:'Marine Drive, Mumbai',    amount:23999, status:'confirmed', addons:['Cinematic Reel'], msg:'Golden hour shoot, want very natural feel.' },
+  { id:4, ref:'CLS-1024', name:'Sunaina Desai',         phone:'+91 88990 11223', email:'sunaina.d@email.com',pkg:'Cinematic',type:'Maternity',     date:'2026-04-18', time:'10:00 AM',location:'Bandstand, Bandra',     amount:19999, status:'pending',   addons:[], msg:'7 months pregnant, outdoor preferred.' },
+  { id:5, ref:'CLS-1025', name:'TechVision Corp',       phone:'+91 22 1234 5678', email:'hr@techvision.com', pkg:'Full Day', type:'Events',        date:'2026-04-22', time:'9:00 AM', location:'BKC Convention Centre',   amount:38499, status:'confirmed', addons:['Drone Shots','Rush Delivery'], msg:'Annual company event, 200+ guests.' },
+  { id:6, ref:'CLS-1026', name:'Anjali & Dev Patel',    phone:'+91 93456 78901', email:'anjali.p@email.com',pkg:'Cinematic', type:'Pre-Wedding',   date:'2026-03-28', time:'4:00 PM', location:'Worli Seaface',           amount:19999, status:'completed', addons:['Cinematic Reel'], msg:'' },
+  { id:7, ref:'CLS-1027', name:'Rohan Iyer',            phone:'+91 97654 32100', email:'rohan.i@email.com', pkg:'Essentials',type:'Professional',  date:'2026-03-22', time:'2:00 PM', location:'Andheri Studio',          amount:8999,  status:'completed', addons:[], msg:'' },
+  { id:8, ref:'CLS-1028', name:'Neha & Samir Khan',     phone:'+91 90123 45678', email:'neha.k@email.com',  pkg:'Full Day',  type:'Wedding',       date:'2026-05-03', time:'8:00 AM', location:'Grand Hyatt, Mumbai',     amount:34999, status:'pending',   addons:['Printed Album','Drone Shots'], msg:'Need coverage from mehndi to reception.' },
+  { id:9, ref:'CLS-1029', name:'Zara Fashion House',    phone:'+91 22 9876 5432', email:'pr@zarafashion.in',pkg:'Cinematic', type:'Events',        date:'2026-05-10', time:'11:00 AM',location:'Palladium Mall, Lower Parel',amount:19999,status:'confirmed',addons:[], msg:'Runway show coverage, 3 designers.' },
+  { id:10,ref:'CLS-1030', name:'Tara & Ishaan Gupta',  phone:'+91 94321 09876', email:'tara.g@email.com',  pkg:'Essentials',type:'Couple',        date:'2026-05-15', time:'5:00 PM', location:'Matheran',                amount:8999,  status:'confirmed', addons:[], msg:'Outdoor, forest-style shoot.' },
+  { id:11,ref:'CLS-1031', name:'Dr. Ananya Rao',        phone:'+91 86543 21098', email:'ananya.r@email.com',pkg:'Essentials',type:'Professional', date:'2026-05-20', time:'10:00 AM',location:'Studio, Bandra West',      amount:8999,  status:'confirmed', addons:[], msg:'Professional medical portraits.' },
+  { id:12,ref:'CLS-1032', name:'Vikram Malhotra',       phone:'+91 75432 10987', email:'vikram.m@email.com',pkg:'Cinematic', type:'Pre-Wedding',  date:'2026-06-01', time:'6:00 PM', location:'Goa Beach',               amount:23999, status:'cancelled', addons:['Cinematic Reel'], msg:'Cancelled - date moved.' },
+];
+
+const enquiries = [
+  { id:1, name:'Pooja Sharma',     email:'pooja.s@email.com',  subject:'Wedding Shoot',      date:'2026-03-17', msg:'Hi! We are planning a wedding in May at the Leela, Goa. Would love to know your availability and packages for a 2-day shoot.', read:false },
+  { id:2, name:'Aryan Kapoor',     email:'aryan.k@email.com',  subject:'Professional / Brand',date:'2026-03-16', msg:'I need a personal branding shoot for my startup. Looking for something clean and modern, about 2-3 hours.', read:false },
+  { id:3, name:'Rhea & Nikhil',    email:'rhea.n@email.com',   subject:'Couple / Pre-Wedding',date:'2026-03-15', msg:'We are looking for a pre-wedding shoot in Rajasthan, specifically Udaipur. Are you available in November?', read:false },
+  { id:4, name:'Events by Anika',  email:'anika.events@email.com',subject:'Event Coverage',  date:'2026-03-14', msg:'We organise corporate events and are looking for a reliable photography partner on a retainer basis. Happy to discuss.', read:false },
+  { id:5, name:'Manisha Tiwari',   email:'manisha.t@email.com', subject:'Pricing Query',     date:'2026-03-12', msg:'Can you tell me more about the Cinematic package? Does it include video? Also, do you shoot maternity sessions?', read:false },
+  { id:6, name:'Saurabh Mehta',    email:'saurabh.m@email.com', subject:'Something Else',    date:'2026-03-10', msg:'Loved your work on Instagram! Would you be interested in a collaboration with our fashion label?', read:true  },
+  { id:7, name:'Deepa Iyer',       email:'deepa.i@email.com',   subject:'Wedding Shoot',     date:'2026-03-08', msg:'My daughter\'s wedding is in December. We need full day coverage plus a video. What does your Full Day package include?', read:true },
+];
+
+const packages = [
+  { name:'Essentials', price:8999, duration:'2 Hours', photos:'60', extras:['1 Location','1 Outfit Change','7-day Delivery'] },
+  { name:'Cinematic',  price:19999,duration:'5 Hours', photos:'150',extras:['2 Locations','3 Outfit Changes','Cinematic Grade','60-sec Reel','5-day Delivery'] },
+  { name:'Full Day',   price:34999,duration:'8 Hours', photos:'Unlimited',extras:['Unlimited Locations','2nd Photographer','Drone Shots','Printed Album','3-day Delivery'] },
+];
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+let currentFilter = 'all';
+let sortCol = 'date', sortDir = 1;
+
+function initDashboard() {
+  setDate();
+  renderMiniBookings();
+  renderActivity();
+  renderBookingsTable();
+  renderEnquiries();
+  renderCalendar();
+  renderPackages();
+  updateStats();
+}
+
+function setDate() {
+  const d = new Date();
+  document.getElementById('topbarDate').textContent = d.toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+}
+
+function updateStats() {
+  const total     = bookings.length;
+  const pending   = bookings.filter(b=>b.status==='pending').length;
+  const confirmed = bookings.filter(b=>b.status==='confirmed').length;
+  const revenue   = bookings.filter(b=>b.status!=='cancelled').reduce((s,b)=>s+b.amount,0);
+  document.getElementById('stat-total').textContent    = total;
+  document.getElementById('stat-pending').textContent  = pending;
+  document.getElementById('stat-confirmed').textContent= confirmed;
+  document.getElementById('stat-revenue').textContent  = '₹' + (revenue/100000).toFixed(1) + 'L';
+  document.getElementById('pendingCount').textContent  = pending;
+  document.getElementById('unreadCount').textContent   = enquiries.filter(e=>!e.read).length;
+}
+
+// ═══════════════════════════════════════
+// PANEL NAVIGATION
+// ═══════════════════════════════════════
+const panelTitles = {
+  overview:   'Overview <span>Dashboard</span>',
+  bookings:   'Bookings <span>Manager</span>',
+  calendar:   'Shoot <span>Calendar</span>',
+  enquiries:  'Contact <span>Enquiries</span>',
+  packages:   'Package <span>Editor</span>',
+  settings:   'Studio <span>Settings</span>',
+};
+
+function showPanel(id, btn) {
+  document.querySelectorAll('.page-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('topbarTitle').innerHTML = panelTitles[id] || id;
+}
+
+// ═══════════════════════════════════════
+// OVERVIEW
+// ═══════════════════════════════════════
+function renderMiniBookings() {
+  const list = bookings.slice(0,6);
+  document.getElementById('miniBookingsList').innerHTML = list.map((b,i) => `
+    <div class="mini-booking" onclick="openModal(${b.id})" style="cursor:pointer;">
+      <div class="mini-avatar" style="background:${avatarColor(i)}">${initials(b.name)}</div>
+      <div class="mini-info">
+        <div class="mini-name">${b.name}</div>
+        <div class="mini-meta">${b.pkg} · ${formatDate(b.date)}</div>
+      </div>
+      <div class="mini-status"><span class="badge ${b.status}">${b.status}</span></div>
+    </div>
+  `).join('');
+}
+
+function renderActivity() {
+  const acts = [
+    { dot:'var(--green)', text:`<strong>New booking</strong> received from Neha & Samir Khan — Full Day Wedding`, time:'2 hours ago' },
+    { dot:'var(--amber)', text:`<strong>Pending confirmation</strong> — Riya Sharma's shoot on Apr 10`, time:'4 hours ago' },
+    { dot:'var(--blue)',  text:`<strong>Booking confirmed</strong> — TechVision Corp event on Apr 22`, time:'Yesterday' },
+    { dot:'var(--green)', text:`<strong>5 new enquiries</strong> received via contact form`, time:'Yesterday' },
+    { dot:'var(--red)',   text:`<strong>Booking cancelled</strong> — Vikram Malhotra (Goa, Jun 01)`, time:'2 days ago' },
+    { dot:'var(--blue)',  text:`<strong>Shoot completed</strong> — Anjali & Dev Patel, Worli Seaface`, time:'3 days ago' },
+  ];
+  document.getElementById('activityFeed').innerHTML = acts.map(a => `
+    <div class="activity-item">
+      <div class="activity-dot" style="background:${a.dot}"></div>
+      <div>
+        <div class="activity-text">${a.text}</div>
+        <div class="activity-time">${a.time}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════
+// BOOKINGS TABLE
+// ═══════════════════════════════════════
+function setBookingFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderBookingsTable();
+}
+
+function filterBookings() { renderBookingsTable(); }
+
+function sortBy(col) {
+  if (sortCol === col) sortDir *= -1; else { sortCol = col; sortDir = 1; }
+  document.querySelectorAll('.data-table th').forEach(th => {
+    th.classList.remove('sort-asc','sort-desc');
+    if (th.getAttribute('onclick') === `sortBy('${col}')`)
+      th.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+  });
+  renderBookingsTable();
+}
+
+function renderBookingsTable() {
+  const search = (document.getElementById('bookingSearch')?.value || document.getElementById('globalSearch')?.value || '').toLowerCase();
+  let data = [...bookings];
+  if (currentFilter !== 'all') data = data.filter(b => b.status === currentFilter);
+  if (search) data = data.filter(b =>
+    b.name.toLowerCase().includes(search) ||
+    b.pkg.toLowerCase().includes(search) ||
+    b.type.toLowerCase().includes(search) ||
+    b.ref.toLowerCase().includes(search) ||
+    b.date.includes(search)
+  );
+  data.sort((a,b) => {
+    let av = a[sortCol]||'', bv = b[sortCol]||'';
+    if (typeof av === 'number') return (av-bv)*sortDir;
+    return av.localeCompare(bv)*sortDir;
+  });
+  document.getElementById('tableCount').textContent = `Showing ${data.length} booking${data.length!==1?'s':''}`;
+  document.getElementById('bookingsTbody').innerHTML = data.map(b => `
+    <tr>
+      <td style="font-size:0.74rem;color:var(--muted2);font-family:var(--sans);">${b.ref}</td>
+      <td class="client-cell">
+        <div style="display:flex;align-items:center;gap:0.6rem;">
+          <div style="width:28px;height:28px;border-radius:50%;background:${avatarColor(b.id)};display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:500;color:var(--white);flex-shrink:0;">${initials(b.name)}</div>
+          <div>
+            <div>${b.name}</div>
+            <div style="font-size:0.72rem;color:var(--muted2);">${b.phone}</div>
+          </div>
+        </div>
+      </td>
+      <td>${b.pkg}</td>
+      <td><span style="font-size:0.72rem;color:var(--muted2);">${b.type}</span></td>
+      <td>${formatDate(b.date)}<br><span style="font-size:0.72rem;color:var(--muted2);">${b.time}</span></td>
+      <td>₹${b.amount.toLocaleString('en-IN')}</td>
+      <td><span class="badge ${b.status}">${b.status}</span></td>
+      <td>
+        <div class="row-actions">
+          <button class="action-btn" onclick="openModal(${b.id})" title="View">
+            <svg viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1"/><circle cx="6" cy="6" r="1.5" fill="currentColor"/></svg>
+          </button>
+          <button class="action-btn" onclick="quickStatus(${b.id})" title="Toggle Status">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M2 6a4 4 0 014-4M10 6a4 4 0 01-4 4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><path d="M8 2l2 2-2 2M4 8L2 10l2 2" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="action-btn del" onclick="deleteBooking(${b.id})" title="Delete">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M1.5 3h9M4.5 3V2h3v1M5 5.5v3M7 5.5v3M2.5 3l.5 7h6l.5-7" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('') || `<tr><td colspan="8" style="text-align:center;padding:2.5rem;color:var(--muted2);font-size:0.84rem;">No bookings match your filter.</td></tr>`;
+}
+
+function quickStatus(id) {
+  const b = bookings.find(x => x.id === id);
+  if (!b) return;
+  const cycle = { pending:'confirmed', confirmed:'completed', completed:'pending', cancelled:'pending' };
+  b.status = cycle[b.status] || 'confirmed';
+  renderBookingsTable(); renderMiniBookings(); updateStats();
+  showToast(`Status updated to "${b.status}"`);
+}
+
+function deleteBooking(id) {
+  if (!confirm('Delete this booking? This cannot be undone.')) return;
+  bookings = bookings.filter(b => b.id !== id);
+  renderBookingsTable(); renderMiniBookings(); updateStats(); renderCalendar();
+  showToast('Booking deleted');
+}
+
+// ═══════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════
+function openModal(id) {
+  const b = bookings.find(x => x.id === id);
+  if (!b) return;
+  document.getElementById('modalTitle').innerHTML = `Booking <em>${b.ref}</em>`;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-section">
+      <div class="modal-section-label">Client Information</div>
+      <div class="modal-row"><span class="modal-key">Name</span><span class="modal-val">${b.name}</span></div>
+      <div class="modal-row"><span class="modal-key">Phone</span><span class="modal-val">${b.phone}</span></div>
+      <div class="modal-row"><span class="modal-key">Email</span><span class="modal-val">${b.email}</span></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Shoot Details</div>
+      <div class="modal-row"><span class="modal-key">Package</span><span class="modal-val">${b.pkg}</span></div>
+      <div class="modal-row"><span class="modal-key">Type</span><span class="modal-val">${b.type}</span></div>
+      <div class="modal-row"><span class="modal-key">Date</span><span class="modal-val">${formatDate(b.date)}</span></div>
+      <div class="modal-row"><span class="modal-key">Time</span><span class="modal-val">${b.time}</span></div>
+      <div class="modal-row"><span class="modal-key">Location</span><span class="modal-val">${b.location}</span></div>
+      <div class="modal-row"><span class="modal-key">Add-ons</span><span class="modal-val">${b.addons.length ? b.addons.join(', ') : '—'}</span></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Payment</div>
+      <div class="modal-row"><span class="modal-key">Total</span><span class="modal-val" style="color:var(--green);font-family:var(--serif);font-size:1.1rem;">₹${b.amount.toLocaleString('en-IN')}</span></div>
+      <div class="modal-row"><span class="modal-key">Advance (30%)</span><span class="modal-val">₹${Math.round(b.amount*0.3).toLocaleString('en-IN')}</span></div>
+      <div class="modal-row"><span class="modal-key">Balance Due</span><span class="modal-val">₹${Math.round(b.amount*0.7).toLocaleString('en-IN')}</span></div>
+    </div>
+    ${b.msg ? `<div class="modal-section"><div class="modal-section-label">Client Note</div><p style="font-size:0.86rem;color:var(--muted);line-height:1.7;">${b.msg}</p></div>` : ''}
+    <div class="modal-section">
+      <div class="modal-section-label">Update Status</div>
+      <select class="status-select" id="modalStatusSel" onchange="updateBookingStatus(${b.id})">
+        <option value="pending"   ${b.status==='pending'  ?'selected':''}>Pending</option>
+        <option value="confirmed" ${b.status==='confirmed'?'selected':''}>Confirmed</option>
+        <option value="completed" ${b.status==='completed'?'selected':''}>Completed</option>
+        <option value="cancelled" ${b.status==='cancelled'?'selected':''}>Cancelled</option>
+      </select>
+    </div>
+  `;
+  document.getElementById('modalFooter').innerHTML = `
+    <a href="https://wa.me/${b.phone.replace(/\D/g,'')}" target="_blank" class="btn-confirm">WhatsApp Client</a>
+    <a href="mailto:${b.email}" class="btn-status">Send Email</a>
+    <button class="btn-delete" onclick="deleteBooking(${b.id});closeModal()">Delete Booking</button>
+  `;
+  document.getElementById('modalBackdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function updateBookingStatus(id) {
+  const sel = document.getElementById('modalStatusSel');
+  const b = bookings.find(x => x.id === id);
+  if (!b || !sel) return;
+  b.status = sel.value;
+  renderBookingsTable(); renderMiniBookings(); updateStats();
+  showToast(`Status set to "${b.status}"`);
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modalBackdrop')) return;
+  document.getElementById('modalBackdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal({}); });
+
+// ═══════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════
+let calYear = 2026, calMonth = 2;
+
+function renderCalendar() {
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('calTitle').textContent = months[calMonth] + ' ' + calYear;
+  const today = new Date();
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+
+  // Build map: date → bookings[]
+  const dateMap = {};
+  bookings.filter(b => b.status !== 'cancelled').forEach(b => {
+    const d = new Date(b.date);
+    if (d.getFullYear() === calYear && d.getMonth() === calMonth) {
+      const key = d.getDate();
+      if (!dateMap[key]) dateMap[key] = [];
+      dateMap[key].push(b);
+    }
+  });
+
+  let cells = '';
+  for (let i = 0; i < firstDay; i++) cells += `<div class="cal-cell-full empty"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear();
+    const dayBookings = dateMap[d] || [];
+    const eventsHtml = dayBookings.slice(0,3).map(b => {
+      const catClass = b.type.toLowerCase().includes('wedding')||b.type.includes('Pre-Wedding') ? 'wedding'
+        : b.type.toLowerCase().includes('couple')||b.type.includes('Maternity') ? 'couple'
+        : b.type.toLowerCase().includes('professional') ? 'professional' : 'events';
+      return `<div class="cal-event ${catClass}" onclick="openModal(${b.id})" title="${b.name}">${b.name.split(' ')[0]}</div>`;
+    }).join('');
+    cells += `<div class="cal-cell-full${isToday?' today':''}">
+      <div class="cal-date-num">${d}</div>
+      ${eventsHtml}
+      ${dayBookings.length > 3 ? `<div style="font-size:0.6rem;color:var(--muted2);margin-top:0.1rem;">+${dayBookings.length-3} more</div>` : ''}
+    </div>`;
+  }
+  document.getElementById('calBody').innerHTML = cells;
+}
+function calPrev() { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); }
+function calNext() { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); }
+
+// ═══════════════════════════════════════
+// ENQUIRIES
+// ═══════════════════════════════════════
+function renderEnquiries() {
+  document.getElementById('enquiryList').innerHTML = enquiries.map(e => `
+    <div class="enquiry-card${e.read?'':' unread'}" id="enq-${e.id}">
+      <div class="enquiry-top">
+        <div>
+          <div class="enquiry-name">${e.name}${!e.read?'<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-left:0.5rem;vertical-align:middle;"></span>':''}</div>
+          <div class="enquiry-email">${e.email}</div>
+        </div>
+        <div class="enquiry-meta">
+          <div class="enquiry-date">${e.date}</div>
+          <div class="enquiry-subject">${e.subject}</div>
+        </div>
+      </div>
+      <div class="enquiry-msg">${e.msg}</div>
+      <div class="enquiry-actions">
+        <button class="enquiry-btn reply" onclick="replyEnquiry(${e.id})">Reply via Email</button>
+        <button class="enquiry-btn" onclick="markRead(${e.id})">Mark as Read</button>
+        <button class="enquiry-btn" onclick="deleteEnquiry(${e.id})">Delete</button>
+      </div>
+    </div>
+  `).join('') || '<div style="text-align:center;padding:3rem;color:var(--muted2);font-size:0.86rem;">No enquiries yet.</div>';
+}
+
+function markRead(id) {
+  const e = enquiries.find(x=>x.id===id);
+  if (e) { e.read = true; renderEnquiries(); updateStats(); }
+}
+function replyEnquiry(id) {
+  const e = enquiries.find(x=>x.id===id);
+  if (e) { window.open(`mailto:${e.email}?subject=Re: ${e.subject} — CineLensStudios`,'_blank'); markRead(id); }
+}
+function deleteEnquiry(id) {
+  const idx = enquiries.findIndex(x=>x.id===id);
+  if (idx > -1) { enquiries.splice(idx,1); renderEnquiries(); updateStats(); showToast('Enquiry deleted'); }
+}
+
+// ═══════════════════════════════════════
+// PACKAGES EDITOR
+// ═══════════════════════════════════════
+function renderPackages() {
+  document.getElementById('pkgEditorList').innerHTML = packages.map((p,i) => `
+    <div style="padding:1.4rem 1.6rem; border-bottom:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.8rem;">
+        <div>
+          <div style="font-family:var(--serif);font-size:1.15rem;color:var(--white);">${p.name}</div>
+          <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted2);margin-top:0.1rem;">${p.duration}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.8rem;">
+          <span style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted2);">Price (₹)</span>
+          <input type="number" value="${p.price}" style="background:var(--black);border:1px solid var(--border);border-radius:2px;color:var(--green);font-family:var(--serif);font-size:1.1rem;padding:0.4rem 0.7rem;outline:none;width:120px;" onchange="packages[${i}].price=parseInt(this.value)" />
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+        ${p.extras.map(x=>`<span style="font-size:0.72rem;color:var(--muted);border:1px solid var(--border);border-radius:2px;padding:0.2rem 0.6rem;">${x}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════
+function toggleSetting(el) { el.classList.toggle('on'); showToast('Setting updated'); }
+
+// ═══════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════
+function formatDate(d) {
+  const dt = new Date(d);
+  return dt.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+}
+
+let toastTimer;
+function showToast(msg, isError=false) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.style.borderColor = isError ? 'rgba(224,82,82,0.4)' : 'var(--border-green)';
+  t.querySelector('.toast-dot').style.background = isError ? 'var(--red)' : 'var(--green)';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+
+    {
+      "platform": "YouTube",
+      "handle": "CineLensStudios",
+      "url": "https://youtube.com/@cinelensstudios",
+      "icon": "youtube"
+    },
+    {
+      "platform": "Facebook",
+      "handle": "/cinelensstudios",
+      "url": "https://facebook.com/cinelensstudios",
+      "icon": "facebook"
+    },
+    {
+      "platform": "Pinterest",
+      "handle": "CineLensStudios",
+      "url": "https://pinterest.com/cinelensstudios",
+      "icon": "pinterest"
+    }

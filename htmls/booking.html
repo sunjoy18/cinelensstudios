@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Book a Shoot — CineLensStudios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #060608;
+    --dark: #0d0d10;
+    --surface: #111114;
+    --card-bg: rgba(255,255,255,0.035);
+    --green: #2ecc8a;
+    --green-dim: #1a7a51;
+    --green-glow: rgba(46,204,138,0.14);
+    --green-faint: rgba(46,204,138,0.06);
+    --white: #f2f0eb;
+    --muted: rgba(242,240,235,0.45);
+    --muted2: rgba(242,240,235,0.25);
+    --border: rgba(255,255,255,0.07);
+    --border-green: rgba(46,204,138,0.28);
+    --border-focus: rgba(46,204,138,0.55);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Outfit', sans-serif;
+    --error: rgba(255, 100, 80, 0.85);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.3rem 4rem;
+    background: rgba(6,6,8,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--serif); font-size: 1.3rem; font-weight: 300;
+    letter-spacing: 0.07em; color: var(--white); text-decoration: none;
+  }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.76rem; letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--white); }
+  .nav-links a.active { color: var(--green); }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding: 9rem 4rem 4rem;
+    position: relative; overflow: hidden;
+    background: linear-gradient(to bottom, var(--dark) 0%, var(--black) 100%);
+  }
+  .page-header-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 50% 80% at 0% 50%, rgba(46,204,138,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 30% 50% at 100% 20%, rgba(46,204,138,0.03) 0%, transparent 60%);
+  }
+  .page-header-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(46,204,138,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(46,204,138,0.035) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  }
+  .page-header-inner { position: relative; z-index: 2; max-width: 680px; }
+  .page-eyebrow {
+    font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 1rem; display: block;
+    animation: fadeUp 0.6s ease both;
+  }
+  .page-title {
+    font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 300; line-height: 1.1; color: var(--white);
+    animation: fadeUp 0.6s 0.08s ease both;
+  }
+  .page-title em { font-style: italic; color: var(--green); }
+  .page-sub {
+    font-size: 0.95rem; color: var(--muted); line-height: 1.8;
+    margin-top: 1.2rem; max-width: 500px;
+    animation: fadeUp 0.6s 0.16s ease both;
+  }
+
+  /* ── STEPS BAR ── */
+  .steps-bar {
+    background: var(--dark); border-bottom: 1px solid var(--border);
+    padding: 0 4rem;
+    position: sticky; top: 65px; z-index: 50;
+  }
+  .steps-inner {
+    display: flex; gap: 0; max-width: 900px;
+  }
+  .step-tab {
+    display: flex; align-items: center; gap: 0.7rem;
+    padding: 1.1rem 1.8rem 1.1rem 0;
+    font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted2); cursor: pointer; transition: color 0.2s;
+    position: relative; border: none; background: none;
+    white-space: nowrap;
+  }
+  .step-tab + .step-tab { padding-left: 1.8rem; }
+  .step-tab + .step-tab::before {
+    content: '';
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 1px; height: 18px; background: var(--border);
+  }
+  .step-tab.active { color: var(--white); }
+  .step-tab.done { color: var(--green); }
+  .step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 1px solid currentColor;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 500; flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .step-tab.active .step-num { background: var(--green); border-color: var(--green); color: #040d08; }
+  .step-tab.done .step-num { background: var(--green); border-color: var(--green); color: #040d08; }
+
+  /* ── MAIN CONTENT ── */
+  .booking-main {
+    max-width: 1100px; margin: 0 auto;
+    padding: 4rem 4rem 6rem;
+    display: grid; grid-template-columns: 1fr 380px; gap: 3rem;
+    align-items: start;
+  }
+
+  /* ── FORM STEPS ── */
+  .step-panel { display: none; }
+  .step-panel.active { display: block; animation: fadeUp 0.4s ease both; }
+
+  .form-section-title {
+    font-family: var(--serif); font-size: 1.6rem; font-weight: 300;
+    color: var(--white); margin-bottom: 0.5rem; line-height: 1.2;
+  }
+  .form-section-title em { font-style: italic; color: var(--green); }
+  .form-section-sub {
+    font-size: 0.85rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.7;
+  }
+
+  /* ── PACKAGE SELECTOR ── */
+  .pkg-options { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+  .pkg-option {
+    border: 1px solid var(--border); border-radius: 3px;
+    padding: 1.4rem 1.6rem; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: border-color 0.25s, background 0.25s;
+    position: relative; overflow: hidden;
+  }
+  .pkg-option:hover { border-color: rgba(255,255,255,0.18); }
+  .pkg-option.selected {
+    border-color: var(--border-green);
+    background: var(--green-faint);
+  }
+  .pkg-option.selected::before {
+    content: '';
+    position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
+    background: var(--green);
+  }
+  .pkg-opt-name {
+    font-family: var(--serif); font-size: 1.15rem; font-weight: 300; color: var(--white);
+  }
+  .pkg-opt-dur { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
+  .pkg-opt-price { font-family: var(--serif); font-size: 1.3rem; color: var(--green); }
+  .pkg-opt-radio {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 1px solid var(--border); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s;
+    margin-left: 1.2rem;
+  }
+  .pkg-option.selected .pkg-opt-radio { border-color: var(--green); }
+  .pkg-opt-radio::after {
+    content: '';
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green); opacity: 0; transition: opacity 0.2s;
+  }
+  .pkg-option.selected .pkg-opt-radio::after { opacity: 1; }
+
+  /* ── CALENDAR ── */
+  .calendar-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  .cal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  .cal-month {
+    font-family: var(--serif); font-size: 1.2rem; font-weight: 300; color: var(--white);
+  }
+  .cal-nav {
+    display: flex; gap: 0.5rem;
+  }
+  .cal-nav-btn {
+    width: 32px; height: 32px; border-radius: 2px;
+    border: 1px solid var(--border); background: none; cursor: pointer;
+    color: var(--muted); font-size: 0.9rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .cal-nav-btn:hover { border-color: var(--border-green); color: var(--green); }
+  .cal-days-header {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 2px; margin-bottom: 0.5rem;
+  }
+  .cal-day-name {
+    font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted2); text-align: center; padding: 0.3rem 0;
+  }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+  .cal-cell {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    font-size: 0.82rem; border-radius: 2px; cursor: pointer; transition: all 0.15s;
+    color: var(--muted); position: relative;
+  }
+  .cal-cell:hover:not(.empty):not(.past):not(.booked) {
+    background: var(--green-faint); color: var(--white);
+  }
+  .cal-cell.empty { cursor: default; }
+  .cal-cell.past { color: var(--muted2); opacity: 0.35; cursor: not-allowed; }
+  .cal-cell.booked {
+    color: var(--muted2); cursor: not-allowed;
+    text-decoration: line-through; opacity: 0.4;
+  }
+  .cal-cell.selected {
+    background: var(--green); color: #040d08; font-weight: 500;
+  }
+  .cal-cell.today::after {
+    content: ''; position: absolute; bottom: 3px; left: 50%;
+    transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%;
+    background: var(--green);
+  }
+  .cal-cell.selected.today::after { background: #040d08; }
+  .cal-legend {
+    display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap;
+  }
+  .cal-legend-item {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted2);
+  }
+  .cal-legend-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+
+  /* ── TIME SLOTS ── */
+  .time-slots-wrap { margin-bottom: 2rem; }
+  .time-label {
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 0.8rem;
+  }
+  .time-slots {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem;
+  }
+  .time-slot {
+    border: 1px solid var(--border); border-radius: 2px;
+    padding: 0.6rem 0.4rem; text-align: center;
+    font-size: 0.8rem; color: var(--muted); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .time-slot:hover:not(.booked) { border-color: var(--border-green); color: var(--white); }
+  .time-slot.selected { background: var(--green-faint); border-color: var(--border-green); color: var(--green); }
+  .time-slot.booked { opacity: 0.3; cursor: not-allowed; text-decoration: line-through; }
+
+  /* ── FORM FIELDS ── */
+  .field-group { margin-bottom: 1.4rem; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  label {
+    display: block; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 0.5rem;
+  }
+  input[type="text"], input[type="email"], input[type="tel"],
+  select, textarea {
+    width: 100%; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 2px;
+    color: var(--white); font-family: var(--sans); font-size: 0.9rem; font-weight: 300;
+    padding: 0.8rem 1rem; outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    appearance: none;
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted2); }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--border-focus);
+    background: rgba(46,204,138,0.03);
+  }
+  textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%232ecc8a' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 1rem center;
+    cursor: pointer;
+  }
+  select option { background: #111114; }
+  .field-hint { font-size: 0.72rem; color: var(--muted2); margin-top: 0.4rem; line-height: 1.5; }
+  .field-error { font-size: 0.72rem; color: var(--error); margin-top: 0.4rem; display: none; }
+
+  /* Checkbox */
+  .checkbox-group { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; }
+  .checkbox-item {
+    display: flex; align-items: center; gap: 0.8rem; cursor: pointer;
+    font-size: 0.85rem; color: var(--muted);
+  }
+  .checkbox-item input[type="checkbox"] { display: none; }
+  .checkmark {
+    width: 18px; height: 18px; border: 1px solid var(--border); border-radius: 2px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .checkbox-item input:checked ~ .checkmark {
+    background: var(--green); border-color: var(--green);
+  }
+  .checkmark::after {
+    content: '✓'; font-size: 0.65rem; color: #040d08; opacity: 0; transition: opacity 0.15s;
+  }
+  .checkbox-item input:checked ~ .checkmark::after { opacity: 1; }
+
+  /* ── BUTTONS ── */
+  .btn-row { display: flex; gap: 1rem; margin-top: 2.5rem; }
+  .btn-next {
+    flex: 1; background: var(--green); color: #040d08;
+    font-family: var(--sans); font-size: 0.78rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 1rem 2rem; border: none; border-radius: 2px; cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-next:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-back {
+    background: none; color: var(--muted);
+    font-family: var(--sans); font-size: 0.76rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 1rem 1.6rem; border: 1px solid var(--border); border-radius: 2px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-back:hover { border-color: rgba(255,255,255,0.2); color: var(--white); }
+  .btn-submit {
+    flex: 1; background: var(--green); color: #040d08;
+    font-family: var(--sans); font-size: 0.78rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 1rem 2rem; border: none; border-radius: 2px; cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .btn-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-submit.loading::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--green);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── SUCCESS STATE ── */
+  .success-panel {
+    display: none; text-align: center; padding: 4rem 2rem;
+    animation: fadeUp 0.5s ease both;
+  }
+  .success-panel.show { display: block; }
+  .success-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    border: 1px solid var(--border-green);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 2rem; font-size: 1.8rem;
+    background: var(--green-faint);
+  }
+  .success-icon svg { width: 32px; height: 32px; }
+  .success-title {
+    font-family: var(--serif); font-size: 2.2rem; font-weight: 300;
+    color: var(--white); margin-bottom: 0.8rem; line-height: 1.2;
+  }
+  .success-title em { font-style: italic; color: var(--green); }
+  .success-sub { font-size: 0.9rem; color: var(--muted); line-height: 1.8; max-width: 400px; margin: 0 auto 2.5rem; }
+  .success-ref {
+    font-family: var(--serif); font-size: 1rem; color: var(--green);
+    border: 1px solid var(--border-green); padding: 0.6rem 1.6rem; border-radius: 2px;
+    display: inline-block; letter-spacing: 0.1em;
+  }
+
+  /* ── SIDEBAR ── */
+  .booking-sidebar { position: sticky; top: 130px; }
+  .summary-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 3px; padding: 2rem; margin-bottom: 1.2rem;
+  }
+  .summary-title {
+    font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 1.5rem;
+  }
+  .summary-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 0.8rem 0; border-bottom: 1px solid var(--border);
+    gap: 1rem;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-key {
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted2); flex-shrink: 0;
+  }
+  .summary-val {
+    font-size: 0.88rem; color: var(--white); text-align: right;
+    font-family: var(--serif); font-weight: 300;
+  }
+  .summary-val.highlight { color: var(--green); font-size: 1.1rem; }
+  .summary-val.empty { color: var(--muted2); font-family: var(--sans); font-size: 0.8rem; font-style: italic; }
+
+  .whatsapp-card {
+    background: rgba(37, 211, 102, 0.06); border: 1px solid rgba(37, 211, 102, 0.2);
+    border-radius: 3px; padding: 1.4rem 1.6rem;
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .wa-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: rgba(37, 211, 102, 0.15); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .whatsapp-card h4 { font-size: 0.82rem; color: var(--white); margin-bottom: 0.3rem; }
+  .whatsapp-card p { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
+  .whatsapp-card a {
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #25d366; text-decoration: none; display: inline-block; margin-top: 0.6rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .booking-main { grid-template-columns: 1fr; padding: 2.5rem 2rem 4rem; }
+    .booking-sidebar { position: static; }
+    nav { padding: 1.1rem 1.5rem; }
+    .nav-links { display: none; }
+    .page-header { padding: 7rem 2rem 3rem; }
+    .steps-bar { padding: 0 1.5rem; overflow-x: auto; }
+    .time-slots { grid-template-columns: repeat(3, 1fr); }
+    .field-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">CineLens<span>Studios</span></a>
+  <ul class="nav-links">
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="booking.html" class="active">Book</a></li>
+  </ul>
+  <a href="booking.html" class="nav-cta">Book a Shoot</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-bg"></div>
+  <div class="page-header-grid"></div>
+  <div class="page-header-inner">
+    <span class="page-eyebrow">Reserve Your Session</span>
+    <h1 class="page-title">Book a <em>Shoot</em></h1>
+    <p class="page-sub">Fill out the form below and we'll confirm your booking within 24 hours. Every session begins with a story.</p>
+  </div>
+</div>
+
+<!-- STEPS BAR -->
+<div class="steps-bar">
+  <div class="steps-inner">
+    <button class="step-tab active" data-step="1">
+      <span class="step-num">1</span>
+      <span>Package</span>
+    </button>
+    <button class="step-tab" data-step="2">
+      <span class="step-num">2</span>
+      <span>Date & Time</span>
+    </button>
+    <button class="step-tab" data-step="3">
+      <span class="step-num">3</span>
+      <span>Your Details</span>
+    </button>
+    <button class="step-tab" data-step="4">
+      <span class="step-num">4</span>
+      <span>Confirm</span>
+    </button>
+  </div>
+</div>
+
+<!-- MAIN BOOKING AREA -->
+<div class="booking-main">
+
+  <!-- FORM AREA -->
+  <div class="form-area">
+
+    <!-- STEP 1: Package -->
+    <div class="step-panel active" id="step1">
+      <h2 class="form-section-title">Choose Your <em>Package</em></h2>
+      <p class="form-section-sub">Select the shoot package that fits your vision. All packages include post-production editing and private gallery delivery.</p>
+
+      <div class="pkg-options">
+        <div class="pkg-option" data-pkg="Essentials" data-price="₹8,999" data-dur="2 Hours · 1 Location" onclick="selectPkg(this)">
+          <div>
+            <div class="pkg-opt-name">Essentials</div>
+            <div class="pkg-opt-dur">2 Hours · 1 Location · 60 edited photos</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div class="pkg-opt-price">₹8,999</div>
+            <div class="pkg-opt-radio"></div>
+          </div>
+        </div>
+        <div class="pkg-option" data-pkg="Cinematic" data-price="₹19,999" data-dur="5 Hours · 2 Locations" onclick="selectPkg(this)">
+          <div>
+            <div class="pkg-opt-name">Cinematic</div>
+            <div class="pkg-opt-dur">5 Hours · 2 Locations · 150 edited photos + reel</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:#040d08;background:var(--green);padding:0.2rem 0.6rem;border-radius:2px;">Popular</div>
+            <div class="pkg-opt-price">₹19,999</div>
+            <div class="pkg-opt-radio"></div>
+          </div>
+        </div>
+        <div class="pkg-option" data-pkg="Full Day" data-price="₹34,999" data-dur="8 Hours · Unlimited" onclick="selectPkg(this)">
+          <div>
+            <div class="pkg-opt-name">Full Day</div>
+            <div class="pkg-opt-dur">8 Hours · Unlimited · Full album + drone + 2nd photographer</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div class="pkg-opt-price">₹34,999</div>
+            <div class="pkg-opt-radio"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Shoot Type</label>
+        <select id="shootType" onchange="updateSummary()">
+          <option value="">Select a category…</option>
+          <option>Wedding</option>
+          <option>Pre-Wedding / Engagement</option>
+          <option>Couple Shoot</option>
+          <option>Professional / Corporate</option>
+          <option>Event Coverage</option>
+          <option>Maternity</option>
+          <option>Birthday / Milestone</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-next" onclick="goStep(2)">Continue to Date &amp; Time →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Date & Time -->
+    <div class="step-panel" id="step2">
+      <h2 class="form-section-title">Pick a <em>Date</em></h2>
+      <p class="form-section-sub">Select your preferred shoot date. Dates marked are already booked. We recommend booking at least 2 weeks in advance.</p>
+
+      <div class="calendar-wrap">
+        <div class="cal-header">
+          <div class="cal-month" id="calMonthLabel">March 2026</div>
+          <div class="cal-nav">
+            <button class="cal-nav-btn" onclick="changeMonth(-1)" id="prevMonthBtn">&#8249;</button>
+            <button class="cal-nav-btn" onclick="changeMonth(1)">&#8250;</button>
+          </div>
+        </div>
+        <div class="cal-days-header">
+          <div class="cal-day-name">Sun</div>
+          <div class="cal-day-name">Mon</div>
+          <div class="cal-day-name">Tue</div>
+          <div class="cal-day-name">Wed</div>
+          <div class="cal-day-name">Thu</div>
+          <div class="cal-day-name">Fri</div>
+          <div class="cal-day-name">Sat</div>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-legend">
+          <div class="cal-legend-item">
+            <div class="cal-legend-dot" style="background:var(--green)"></div>
+            <span>Selected</span>
+          </div>
+          <div class="cal-legend-item">
+            <div class="cal-legend-dot" style="background:rgba(255,255,255,0.1)"></div>
+            <span>Available</span>
+          </div>
+          <div class="cal-legend-item">
+            <div class="cal-legend-dot" style="background:rgba(255,80,60,0.3)"></div>
+            <span>Booked</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="time-slots-wrap" id="timeSlotsWrap" style="display:none;">
+        <div class="time-label">Preferred Start Time</div>
+        <div class="time-slots" id="timeSlots"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(1)">← Back</button>
+        <button class="btn-next" onclick="goStep(3)">Continue to Details →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Details -->
+    <div class="step-panel" id="step3">
+      <h2 class="form-section-title">Your <em>Details</em></h2>
+      <p class="form-section-sub">Tell us about yourself so we can prepare the perfect shoot experience for you.</p>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label>First Name *</label>
+          <input type="text" id="fname" placeholder="Arjun" />
+        </div>
+        <div class="field-group">
+          <label>Last Name *</label>
+          <input type="text" id="lname" placeholder="Sharma" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label>Phone Number *</label>
+          <input type="tel" id="phone" placeholder="+91 98765 43210" />
+        </div>
+        <div class="field-group">
+          <label>Email Address *</label>
+          <input type="email" id="email" placeholder="you@example.com" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Shoot Location / City *</label>
+        <input type="text" id="location" placeholder="e.g. Bandra, Mumbai" />
+        <p class="field-hint">Mention a specific venue or general area. We'll discuss exact location details over WhatsApp.</p>
+      </div>
+
+      <div class="field-group">
+        <label>How did you hear about us?</label>
+        <select id="referral">
+          <option value="">Select…</option>
+          <option>Instagram</option>
+          <option>Google Search</option>
+          <option>Word of Mouth / Friend</option>
+          <option>Previous Client</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label>Tell us about your vision</label>
+        <textarea id="message" placeholder="Describe your shoot idea, mood, special requirements, or anything you'd like us to know…"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label>Add-ons (optional)</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" value="drone" id="addonDrone" />
+            <span class="checkmark"></span>
+            Drone Aerial Shots (+₹3,500)
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" value="printed" id="addonPrint" />
+            <span class="checkmark"></span>
+            Printed Photo Album (+₹2,500)
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" value="reel" id="addonReel" />
+            <span class="checkmark"></span>
+            Short Cinematic Reel (+₹4,000)
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" value="rush" id="addonRush" />
+            <span class="checkmark"></span>
+            Rush Delivery (48 hrs) (+₹1,500)
+          </label>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(2)">← Back</button>
+        <button class="btn-next" onclick="goStep(4)">Review Booking →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Confirm -->
+    <div class="step-panel" id="step4">
+      <h2 class="form-section-title">Review &amp; <em>Confirm</em></h2>
+      <p class="form-section-sub">Please review your booking details before submitting. We'll send a confirmation to your email and WhatsApp within 24 hours.</p>
+
+      <div class="summary-card" style="margin-bottom: 1.5rem;">
+        <div class="summary-title">Booking Summary</div>
+        <div id="confirmRows"></div>
+      </div>
+
+      <div class="field-group">
+        <label class="checkbox-item" style="font-size:0.82rem;">
+          <input type="checkbox" id="agreeTerms" />
+          <span class="checkmark"></span>
+          I agree to the booking terms. A 30% advance is required to confirm the date.
+        </label>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" onclick="goStep(3)">← Back</button>
+        <button class="btn-submit" id="submitBtn" onclick="submitBooking()">Confirm Booking</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-panel" id="successPanel">
+      <div class="success-icon">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="15" stroke="#2ecc8a" stroke-width="1"/>
+          <path d="M9 16.5l5 5 9-10" stroke="#2ecc8a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="success-title">Booking <em>Received!</em></h2>
+      <p class="success-sub">Thank you for trusting CineLensStudios with your story. We'll reach out within 24 hours to confirm your session and discuss advance payment.</p>
+      <div class="success-ref" id="bookingRef">REF #CLS-0000</div>
+      <div style="margin-top:2rem;">
+        <a href="index.html" style="font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;">← Back to Home</a>
+      </div>
+    </div>
+
+  </div><!-- /form-area -->
+
+  <!-- SIDEBAR -->
+  <aside class="booking-sidebar">
+
+    <div class="summary-card">
+      <div class="summary-title">Your Selection</div>
+
+      <div class="summary-row">
+        <span class="summary-key">Package</span>
+        <span class="summary-val" id="sumPkg"><span class="empty">Not selected</span></span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-key">Type</span>
+        <span class="summary-val" id="sumType"><span class="empty">Not selected</span></span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-key">Date</span>
+        <span class="summary-val" id="sumDate"><span class="empty">Not selected</span></span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-key">Time</span>
+        <span class="summary-val" id="sumTime"><span class="empty">Not selected</span></span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-key">Add-ons</span>
+        <span class="summary-val" id="sumAddons"><span class="empty">None</span></span>
+      </div>
+      <div class="summary-row" style="border-top: 1px solid var(--border-green); margin-top: 0.5rem; padding-top: 1rem;">
+        <span class="summary-key" style="color:var(--white);">Total</span>
+        <span class="summary-val highlight" id="sumTotal">—</span>
+      </div>
+    </div>
+
+    <div class="whatsapp-card">
+      <div class="wa-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#25d366" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </div>
+      <div>
+        <h4>Prefer to chat first?</h4>
+        <p>Message us on WhatsApp and we'll help you choose the right package.</p>
+        <a href="https://wa.me/919999999999" target="_blank">Chat on WhatsApp →</a>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<script>
+  // ── STATE ──
+  const state = {
+    pkg: null, pkgPrice: 0,
+    shootType: '',
+    date: null, time: null,
+    fname: '', lname: '', phone: '', email: '', location: '', message: '',
+    addons: []
+  };
+
+  const addonPrices = { drone: 3500, printed: 2500, reel: 4000, rush: 1500 };
+  const addonNames  = { drone: 'Drone Shots', printed: 'Printed Album', reel: 'Cinematic Reel', rush: 'Rush Delivery' };
+
+  // Booked dates (demo — format: 'YYYY-M-D')
+  const bookedDates = new Set(['2026-3-21','2026-3-22','2026-3-28','2026-4-5','2026-4-12','2026-4-19','2026-4-26']);
+  const bookedSlots = { '2026-3-25': ['10:00 AM','2:00 PM'] };
+
+  let calYear = 2026, calMonth = 2; // 0-indexed: 2 = March
+
+  // ── STEPS ──
+  function goStep(n) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('step' + n).classList.add('active');
+
+    document.querySelectorAll('.step-tab').forEach((t, i) => {
+      t.classList.remove('active', 'done');
+      if (i + 1 < n) t.classList.add('done');
+      if (i + 1 === n) t.classList.add('active');
+    });
+
+    if (n === 4) buildConfirmRows();
+    window.scrollTo({ top: 200, behavior: 'smooth' });
+  }
+
+  // ── PACKAGE ──
+  function selectPkg(el) {
+    document.querySelectorAll('.pkg-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    state.pkg = el.dataset.pkg;
+    state.pkgPrice = parseInt(el.dataset.price.replace(/[^\d]/g,''));
+    updateSummary();
+  }
+
+  // ── CALENDAR ──
+  function renderCalendar() {
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('calMonthLabel').textContent = months[calMonth] + ' ' + calYear;
+
+    const today = new Date();
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+
+    // Prev button disabled if current month
+    document.getElementById('prevMonthBtn').style.opacity =
+      (calYear === today.getFullYear() && calMonth <= today.getMonth()) ? '0.3' : '1';
+
+    for (let i = 0; i < firstDay; i++) {
+      const empty = document.createElement('div');
+      empty.className = 'cal-cell empty';
+      grid.appendChild(empty);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const cell = document.createElement('div');
+      cell.className = 'cal-cell';
+      cell.textContent = d;
+
+      const cellDate = new Date(calYear, calMonth, d);
+      const key = calYear + '-' + (calMonth+1) + '-' + d;
+      const isToday = d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear();
+      const isPast = cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+      if (isToday) cell.classList.add('today');
+      if (isPast) cell.classList.add('past');
+      else if (bookedDates.has(key)) cell.classList.add('booked');
+      else {
+        cell.onclick = () => selectDate(d, key, cell);
+        if (state.date === key) cell.classList.add('selected');
+      }
+      grid.appendChild(cell);
+    }
+  }
+
+  function selectDate(d, key, cell) {
+    document.querySelectorAll('.cal-cell').forEach(c => c.classList.remove('selected'));
+    cell.classList.add('selected');
+    state.date = key;
+    state.time = null;
+    renderTimeSlots(key);
+    updateSummary();
+  }
+
+  function renderTimeSlots(dateKey) {
+    const wrap = document.getElementById('timeSlotsWrap');
+    const container = document.getElementById('timeSlots');
+    const slots = ['8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM'];
+    const booked = bookedSlots[dateKey] || [];
+    container.innerHTML = '';
+    wrap.style.display = 'block';
+
+    slots.forEach(s => {
+      const el = document.createElement('div');
+      el.className = 'time-slot' + (booked.includes(s) ? ' booked' : '');
+      el.textContent = s;
+      if (!booked.includes(s)) {
+        el.onclick = () => {
+          document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
+          el.classList.add('selected');
+          state.time = s;
+          updateSummary();
+        };
+      }
+      if (state.time === s) el.classList.add('selected');
+      container.appendChild(el);
+    });
+  }
+
+  function changeMonth(dir) {
+    const today = new Date();
+    calMonth += dir;
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    // Don't go before current month
+    if (calYear < today.getFullYear() || (calYear === today.getFullYear() && calMonth < today.getMonth())) {
+      calMonth = today.getMonth(); calYear = today.getFullYear();
+    }
+    state.date = null; state.time = null;
+    document.getElementById('timeSlotsWrap').style.display = 'none';
+    renderCalendar();
+    updateSummary();
+  }
+
+  // ── SUMMARY ──
+  function updateSummary() {
+    state.shootType = document.getElementById('shootType')?.value || '';
+
+    // Addons
+    state.addons = [];
+    ['drone','printed','reel','rush'].forEach(id => {
+      if (document.getElementById('addon' + id.charAt(0).toUpperCase() + id.slice(1))?.checked) state.addons.push(id);
+    });
+
+    const addonTotal = state.addons.reduce((s, a) => s + addonPrices[a], 0);
+    const total = (state.pkgPrice || 0) + addonTotal;
+
+    const el = (id, val) => {
+      const e = document.getElementById(id);
+      if (!e) return;
+      e.innerHTML = val ? val : '<span class="empty">Not selected</span>';
+    };
+
+    el('sumPkg', state.pkg ? state.pkg + ' — ' + (state.pkg === 'Essentials' ? '₹8,999' : state.pkg === 'Cinematic' ? '₹19,999' : '₹34,999') : '');
+    el('sumType', state.shootType);
+
+    if (state.date) {
+      const [y,m,d] = state.date.split('-');
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      el('sumDate', d + ' ' + months[parseInt(m)-1] + ' ' + y);
+    } else el('sumDate', '');
+
+    el('sumTime', state.time);
+    el('sumAddons', state.addons.length ? state.addons.map(a => addonNames[a]).join(', ') : '');
+    el('sumTotal', total > 0 ? '₹' + total.toLocaleString('en-IN') : '—');
+  }
+
+  function buildConfirmRows() {
+    const state2 = {
+      package: document.querySelector('.pkg-option.selected')?.dataset.pkg || '—',
+      type: document.getElementById('shootType').value || '—',
+      date: (() => {
+        if (!state.date) return '—';
+        const [y,m,d] = state.date.split('-');
+        const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        return d + ' ' + months[parseInt(m)-1] + ' ' + y;
+      })(),
+      time: state.time || '—',
+      name: (document.getElementById('fname').value + ' ' + document.getElementById('lname').value).trim() || '—',
+      phone: document.getElementById('phone').value || '—',
+      email: document.getElementById('email').value || '—',
+      location: document.getElementById('location').value || '—',
+    };
+
+    const rows = document.getElementById('confirmRows');
+    rows.innerHTML = Object.entries(state2).map(([k,v]) => `
+      <div class="summary-row">
+        <span class="summary-key">${k.charAt(0).toUpperCase()+k.slice(1)}</span>
+        <span class="summary-val">${v}</span>
+      </div>
+    `).join('');
+  }
+
+  // ── SUBMIT ──
+  function submitBooking() {
+    if (!document.getElementById('agreeTerms').checked) {
+      alert('Please agree to the booking terms to continue.');
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Submitting…';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      document.getElementById('step4').classList.remove('active');
+      document.getElementById('successPanel').classList.add('show');
+      document.querySelectorAll('.step-tab').forEach(t => t.classList.add('done'));
+
+      const ref = 'CLS-' + Math.floor(Math.random() * 9000 + 1000);
+      document.getElementById('bookingRef').textContent = 'REF #' + ref;
+
+      window.scrollTo({ top: 200, behavior: 'smooth' });
+    }, 1800);
+  }
+
+  // ── INIT ──
+  renderCalendar();
+  updateSummary();
+</script>
+
+</body>
+</html>
